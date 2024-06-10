@@ -17,3 +17,6 @@ PowerLog is a web application for tracking strength training workouts. Users can
 - MySQL
 - Thymeleaf
 - Bootstrap
+
+This project is part of my education at [SoftUni](https://softuni.bg/) and was created as an assignment for the Spring Advanced course.
+It serves as a practical exercise to apply the concepts learned during the course and to develop proficiency in building web applications with Spring Boot.
