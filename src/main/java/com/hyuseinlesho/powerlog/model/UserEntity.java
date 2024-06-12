@@ -28,10 +28,10 @@ public class UserEntity extends BaseEntity {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TrainingSession> trainingSessions;
+    private Set<Workout> workouts;
 
     public UserEntity() {
         this.roles = new HashSet<>();
-        this.trainingSessions = new HashSet<>();
+        this.workouts = new HashSet<>();
     }
 }

@@ -11,8 +11,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "training_sessions")
-public class TrainingSession extends BaseEntity {
+@Table(name = "workouts")
+public class Workout extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate date;
@@ -24,7 +24,7 @@ public class TrainingSession extends BaseEntity {
     @OneToMany(mappedBy = "trainingSession", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Exercise> exercises;
 
-    public TrainingSession() {
+    public Workout() {
         this.exercises = new HashSet<>();
     }
 }

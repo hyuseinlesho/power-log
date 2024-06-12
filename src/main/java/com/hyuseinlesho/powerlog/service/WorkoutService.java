@@ -1,4 +1,4 @@
 package com.hyuseinlesho.powerlog.service;
 
-public interface TrainingSessionService {
+public interface WorkoutService {
 }
