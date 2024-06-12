@@ -26,5 +26,5 @@ public class Exercise extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workouts;
+    private Workout workout;
 }
