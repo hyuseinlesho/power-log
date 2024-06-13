@@ -17,7 +17,9 @@ public class WorkoutController {
 
     @GetMapping("/workout-log")
     public String showWorkoutLog(Model model, Principal principal) {
-        String username = "john_doe";
+        // TODO implement fetch users username when add Spring Security
+        String username = "test_user";
+
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(username));
         return "workouts";
     }

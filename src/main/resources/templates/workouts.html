@@ -24,12 +24,24 @@
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                <li th:each="exercise : ${workout.exercises}" class="list-group-item">
-                                    <span th:text="'Exercise: ' + ${exercise.name}"></span><br/>
-                                    <span th:text="'Sets: ' + ${exercise.sets}"></span><br/>
-                                    <span th:text="'Reps: ' + ${exercise.reps}"></span><br/>
-                                    <span th:text="'Weight: ' + ${exercise.weight + ' kg'}"></span>
-                                </li>
+                                <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Exercise</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                    <th>Weight</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="exercise : ${workout.exercises}">
+                                    <td th:text="${exercise.name}">Exercise Name</td>
+                                    <td th:text="${exercise.sets}">Sets</td>
+                                    <td th:text="${exercise.reps}">Reps</td>
+                                    <td th:text="${exercise.weight}">Weight</td>
+                                </tr>
+                                </tbody>
+                                </table>
                             </ul>
                         </div>
                     </div>
