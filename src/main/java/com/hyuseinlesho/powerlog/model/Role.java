@@ -1,9 +1,7 @@
 package com.hyuseinlesho.powerlog.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.hyuseinlesho.powerlog.model.enums.UserRole;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +14,9 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private String name;
+    private UserRole name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<UserEntity> users;
