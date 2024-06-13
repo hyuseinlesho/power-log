@@ -16,6 +16,10 @@ spring:
       ddl-auto: update
     open-in-view: false
 
+  sql:
+    init:
+      mode: never
+
 logging:
   level:
     org: WARN

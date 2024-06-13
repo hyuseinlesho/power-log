@@ -21,7 +21,10 @@ public class Workout extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workout",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<Exercise> exercises;
 
     public Workout() {
