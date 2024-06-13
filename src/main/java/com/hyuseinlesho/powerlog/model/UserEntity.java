@@ -27,7 +27,9 @@ public class UserEntity extends BaseEntity {
     )
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<Workout> workouts;
 
     public UserEntity() {

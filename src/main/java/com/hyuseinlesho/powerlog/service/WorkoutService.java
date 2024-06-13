@@ -8,5 +8,5 @@ import java.util.List;
 public interface WorkoutService {
     List<Workout> findWorkoutsByUsername(String username);
 
-    void createWorkout(WorkoutDto workoutDto);
+    void createWorkout(WorkoutDto workoutDto, String username);
 }

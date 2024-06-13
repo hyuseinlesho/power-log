@@ -14,23 +14,26 @@ import java.util.List;
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
-    private final UserRepository userRepository;
+    private final UserRepository userService;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserRepository userRepository) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserRepository userService) {
         this.workoutRepository = workoutRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
     public List<Workout> findWorkoutsByUsername(String username) {
-        UserEntity user = userRepository.findByUsername(username);
+        UserEntity user = userService.findByUsername(username);
         return workoutRepository.findByUser(user);
     }
 
     @Override
-    public void createWorkout(WorkoutDto workoutDto) {
-        Workout workout = WorkoutMapper.INSTANCE.workoutDtoToWorkout(workoutDto);
+    public void createWorkout(WorkoutDto workoutDto, String username) {
+        UserEntity user = userService.findByUsername(username);
 
-        workoutRepository.save(workout);
+        Workout workout = WorkoutMapper.INSTANCE.workoutDtoToWorkout(workoutDto);
+        workout.setUser(user);
+
+//        workoutRepository.save(workout);
     }
 }
