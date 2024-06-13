@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContactController {
+    private static final String CONTACT_MESSAGE_SUCCESS = "Thank you for your message! We'll get back to you soon.";
     private final ContactService contactService;
 
     public ContactController(ContactService contactService) {
@@ -24,7 +25,7 @@ public class ContactController {
     @PostMapping("/contact")
     public String submitContactForm(ContactDto contactDto, Model model) {
         contactService.saveContact(contactDto);
-        model.addAttribute("message", "Thank you for your message! We'll get back to you soon.");
+        model.addAttribute("message", CONTACT_MESSAGE_SUCCESS);
         model.addAttribute("contactDto", new ContactDto());
         return "contact";
     }
