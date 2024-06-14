@@ -8,7 +8,7 @@
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
-    <!-- Page Content-->
+    <!-- Page content-->
     <section class="py-5">
         <div class="container px-5 my-5">
             <div class="text-center mb-5">
@@ -25,22 +25,22 @@
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
                                 <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Exercise</th>
-                                    <th>Sets</th>
-                                    <th>Reps</th>
-                                    <th>Weight</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="exercise : ${workout.exercises}">
-                                    <td th:text="${exercise.name}">Exercise Name</td>
-                                    <td th:text="${exercise.sets}">Sets</td>
-                                    <td th:text="${exercise.reps}">Reps</td>
-                                    <td th:text="${exercise.weight}">Weight</td>
-                                </tr>
-                                </tbody>
+                                    <thead>
+                                    <tr>
+                                        <th>Exercise</th>
+                                        <th>Sets</th>
+                                        <th>Reps</th>
+                                        <th>Weight</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="exercise : ${workout.exercises}">
+                                        <td th:text="${exercise.name}">Exercise Name</td>
+                                        <td th:text="${exercise.sets}">Sets</td>
+                                        <td th:text="${exercise.reps}">Reps</td>
+                                        <td th:text="${exercise.weight}">Weight</td>
+                                    </tr>
+                                    </tbody>
                                 </table>
                             </ul>
                         </div>

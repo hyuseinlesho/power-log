@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Exercises</title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <!-- Page content-->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Exercises</h2>
+                <!-- Button to create new exercise -->
+                <a href="/exercises/create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Add Exercise
+                </a>
+            </div>
+            <div class="list-group">
+                <a th:each="exercise : ${exercises}"
+                   th:href="@{'/exercises/' + ${exercise.id}}"
+                   class="list-group-item list-group-item-action">
+                    <div>
+                        <strong>Name:</strong> <span th:text="${exercise.name}">Exercise Name</span>
+                    </div>
+                    <div>
+                        <strong>Type:</strong> <span th:text="${exercise.type}">Exercise Type</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
