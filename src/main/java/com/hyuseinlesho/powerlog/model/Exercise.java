@@ -1,8 +1,11 @@
 package com.hyuseinlesho.powerlog.model;
 
+import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -13,16 +16,24 @@ public class Exercise extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private int sets;
+    private ExerciseType type;
 
-    @Column(nullable = false)
-    private int reps;
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
-    @Column(nullable = false)
-    private double weight;
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Exercise exercise = (Exercise) object;
+        return Objects.equals(name, exercise.name) && type == exercise.type;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workout;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type);
+    }
 }

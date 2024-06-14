@@ -6,8 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExerciseDto {
-    private String name;
-    private int sets;
-    private int reps;
-    private double weight;
+    public String name;
+    public String type;
 }
