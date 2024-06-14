@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/workouts")
 public class WorkoutController {
-    public static final String TEST_USER = "test_user";
+    public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
 
@@ -51,8 +51,6 @@ public class WorkoutController {
 
     @PostMapping("/create")
     public String createWorkout(WorkoutDto workoutDto, Model model, Principal principal) {
-        // Test user
-
         // Way with principal
 //        workoutService.createWorkout(workoutDto, principal.getName());
 

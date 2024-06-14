@@ -14,7 +14,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
-    public static final String TEST_USER = "test_user";
+    public static final String TEST_USER = "john_doe";
     private final ExerciseService exerciseService;
 
     public ExerciseController(ExerciseService exerciseService) {

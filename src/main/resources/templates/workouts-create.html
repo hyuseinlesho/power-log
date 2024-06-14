@@ -51,6 +51,32 @@
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Create Workout</button>
             </form>
+
+            <!-- Hidden template for new exercises -->
+            <div id="exerciseTemplate" style="display:none;">
+                <div class="exercise mb-4">
+                    <h4>Exercise __INDEX__</h4>
+                    <div class="form-group">
+                        <label for="exerciseSelect__INDEX__">Exercise</label>
+                        <select class="form-control" id="exerciseSelect__INDEX__" name="exercises[__INDEX__].name">
+                            <option value="" selected disabled>Select Exercise</option>
+                            <option th:each="exerciseOption : ${exercises}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sets__INDEX__">Sets</label>
+                        <input type="number" class="form-control" id="sets__INDEX__" name="exercises[__INDEX__].sets" placeholder="Sets" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reps__INDEX__">Reps</label>
+                        <input type="number" class="form-control" id="reps__INDEX__" name="exercises[__INDEX__].reps" placeholder="Reps" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight__INDEX__">Weight (kg)</label>
+                        <input type="number" class="form-control" id="weight__INDEX__" name="exercises[__INDEX__].weight" placeholder="Weight" required>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -58,30 +84,9 @@
         function addExercise() {
             const exercisesDiv = document.getElementById('exercises');
             const exerciseCount = exercisesDiv.getElementsByClassName('exercise').length;
-            const newExerciseHtml = `
-            <div class="exercise mb-4">
-                <h4>Exercise ${exerciseCount + 1}</h4>
-                <div class="form-group">
-                    <label for="exerciseSelect${exerciseCount}">Exercise</label>
-                    <select class="form-control" id="exerciseSelect${exerciseCount}" name="exercises[${exerciseCount}].name">
-                        <option value="" selected disabled>Select Exercise</option>
-                        <!-- Exercise options will be populated here by Thymeleaf -->
-                        <option th:each="exerciseOption : ${exercisesDiv}" th:value="\${exerciseOption.name}" th:text="\${exerciseOption.name}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="sets${exerciseCount}">Sets</label>
-                    <input type="number" class="form-control" id="sets${exerciseCount}" name="exercises[${exerciseCount}].sets" placeholder="Sets" required>
-                </div>
-                <div class="form-group">
-                    <label for="reps${exerciseCount}">Reps</label>
-                    <input type="number" class="form-control" id="reps${exerciseCount}" name="exercises[${exerciseCount}].reps" placeholder="Reps" required>
-                </div>
-                <div class="form-group">
-                    <label for="weight${exerciseCount}">Weight (kg)</label>
-                    <input type="number" class="form-control" id="weight${exerciseCount}" name="exercises[${exerciseCount}].weight" placeholder="Weight" required>
-                </div>
-            </div>`;
+            const exerciseTemplate = document.getElementById('exerciseTemplate').innerHTML;
+            const newExerciseHtml = exerciseTemplate.replace(/__INDEX__/g, exerciseCount);
+
             exercisesDiv.insertAdjacentHTML('beforeend', newExerciseHtml);
         }
     </script>
