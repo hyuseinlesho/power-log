@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
 public class WorkoutDto {
     private LocalDate date;
-    private Set<ExerciseDto> exercises;
+    private List<ExerciseLogDto> exercises;
 }

@@ -25,7 +25,7 @@ public class Workout extends BaseEntity {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Exercise> exercises;
+    private Set<ExerciseLog> exercises;
 
     public Workout() {
         this.exercises = new HashSet<>();

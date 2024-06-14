@@ -32,6 +32,9 @@ public class UserEntity extends BaseEntity {
             orphanRemoval = true)
     private Set<Workout> workouts;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Exercise> exercises;
+
     public UserEntity() {
         this.roles = new HashSet<>();
         this.workouts = new HashSet<>();
