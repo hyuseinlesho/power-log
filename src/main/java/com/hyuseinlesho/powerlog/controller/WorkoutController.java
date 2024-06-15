@@ -17,6 +17,9 @@ import java.util.List;
 @RequestMapping("/workouts")
 public class WorkoutController {
     // TODO Implement fetch username from currently logged-in user.
+
+    // TODO Fix exercise index in Add Exercise from Create Workout
+    //  and date from Edit Workout
     public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
