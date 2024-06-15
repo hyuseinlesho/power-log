@@ -30,6 +30,8 @@
                                 <option th:each="exerciseOption : ${exercises}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
                             </select>
                         </div>
+                        <!-- Create Exercise Button -->
+                        <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='/exercises/create'">Or Create Exercise</button>
                         <div class="form-group">
                             <label th:for="'sets' + ${iterStat.index}">Sets</label>
                             <input type="number" class="form-control" th:id="'sets' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].sets}" placeholder="Sets" required>
@@ -63,17 +65,19 @@
                             <option th:each="exerciseOption : ${exercises}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
                         </select>
                     </div>
+                    <!-- Create Exercise Button -->
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='/exercises/create'">Or Create Exercise</button>
                     <div class="form-group">
                         <label for="sets__INDEX__">Sets</label>
-                        <input type="number" class="form-control" id="sets__INDEX__" name="exercises[__INDEX__].sets" placeholder="Sets" required>
+                        <input type="number" class="form-control" id="sets__INDEX__" name="exercises[__INDEX__].sets" placeholder="0" required>
                     </div>
                     <div class="form-group">
                         <label for="reps__INDEX__">Reps</label>
-                        <input type="number" class="form-control" id="reps__INDEX__" name="exercises[__INDEX__].reps" placeholder="Reps" required>
+                        <input type="number" class="form-control" id="reps__INDEX__" name="exercises[__INDEX__].reps" placeholder="0" required>
                     </div>
                     <div class="form-group">
                         <label for="weight__INDEX__">Weight (kg)</label>
-                        <input type="number" class="form-control" id="weight__INDEX__" name="exercises[__INDEX__].weight" placeholder="Weight" required>
+                        <input type="number" class="form-control" id="weight__INDEX__" name="exercises[__INDEX__].weight" placeholder="0.0" required>
                     </div>
                 </div>
             </div>
