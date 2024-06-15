@@ -10,7 +10,7 @@ public interface ExerciseService {
 
     void createExercise(ExerciseDto exerciseDto, String username);
 
-    List<Exercise> findAllExercisesForUser(String username);
+    List<ExerciseDto> findAllExercisesForUser(String username);
 
     ExerciseDto findExerciseById(Long exerciseId);
 

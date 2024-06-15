@@ -10,7 +10,6 @@ import com.hyuseinlesho.powerlog.service.ExerciseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -41,9 +40,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> findAllExercisesForUser(String username) {
-        // TODO Implement it to return List<ExerciseDto>
-        return exerciseRepository.findAllByUserUsername(username);
+    public List<ExerciseDto> findAllExercisesForUser(String username) {
+        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
+        return exercises.stream()
+                .map(ExerciseMapper.INSTANCE::exerciseToExerciseDto)
+                .toList();
     }
 
     @Override
