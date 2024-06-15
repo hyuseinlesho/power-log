@@ -81,12 +81,12 @@
     </section>
 
     <script>
+        let exerciseCount = 1;
         function addExercise() {
             const exercisesDiv = document.getElementById('exercises');
-            const exerciseCount = exercisesDiv.getElementsByClassName('exercise').length;
             const exerciseTemplate = document.getElementById('exerciseTemplate').innerHTML;
             const newExerciseHtml = exerciseTemplate.replace(/__INDEX__/g, exerciseCount);
-
+            exerciseCount++;
             exercisesDiv.insertAdjacentHTML('beforeend', newExerciseHtml);
         }
     </script>

@@ -39,12 +39,7 @@ public class WorkoutController {
 
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
-        WorkoutDto workoutDto = new WorkoutDto();
-        List<ExerciseLogDto> exercises = new ArrayList<>();
-        exercises.add(new ExerciseLogDto());
-        workoutDto.setExercises(exercises);
-
-        model.addAttribute("workout", workoutDto);
+        model.addAttribute("workout", new WorkoutDto());
         model.addAttribute("exercises", exerciseService.findAllExercisesForUser(TEST_USER));
         return "workouts-create";
     }
