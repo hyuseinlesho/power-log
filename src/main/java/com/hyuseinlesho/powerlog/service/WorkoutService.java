@@ -9,4 +9,8 @@ public interface WorkoutService {
     List<Workout> findWorkoutsByUsername(String username);
 
     void createWorkout(WorkoutDto workoutDto, String username);
+
+    WorkoutDto findWorkoutById(Long workoutId);
+
+    void editWorkout(WorkoutDto workoutDto, String testUser);
 }

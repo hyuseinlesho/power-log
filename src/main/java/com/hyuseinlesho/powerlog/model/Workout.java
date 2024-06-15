@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,9 +25,9 @@ public class Workout extends BaseEntity {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<ExerciseLog> exercises;
+    private List<ExerciseLog> exercises;
 
     public Workout() {
-        this.exercises = new HashSet<>();
+        this.exercises = new ArrayList<>();
     }
 }

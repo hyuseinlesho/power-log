@@ -7,6 +7,7 @@ import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -42,6 +43,21 @@ public class WorkoutController {
     @PostMapping("/create")
     public String createWorkout(WorkoutDto workoutDto) {
         workoutService.createWorkout(workoutDto, TEST_USER);
+        return "redirect:/workouts/history";
+    }
+
+    @GetMapping("/{workoutId}/edit")
+    public String showEditWorkoutForm(@PathVariable("workoutId") Long workoutId, Model model) {
+        WorkoutDto workoutDto = workoutService.findWorkoutById(workoutId);
+        model.addAttribute("workout", workoutDto);
+        model.addAttribute("exercises", exerciseService.findAllExercisesForUser(TEST_USER));
+        return "workouts-edit";
+    }
+
+    @PostMapping("/{workoutId}/edit")
+    public String editWorkout(@PathVariable("workoutId") Long workoutId, WorkoutDto workoutDto) {
+        workoutDto.setId(workoutId);
+        workoutService.editWorkout(workoutDto, TEST_USER);
         return "redirect:/workouts/history";
     }
 }

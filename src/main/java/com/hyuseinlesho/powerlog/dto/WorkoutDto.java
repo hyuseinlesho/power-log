@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class WorkoutDto {
+    private Long id;
     private LocalDate date;
     private List<ExerciseLogDto> exercises;
 }
