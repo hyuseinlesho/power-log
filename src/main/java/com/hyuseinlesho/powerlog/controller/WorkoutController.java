@@ -1,9 +1,7 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseLogDto;
 import com.hyuseinlesho.powerlog.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.Workout;
-import com.hyuseinlesho.powerlog.service.ExerciseLogService;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Controller;
@@ -12,13 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/workouts")
 public class WorkoutController {
+    // TODO Implement fetch username from currently logged-in user.
     public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
@@ -30,8 +27,6 @@ public class WorkoutController {
 
     @GetMapping("/history")
     public String showWorkoutHistory(Model model) {
-        // TODO Implement fetch username from currently logged-in user.
-
         List<Workout> workouts = workoutService.findWorkoutsByUsername(TEST_USER);
         model.addAttribute("workouts", workouts);
         return "workouts-history";
@@ -45,12 +40,8 @@ public class WorkoutController {
     }
 
     @PostMapping("/create")
-    public String createWorkout(WorkoutDto workoutDto, Model model, Principal principal) {
-        // Way with principal
-//        workoutService.createWorkout(workoutDto, principal.getName());
-
+    public String createWorkout(WorkoutDto workoutDto) {
         workoutService.createWorkout(workoutDto, TEST_USER);
-
         return "redirect:/workouts/history";
     }
 }

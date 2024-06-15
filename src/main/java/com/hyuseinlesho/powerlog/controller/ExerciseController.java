@@ -14,6 +14,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
+    // TODO Implement fetch username from currently logged-in user.
     public static final String TEST_USER = "john_doe";
     private final ExerciseService exerciseService;
 
@@ -34,11 +35,7 @@ public class ExerciseController {
         return "exercises-create";
     }
     @PostMapping("/create")
-    public String createExercise(ExerciseDto exerciseDto, Principal principal) {
-        // Test user
-
-        // Way with principal
-//        workoutService.createWorkout(workoutDto, principal.getName());
+    public String createExercise(ExerciseDto exerciseDto) {
         exerciseService.createExercise(exerciseDto, TEST_USER);
         return "redirect:/exercises";
     }
