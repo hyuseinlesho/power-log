@@ -6,10 +6,9 @@ import com.hyuseinlesho.powerlog.service.ExerciseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/exercises")
@@ -37,6 +36,21 @@ public class ExerciseController {
     @PostMapping("/create")
     public String createExercise(ExerciseDto exerciseDto) {
         exerciseService.createExercise(exerciseDto, TEST_USER);
+        return "redirect:/exercises";
+    }
+
+    @GetMapping("/{exerciseId}/edit")
+    public String showEditExerciseForm(@PathVariable("exerciseId") Long exerciseId, Model  model) {
+        ExerciseDto exerciseDto = exerciseService.findExerciseById(exerciseId);
+        model.addAttribute("exercise", exerciseDto);
+        model.addAttribute("exerciseTypes", ExerciseType.values());
+        return "exercises-edit";
+    }
+
+    @PostMapping("/{exerciseId}/edit")
+    public String editExercise(@PathVariable("exerciseId") Long exerciseId, ExerciseDto exerciseDto) {
+        exerciseDto.setId(exerciseId);
+        exerciseService.editExercise(exerciseDto, TEST_USER);
         return "redirect:/exercises";
     }
 }

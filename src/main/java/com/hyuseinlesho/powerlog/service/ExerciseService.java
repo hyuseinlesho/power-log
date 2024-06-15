@@ -11,4 +11,8 @@ public interface ExerciseService {
     void createExercise(ExerciseDto exerciseDto, String username);
 
     List<Exercise> findAllExercisesForUser(String username);
+
+    ExerciseDto findExerciseById(Long exerciseId);
+
+    void editExercise(ExerciseDto exerciseDto, String username);
 }

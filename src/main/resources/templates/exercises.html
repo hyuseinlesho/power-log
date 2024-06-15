@@ -20,7 +20,7 @@
             </div>
             <div class="list-group">
                 <a th:each="exercise : ${exercises}"
-                   th:href="@{'/exercises/' + ${exercise.id}}"
+                   th:href="@{|/exercises/${exercise.id}/edit|}"
                    class="list-group-item list-group-item-action">
                     <div>
                         <strong>Name:</strong> <span th:text="${exercise.name}">Exercise Name</span>

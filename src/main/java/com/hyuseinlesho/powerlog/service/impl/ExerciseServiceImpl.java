@@ -10,6 +10,7 @@ import com.hyuseinlesho.powerlog.service.ExerciseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -34,14 +35,32 @@ public class ExerciseServiceImpl implements ExerciseService {
         if (exercises.contains(exercise)) {
             throw new IllegalArgumentException("Exercise with the same name and type already exists for the user.");
         }
-        UserEntity user = userRepository.findByUsername(username);
-        exercise.setUser(user);
+        exercise.setUser(getUser(username));
         
         exerciseRepository.save(exercise);
     }
 
     @Override
     public List<Exercise> findAllExercisesForUser(String username) {
+        // TODO Implement it to return List<ExerciseDto>
         return exerciseRepository.findAllByUserUsername(username);
+    }
+
+    @Override
+    public ExerciseDto findExerciseById(Long exerciseId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId).get();
+        return ExerciseMapper.INSTANCE.exerciseToExerciseDto(exercise);
+    }
+
+    @Override
+    public void editExercise(ExerciseDto exerciseDto, String username) {
+        Exercise exercise = exerciseRepository.findById(exerciseDto.getId()).get();
+        exercise.setName(exerciseDto.getName());
+        exercise.setType(exerciseDto.getType());
+        exerciseRepository.save(exercise);
+    }
+
+    private UserEntity getUser(String username) {
+        return userRepository.findByUsername(username);
     }
 }

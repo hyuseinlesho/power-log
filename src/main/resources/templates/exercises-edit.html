@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edit Exercise</title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <!-- Page content -->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <h2>Edit Exercise</h2>
+            <form th:action="@{/exercises/{exerciseId}/edit(exerciseId=${exercise.id})}" method="post" th:object="${exercise}">
+                <div class="form-group">
+                    <label for="formControlInput1">Name:</label>
+                    <input type="text"
+                           th:field="*{name}"
+                           class="form-control"
+                           id="formControlInput1"
+                           placeholder="e.g. Squat">
+                </div>
+                <div class="form-group">
+                    <label for="formControlSelect1">Type:</label>
+                    <select class="form-control" id="formControlSelect1" th:field="*{type}">
+                        <option th:each="exerciseType : ${exerciseTypes}" th:value="${exerciseType.name()}" th:text="${#strings.capitalize(exerciseType.name())}"></option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
