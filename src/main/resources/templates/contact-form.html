@@ -23,27 +23,39 @@
                         <form th:action="@{/contact}" th:object="${contactDto}" method="post">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." th:field="*{name}" required />
-                                <label for="name">Full name</label>
-                                <div class="invalid-feedback">A name is required.</div>
+                                <input class="form-control"
+                                       id="name" type="text"
+                                       placeholder="Enter your name..."
+                                       th:field="*{name}" />
+                                <label for="name">Name</label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('name')}"
+                                     th:errors="*{name}"></div>
                             </div>
                             <!-- Email address input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" th:field="*{email}" required />
+                                <input class="form-control"
+                                       id="email" type="email"
+                                       placeholder="name@example.com"
+                                       th:field="*{email}" />
                                 <label for="email">Email address</label>
-                                <div class="invalid-feedback">An email is required.</div>
-                                <div class="invalid-feedback">Email is not valid.</div>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('email')}"
+                                     th:errors="*{email}"></div>
                             </div>
                             <!-- Message input-->
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 10rem" th:field="*{message}" required></textarea>
+                                <textarea class="form-control"
+                                          id="message"
+                                          placeholder="Enter your message here..."
+                                          style="height: 10rem"
+                                          th:field="*{message}" ></textarea>
                                 <label for="message">Message</label>
-                                <div class="invalid-feedback">A message is required.</div>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('message')}"
+                                     th:errors="*{message}"></div>
                             </div>
                             <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
                             <div class="d-none" id="submitSuccessMessage">
                                 <div class="text-center mb-3">
                                     <div class="fw-bolder">Form submission successful!</div>
@@ -52,11 +64,6 @@
                                     <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
                                 </div>
                             </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
                             <!-- Submit Button-->
                             <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
                         </form>
