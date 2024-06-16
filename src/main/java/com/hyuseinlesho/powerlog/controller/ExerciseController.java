@@ -3,8 +3,10 @@ package com.hyuseinlesho.powerlog.controller;
 import com.hyuseinlesho.powerlog.dto.ExerciseDto;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +31,18 @@ public class ExerciseController {
 
     @GetMapping("/create")
     public String showCreateExerciseForm(Model model) {
-        model.addAttribute("exercise", new ExerciseDto());
+        model.addAttribute("exerciseDto", new ExerciseDto());
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "exercises-create";
     }
     @PostMapping("/create")
-    public String createExercise(ExerciseDto exerciseDto) {
+    public String createExercise(@Valid ExerciseDto exerciseDto,
+                                 BindingResult bindingResult,
+                                 Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("exerciseTypes", ExerciseType.values());
+            return "exercises-create";
+        }
         exerciseService.createExercise(exerciseDto, TEST_USER);
         return "redirect:/exercises";
     }
@@ -42,13 +50,20 @@ public class ExerciseController {
     @GetMapping("/{exerciseId}/edit")
     public String showEditExerciseForm(@PathVariable("exerciseId") Long exerciseId, Model  model) {
         ExerciseDto exerciseDto = exerciseService.findExerciseById(exerciseId);
-        model.addAttribute("exercise", exerciseDto);
+        model.addAttribute("exerciseDto", exerciseDto);
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "exercises-edit";
     }
 
     @PostMapping("/{exerciseId}/edit")
-    public String editExercise(@PathVariable("exerciseId") Long exerciseId, ExerciseDto exerciseDto) {
+    public String editExercise(@PathVariable("exerciseId") Long exerciseId,
+                               @Valid ExerciseDto exerciseDto,
+                               BindingResult bindingResult,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("exerciseTypes", ExerciseType.values());
+            return "exercises-edit";
+        }
         exerciseDto.setId(exerciseId);
         exerciseService.editExercise(exerciseDto, TEST_USER);
         return "redirect:/exercises";

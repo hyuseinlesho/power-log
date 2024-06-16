@@ -12,7 +12,7 @@
     <section class="py-5">
         <div class="container px-5 my-5">
             <h2>Edit Exercise</h2>
-            <form th:action="@{/exercises/{exerciseId}/edit(exerciseId=${exercise.id})}" method="post" th:object="${exercise}">
+            <form th:action="@{/exercises/{exerciseId}/edit(exerciseId=${exerciseDto.id})}" method="post" th:object="${exerciseDto}">
                 <div class="form-group">
                     <label for="formControlInput1">Name:</label>
                     <input type="text"
@@ -20,12 +20,22 @@
                            class="form-control"
                            id="formControlInput1"
                            placeholder="e.g. Squat">
+                    <div class="text-danger"
+                         th:if="${#fields.hasErrors('name')}"
+                         th:errors="*{name}"></div>
                 </div>
                 <div class="form-group">
                     <label for="formControlSelect1">Type:</label>
-                    <select class="form-control" id="formControlSelect1" th:field="*{type}">
-                        <option th:each="exerciseType : ${exerciseTypes}" th:value="${exerciseType.name()}" th:text="${#strings.capitalize(exerciseType.name())}"></option>
+                    <select class="form-control"
+                            id="formControlSelect1"
+                            th:field="*{type}">
+                        <option th:each="exerciseType : ${exerciseTypes}"
+                                th:value="${exerciseType.name()}"
+                                th:text="${#strings.capitalize(exerciseType.name())}"></option>
                     </select>
+                    <div class="text-danger"
+                         th:if="${#fields.hasErrors('type')}"
+                         th:errors="*{type}"></div>
                 </div>
                 <button class="btn btn-primary" type="submit">Save Changes</button>
             </form>
