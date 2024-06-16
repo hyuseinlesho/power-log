@@ -12,7 +12,7 @@
     <section class="py-5">
         <div class="container px-5 my-5">
             <h2>Create Workout</h2>
-            <form th:action="@{/workouts/create}" th:object="${workout}" method="post">
+            <form th:action="@{/workouts/create}" th:object="${workoutDto}" method="post">
                 <!-- Date Field -->
                 <div class="form-group">
                     <label for="date">Date</label>
@@ -27,7 +27,7 @@
                             <label th:for="'exerciseSelect' + ${iterStat.index}">Exercise</label>
                             <select class="form-control" th:id="'exerciseSelect' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].name}">
                                 <option value="" selected disabled>Select Exercise</option>
-                                <option th:each="exerciseOption : ${exercises}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
+                                <option th:each="exerciseOption : ${exerciseOptions}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
                             </select>
                         </div>
                         <!-- Create Exercise Button -->

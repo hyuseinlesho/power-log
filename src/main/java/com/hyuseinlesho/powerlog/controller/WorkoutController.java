@@ -4,8 +4,10 @@ import com.hyuseinlesho.powerlog.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.Workout;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,8 @@ public class WorkoutController {
 
     // TODO Fix exercise index in Add Exercise from Create Workout
     //  and date from Edit Workout
+
+    // TODO Add error messages to templates
     public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
@@ -38,13 +42,20 @@ public class WorkoutController {
 
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
-        model.addAttribute("workout", new WorkoutDto());
-        model.addAttribute("exercises", exerciseService.findAllExercisesForUser(TEST_USER));
+        model.addAttribute("workoutDto", new WorkoutDto());
+        model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
         return "workouts-create";
     }
 
     @PostMapping("/create")
-    public String createWorkout(WorkoutDto workoutDto) {
+    public String createWorkout(@Valid WorkoutDto workoutDto,
+                                BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("workoutDto", workoutDto);
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            return "workouts-create";
+        }
         workoutService.createWorkout(workoutDto, TEST_USER);
         return "redirect:/workouts/history";
     }
@@ -52,13 +63,21 @@ public class WorkoutController {
     @GetMapping("/{workoutId}/edit")
     public String showEditWorkoutForm(@PathVariable("workoutId") Long workoutId, Model model) {
         WorkoutDto workoutDto = workoutService.findWorkoutById(workoutId);
-        model.addAttribute("workout", workoutDto);
-        model.addAttribute("exercises", exerciseService.findAllExercisesForUser(TEST_USER));
+        model.addAttribute("workoutDto", workoutDto);
+        model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
         return "workouts-edit";
     }
 
     @PostMapping("/{workoutId}/edit")
-    public String editWorkout(@PathVariable("workoutId") Long workoutId, WorkoutDto workoutDto) {
+    public String editWorkout(@PathVariable("workoutId") Long workoutId,
+                              @Valid WorkoutDto workoutDto,
+                              BindingResult bindingResult,
+                              Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("workoutDto", workoutDto);
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            return "workouts-edit";
+        }
         workoutDto.setId(workoutId);
         workoutService.editWorkout(workoutDto, TEST_USER);
         return "redirect:/workouts/history";
