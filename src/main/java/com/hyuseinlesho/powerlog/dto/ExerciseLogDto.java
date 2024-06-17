@@ -15,11 +15,11 @@ public class ExerciseLogDto {
     private String name;
 
     @Min(value = 1, message = "Sets must be at least 1")
-    private int sets;
+    private Integer sets;
 
     @Min(value = 1, message = "Reps must be at least 1")
-    private int reps;
+    private Integer reps;
 
     @Min(value = 0, message = "Weight must be at least 0")
-    private double weight;
+    private Double weight;
 }

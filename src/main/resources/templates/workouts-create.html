@@ -12,75 +12,92 @@
     <section class="py-5">
         <div class="container px-5 my-5">
             <h2>Create Workout</h2>
-            <form th:action="@{/workouts/create}" th:object="${workoutDto}" method="post">
+            <form th:action="@{/workouts/create}"
+                  th:object="${workoutDto}"
+                  method="post">
                 <!-- Date Field -->
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" class="form-control" id="date" th:field="*{date}" required>
+                    <input type="date"
+                           class="form-control"
+                           id="date"
+                           th:field="*{date}">
+                    <div class="text-danger"
+                         th:if="${#fields.hasErrors('date')}"
+                         th:errors="*{date}"></div>
                 </div>
+
+                <section class="selectExerciseCount"
+                     th:if="${workoutDto.exercises == null}">
+                    <!-- Number of Exercises Field -->
+                    <div class="form-group">
+                        <label for="exerciseCount">Number of Exercises</label>
+                        <input type="number"
+                               class="form-control"
+                               id="exerciseCount"
+                               name="exerciseCount"
+                               min="1" max="20" required>
+                    </div>
+                    <button type="submit"
+                            class="btn btn-primary btn-sm"
+                            th:onclick="setExerciseCount()">Set</button>
+                </section>
 
                 <!-- Exercises Fields -->
-                <div id="exercises">
-                    <div class="exercise mb-4" th:each="exercise, iterStat : *{exercises}">
-                        <h4>Exercise <span th:text="${iterStat.index + 1}"></span></h4>
-                        <div class="form-group">
-                            <label th:for="'exerciseSelect' + ${iterStat.index}">Exercise</label>
-                            <select class="form-control" th:id="'exerciseSelect' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].name}">
-                                <option value="" selected disabled>Select Exercise</option>
-                                <option th:each="exerciseOption : ${exerciseOptions}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
-                            </select>
-                        </div>
-                        <!-- Create Exercise Button -->
-                        <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='/exercises/create'">Or Create Exercise</button>
-                        <div class="form-group">
-                            <label th:for="'sets' + ${iterStat.index}">Sets</label>
-                            <input type="number" class="form-control" th:id="'sets' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].sets}" placeholder="Sets" required>
-                        </div>
-                        <div class="form-group">
-                            <label th:for="'reps' + ${iterStat.index}">Reps</label>
-                            <input type="number" class="form-control" th:id="'reps' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].reps}" placeholder="Reps" required>
-                        </div>
-                        <div class="form-group">
-                            <label th:for="'weight' + ${iterStat.index}">Weight (kg)</label>
-                            <input type="number" class="form-control" th:id="'weight' + ${iterStat.index}" th:field="*{exercises[__${iterStat.index}__].weight}" placeholder="Weight" required>
-                        </div>
+                <div th:if="${workoutDto.exercises != null}"
+                     th:each="exercise, iterStat : *{exercises}">
+                    <h4>Exercise <span th:text="${iterStat.index + 1}"></span></h4>
+                    <div class="form-group">
+                        <label th:for="'exerciseSelect' + ${iterStat.index}">Exercise</label>
+                        <select class="form-control"
+                                th:id="'exerciseSelect' + ${iterStat.index}"
+                                th:field="*{exercises[__${iterStat.index}__].name}">
+                            <option value="" selected disabled>Select Exercise</option>
+                            <option th:each="exerciseOption : ${exerciseOptions}"
+                                    th:value="${exerciseOption.name}"
+                                    th:text="${exerciseOption.name}"></option>
+                        </select>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('exercises[' + iterStat.index + '].name')}"
+                             th:errors="*{exercises[__${iterStat.index}__].name}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:for="'sets' + ${iterStat.index}">Sets</label>
+                        <input type="number"
+                               class="form-control"
+                               th:id="'sets' + ${iterStat.index}"
+                               th:field="*{exercises[__${iterStat.index}__].sets}" placeholder="0" required>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('exercises[' + iterStat.index + '].sets')}"
+                             th:errors="*{exercises[__${iterStat.index}__].sets}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:for="'reps' + ${iterStat.index}">Reps</label>
+                        <input type="number"
+                               class="form-control"
+                               th:id="'reps' + ${iterStat.index}"
+                               th:field="*{exercises[__${iterStat.index}__].reps}" placeholder="0" required>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('exercises[' + iterStat.index + '].reps')}"
+                             th:errors="*{exercises[__${iterStat.index}__].reps}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:for="'weight' + ${iterStat.index}">Weight (kg)</label>
+                        <input type="number"
+                               class="form-control"
+                               th:id="'weight' + ${iterStat.index}"
+                               th:field="*{exercises[__${iterStat.index}__].weight}" placeholder="0.0" required>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('exercises[' + iterStat.index + '].weight')}"
+                             th:errors="*{exercises[__${iterStat.index}__].weight}"></div>
                     </div>
                 </div>
-
-                <!-- Add Exercise Button -->
-                <button type="button" class="btn btn-secondary" onclick="addExercise()">Add Exercise</button>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Create Workout</button>
+                <button type="submit"
+                        class="btn btn-primary"
+                        th:if="${workoutDto.exercises != null}">Create Workout</button>
             </form>
-
-            <!-- Hidden template for new exercises -->
-            <div id="exerciseTemplate" style="display:none;">
-                <div class="exercise mb-4">
-                    <h4>Exercise __INDEX__</h4>
-                    <div class="form-group">
-                        <label for="exerciseSelect__INDEX__">Exercise</label>
-                        <select class="form-control" id="exerciseSelect__INDEX__" name="exercises[__INDEX__].name">
-                            <option value="" selected disabled>Select Exercise</option>
-                            <option th:each="exerciseOption : ${exercises}" th:value="${exerciseOption.name}" th:text="${exerciseOption.name}"></option>
-                        </select>
-                    </div>
-                    <!-- Create Exercise Button -->
-                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='/exercises/create'">Or Create Exercise</button>
-                    <div class="form-group">
-                        <label for="sets__INDEX__">Sets</label>
-                        <input type="number" class="form-control" id="sets__INDEX__" name="exercises[__INDEX__].sets" placeholder="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reps__INDEX__">Reps</label>
-                        <input type="number" class="form-control" id="reps__INDEX__" name="exercises[__INDEX__].reps" placeholder="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="weight__INDEX__">Weight (kg)</label>
-                        <input type="number" class="form-control" id="weight__INDEX__" name="exercises[__INDEX__].weight" placeholder="0.0" required>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 </main>
