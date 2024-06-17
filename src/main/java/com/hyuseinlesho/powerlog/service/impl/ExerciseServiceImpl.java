@@ -1,6 +1,7 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.dto.ExerciseDto;
+import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
 import com.hyuseinlesho.powerlog.model.Exercise;
 import com.hyuseinlesho.powerlog.model.UserEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
+    public static final String ERROR_MESSAGE = "Exercise with the same name and type already exists for the user.";
     private final ExerciseRepository exerciseRepository;
     private final UserRepository userRepository;
 
@@ -22,17 +24,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> findAllExercises() {
-        return exerciseRepository.findAll();
-    }
-
-    @Override
     public void createExercise(ExerciseDto exerciseDto, String username) {
         Exercise exercise = ExerciseMapper.INSTANCE.exerciseDtoToExercise(exerciseDto);
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
         if (exercises.contains(exercise)) {
-            throw new IllegalArgumentException("Exercise with the same name and type already exists for the user.");
+            throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
         }
         exercise.setUser(getUser(username));
         
@@ -58,6 +55,12 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = exerciseRepository.findById(exerciseDto.getId()).get();
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
+
+        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
+        if (exercises.contains(exercise)) {
+            throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
+        }
+
         exerciseRepository.save(exercise);
     }
 

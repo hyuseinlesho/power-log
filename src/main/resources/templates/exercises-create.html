@@ -24,6 +24,10 @@
                     <div class="text-danger"
                          th:if="${#fields.hasErrors('name')}"
                          th:errors="*{name}"></div>
+                    <div class="text-danger"
+                         th:if="${errorMessage}">
+                         <p th:text="${errorMessage}"></p>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="formControlSelect1">Select type:</label>

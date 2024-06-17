@@ -10,6 +10,4 @@ public interface ContactMapper {
     ContactMapper INSTANCE = Mappers.getMapper(ContactMapper.class);
 
     Contact contactDtoToContact(ContactDto contactDto);
-
-    ContactDto contactToContactDto(Contact contact);
 }

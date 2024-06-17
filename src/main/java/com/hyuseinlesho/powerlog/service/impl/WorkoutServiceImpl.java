@@ -89,7 +89,6 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     private UserEntity getUser(String username) {
-        UserEntity user = userRepository.findByUsername(username);
-        return user;
+        return userRepository.findByUsername(username);
     }
 }

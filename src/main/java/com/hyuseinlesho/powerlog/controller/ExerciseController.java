@@ -1,6 +1,7 @@
 package com.hyuseinlesho.powerlog.controller;
 
 import com.hyuseinlesho.powerlog.dto.ExerciseDto;
+import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import jakarta.validation.Valid;
@@ -43,8 +44,16 @@ public class ExerciseController {
             model.addAttribute("exerciseTypes", ExerciseType.values());
             return "exercises-create";
         }
-        exerciseService.createExercise(exerciseDto, TEST_USER);
-        return "redirect:/exercises";
+
+        try {
+            exerciseService.createExercise(exerciseDto, TEST_USER);
+            return "redirect:/exercises";
+        } catch (ExerciseAlreadyExistsException e) {
+            model.addAttribute("exerciseDto", new ExerciseDto());
+            model.addAttribute("exerciseTypes", ExerciseType.values());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "exercises-create";
+        }
     }
 
     @GetMapping("/{exerciseId}/edit")
@@ -64,8 +73,17 @@ public class ExerciseController {
             model.addAttribute("exerciseTypes", ExerciseType.values());
             return "exercises-edit";
         }
-        exerciseDto.setId(exerciseId);
-        exerciseService.editExercise(exerciseDto, TEST_USER);
-        return "redirect:/exercises";
+
+        try {
+            exerciseDto.setId(exerciseId);
+            exerciseService.editExercise(exerciseDto, TEST_USER);
+            return "redirect:/exercises";
+        } catch (ExerciseAlreadyExistsException e) {
+            ExerciseDto exercise = exerciseService.findExerciseById(exerciseId);
+            model.addAttribute("exerciseDto", exercise);
+            model.addAttribute("exerciseTypes", ExerciseType.values());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "exercises-edit";
+        }
     }
 }

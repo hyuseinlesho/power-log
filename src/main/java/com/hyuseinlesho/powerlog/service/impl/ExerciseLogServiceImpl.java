@@ -14,9 +14,4 @@ public class ExerciseLogServiceImpl implements ExerciseLogService {
     public ExerciseLogServiceImpl(ExerciseLogRepository exerciseLogRepository) {
         this.exerciseLogRepository = exerciseLogRepository;
     }
-
-    @Override
-    public List<ExerciseLog> findAllExercises() {
-        return exerciseLogRepository.findAll();
-    }
 }

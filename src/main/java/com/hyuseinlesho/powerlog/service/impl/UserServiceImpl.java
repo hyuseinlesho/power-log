@@ -11,9 +11,4 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    @Override
-    public UserEntity findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
 }
