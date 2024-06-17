@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">PowerLog</title>
     <!-- Favicon-->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
@@ -12,37 +12,67 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
     <link rel="manifest" href="/assets/site.webmanifest">
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" href="/">PowerLog</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand"
+           href="/">PowerLog</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="/contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="/profile">Profile</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownWelcome" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome</a>
+                    <a class="nav-link dropdown-toggle"
+                       id="navbarDropdownWelcome"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">Welcome</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownWelcome">
-                        <li><a class="dropdown-item" href="/workouts/history">Workout History</a></li>
-                        <li><a class="dropdown-item" href="/workouts/create">Create Workout</a></li>
-                        <li><a class="dropdown-item" href="/exercises">Exercises</a></li>
+                        <li><a class="dropdown-item"
+                               href="/workouts/history">Workout History</a></li>
+                        <li><a class="dropdown-item"
+                               href="/workouts/create">Create Workout</a></li>
+                        <li><a class="dropdown-item"
+                               href="/exercises">Exercises</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownAccount" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                    <a class="nav-link dropdown-toggle"
+                       id="navbarDropdownAccount"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">Account</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
-                        <li><a class="dropdown-item" href="/users/register">Register</a></li>
-                        <li><a class="dropdown-item" href="/users/login">Login</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
+                        <li><a class="dropdown-item"
+                               href="/users/register">Register</a></li>
+                        <li><a class="dropdown-item"
+                               href="/users/login">Login</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item"
+                               href="/users/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -55,13 +85,18 @@
 <footer class="bg-dark py-4 mt-auto">
     <div class="container px-5">
         <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-            <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; PowerLog 2024</div></div>
             <div class="col-auto">
-                <a class="link-light small" href="#">Privacy</a>
+                <div class="small m-0 text-white">Copyright &copy; PowerLog 2024</div>
+            </div>
+            <div class="col-auto">
+                <a class="link-light small"
+                   href="#">Privacy</a>
                 <span class="text-white mx-1">&middot;</span>
-                <a class="link-light small" href="#">Terms</a>
+                <a class="link-light small"
+                   href="#">Terms</a>
                 <span class="text-white mx-1">&middot;</span>
-                <a class="link-light small" href="/contact">Contact</a>
+                <a class="link-light small"
+                   href="/contact">Contact</a>
             </div>
         </div>
     </div>

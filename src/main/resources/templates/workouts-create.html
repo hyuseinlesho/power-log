@@ -28,7 +28,7 @@
                 </div>
 
                 <section class="selectExerciseCount"
-                     th:if="${workoutDto.exercises == null}">
+                         th:if="${workoutDto.exercises == null}">
                     <!-- Number of Exercises Field -->
                     <div class="form-group">
                         <label for="exerciseCount">Number of Exercises</label>
@@ -40,7 +40,8 @@
                     </div>
                     <button type="submit"
                             class="btn btn-primary btn-sm"
-                            th:onclick="setExerciseCount()">Set</button>
+                            th:onclick="setExerciseCount()">Set
+                    </button>
                 </section>
 
                 <!-- Exercises Fields -->
@@ -96,7 +97,8 @@
                 <!-- Submit Button -->
                 <button type="submit"
                         class="btn btn-primary"
-                        th:if="${workoutDto.exercises != null}">Create Workout</button>
+                        th:if="${workoutDto.exercises != null}">Create Workout
+                </button>
             </form>
         </div>
     </section>

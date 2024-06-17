@@ -11,7 +11,9 @@
     <!-- Page content-->
     <section class="py-5">
         <div class="container px-5 my-5">
-            <form th:action="@{/exercises/create}" method="post" th:object="${exerciseDto}">
+            <form th:action="@{/exercises/create}"
+                  th:object="${exerciseDto}"
+                  method="post">
                 <div class="form-group">
                     <label for="formControlInput1">Name:</label>
                     <input type="text"
@@ -36,7 +38,9 @@
                          th:if="${#fields.hasErrors('type')}"
                          th:errors="*{type}"></div>
                 </div>
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button class="btn btn-primary"
+                        type="submit">Create
+                </button>
             </form>
         </div>
     </section>
