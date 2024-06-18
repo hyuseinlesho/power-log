@@ -2,6 +2,7 @@ package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.dto.ExerciseLogDto;
 import com.hyuseinlesho.powerlog.dto.WorkoutDto;
+import com.hyuseinlesho.powerlog.mapper.ExerciseLogMapper;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.UserEntity;
@@ -53,6 +54,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public void editWorkout(WorkoutDto workoutDto, String testUser) {
         Workout workout = workoutRepository.findById(workoutDto.getId()).get();
+        workout.setTitle(workoutDto.getTitle());
         workout.setDate(workoutDto.getDate());
 
         List<ExerciseLog> exercises = exerciseLogRepository.findAllByWorkout(workout);
@@ -84,6 +86,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         }
 
         workout.setExercises(exercises);
+        workout.setComment(workoutDto.getComment());
 
         workoutRepository.save(workout);
     }

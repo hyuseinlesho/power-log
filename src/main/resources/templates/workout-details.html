@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Workout Details</title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <!-- Page Content-->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="col-lg-9">
+                <!-- Workout Details -->
+                <article>
+                    <header class="mb-4">
+                        <h2 class="fw-bolder mb-1" th:text="${workoutDto.title}"></h2>
+                        <div class="text-muted fst-italic mb-2" th:text="${workoutDto.date}"></div>
+                    </header>
+                    <section class="mb-5">
+                        <h3 class="fw-bolder mb-4 mt-5">Exercises</h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Exercise</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                    <th>Weight (kg)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="exercise : ${workoutDto.exercises}">
+                                    <td th:text="${exercise.name}">Exercise Name</td>
+                                    <td th:text="${exercise.sets}">Sets</td>
+                                    <td th:text="${exercise.reps}">Reps</td>
+                                    <td th:text="${exercise.weight}">Weight</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <footer th:if="${not #strings.isEmpty(workoutDto.comment)}">
+                        <div th:text="${workoutDto.comment}"></div>
+                    </footer>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

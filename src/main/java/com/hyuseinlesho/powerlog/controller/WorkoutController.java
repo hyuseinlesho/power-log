@@ -92,4 +92,12 @@ public class WorkoutController {
         workoutService.editWorkout(workoutDto, TEST_USER);
         return "redirect:/workouts/history";
     }
+
+    @GetMapping("/{id}/details")
+    public String getWorkoutDetails(@PathVariable Long id,
+                                    Model model) {
+        WorkoutDto workoutDto = workoutService.findWorkoutById(id);
+        model.addAttribute("workoutDto", workoutDto);
+        return "workout-details";
+    }
 }

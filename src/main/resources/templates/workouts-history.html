@@ -37,10 +37,10 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="exercise : ${workout.exercises}">
-                                        <td th:text="${exercise.name}">Exercise Name</td>
-                                        <td th:text="${exercise.sets}">Sets</td>
-                                        <td th:text="${exercise.reps}">Reps</td>
-                                        <td th:text="${exercise.weight}">Weight</td>
+                                        <td th:text="${exercise.name}"></td>
+                                        <td th:text="${exercise.sets}"></td>
+                                        <td th:text="${exercise.reps}"></td>
+                                        <td th:text="${exercise.weight}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -49,6 +49,8 @@
                         <div class="card-footer">
                             <a th:href="@{|/workouts/${workout.id}/edit|}"
                                class="btn btn-primary btn-sm">Edit</a>
+                            <a th:href="@{|/workouts/${workout.id}/details|}"
+                               class="btn btn-secondary btn-sm">Details</a>
                         </div>
                     </div>
                 </div>

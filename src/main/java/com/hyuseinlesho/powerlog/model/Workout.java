@@ -15,6 +15,9 @@ import java.util.List;
 public class Workout extends BaseEntity {
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private LocalDate date;
 
     @ManyToOne
@@ -26,6 +29,8 @@ public class Workout extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<ExerciseLog> exercises;
+
+    private String comment;
 
     public Workout() {
         this.exercises = new ArrayList<>();

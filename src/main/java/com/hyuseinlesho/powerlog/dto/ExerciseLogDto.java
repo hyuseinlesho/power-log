@@ -11,7 +11,7 @@ public class ExerciseLogDto {
     private Long id;
 
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Exercise is required")
     private String name;
 
     @Min(value = 1, message = "Sets must be at least 1")
