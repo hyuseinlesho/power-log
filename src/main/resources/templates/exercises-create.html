@@ -11,6 +11,7 @@
     <!-- Page content-->
     <section class="py-5">
         <div class="container px-5 my-5">
+            <h2>Create Exercise</h2>
             <form th:action="@{/exercises/create}"
                   th:object="${exerciseDto}"
                   method="post">
@@ -24,10 +25,6 @@
                     <div class="text-danger"
                          th:if="${#fields.hasErrors('name')}"
                          th:errors="*{name}"></div>
-                    <div class="text-danger"
-                         th:if="${errorMessage}">
-                         <p th:text="${errorMessage}"></p>
-                    </div>
                 </div>
                 <div class="form-group">
                     <label for="formControlSelect1">Select type:</label>
@@ -41,6 +38,10 @@
                     <div class="text-danger"
                          th:if="${#fields.hasErrors('type')}"
                          th:errors="*{type}"></div>
+                    <div class="text-danger"
+                         th:if="${errorMessage}">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
                 </div>
                 <button class="btn btn-primary"
                         type="submit">Create

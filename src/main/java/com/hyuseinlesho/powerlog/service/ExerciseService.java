@@ -14,4 +14,6 @@ public interface ExerciseService {
     ExerciseDto findExerciseById(Long exerciseId);
 
     void editExercise(ExerciseDto exerciseDto, String username);
+
+    void deleteExercise(Long id);
 }

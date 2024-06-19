@@ -8,20 +8,24 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
+
     // TODO Implement fetch username from currently logged-in user.
     public static final String TEST_USER = "john_doe";
     private final ExerciseService exerciseService;
 
     public ExerciseController(ExerciseService exerciseService) {
         this.exerciseService = exerciseService;
+    }
+
+    @ModelAttribute("exerciseTypes")
+    public ExerciseType[] exerciseTypes() {
+        return ExerciseType.values();
     }
 
     @GetMapping()
@@ -33,15 +37,13 @@ public class ExerciseController {
     @GetMapping("/create")
     public String showCreateExerciseForm(Model model) {
         model.addAttribute("exerciseDto", new ExerciseDto());
-        model.addAttribute("exerciseTypes", ExerciseType.values());
         return "exercises-create";
     }
     @PostMapping("/create")
     public String createExercise(@Valid ExerciseDto exerciseDto,
                                  BindingResult bindingResult,
-                                 Model model) {
+                                 RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseTypes", ExerciseType.values());
             return "exercises-create";
         }
 
@@ -49,41 +51,41 @@ public class ExerciseController {
             exerciseService.createExercise(exerciseDto, TEST_USER);
             return "redirect:/exercises";
         } catch (ExerciseAlreadyExistsException e) {
-            model.addAttribute("exerciseDto", new ExerciseDto());
-            model.addAttribute("exerciseTypes", ExerciseType.values());
-            model.addAttribute("errorMessage", e.getMessage());
-            return "exercises-create";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/exercises/create";
         }
     }
 
-    @GetMapping("/{exerciseId}/edit")
-    public String showEditExerciseForm(@PathVariable("exerciseId") Long exerciseId, Model  model) {
-        ExerciseDto exerciseDto = exerciseService.findExerciseById(exerciseId);
+    @GetMapping("/{id}/edit")
+    public String showEditExerciseForm(@PathVariable("id") Long id,
+                                       Model  model) {
+        ExerciseDto exerciseDto = exerciseService.findExerciseById(id);
         model.addAttribute("exerciseDto", exerciseDto);
-        model.addAttribute("exerciseTypes", ExerciseType.values());
         return "exercises-edit";
     }
 
-    @PostMapping("/{exerciseId}/edit")
-    public String editExercise(@PathVariable("exerciseId") Long exerciseId,
+    @PostMapping("/{id}/edit")
+    public String editExercise(@PathVariable("id") Long id,
                                @Valid ExerciseDto exerciseDto,
                                BindingResult bindingResult,
-                               Model model) {
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseTypes", ExerciseType.values());
             return "exercises-edit";
         }
 
         try {
-            exerciseDto.setId(exerciseId);
+            exerciseDto.setId(id);
             exerciseService.editExercise(exerciseDto, TEST_USER);
             return "redirect:/exercises";
         } catch (ExerciseAlreadyExistsException e) {
-            ExerciseDto exercise = exerciseService.findExerciseById(exerciseId);
-            model.addAttribute("exerciseDto", exercise);
-            model.addAttribute("exerciseTypes", ExerciseType.values());
-            model.addAttribute("errorMessage", e.getMessage());
-            return "exercises-edit";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/exercises/{id}/edit";
         }
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteExercise(@PathVariable Long id) {
+        exerciseService.deleteExercise(id);
+        return "redirect:/exercises";
     }
 }

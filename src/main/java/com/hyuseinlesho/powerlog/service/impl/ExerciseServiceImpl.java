@@ -64,6 +64,11 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.save(exercise);
     }
 
+    @Override
+    public void deleteExercise(Long id) {
+        exerciseRepository.deleteById(id);
+    }
+
     private UserEntity getUser(String username) {
         return userRepository.findByUsername(username);
     }
