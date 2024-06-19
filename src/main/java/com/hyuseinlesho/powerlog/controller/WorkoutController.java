@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/workouts")
 public class WorkoutController {
-    // TODO Implement fetch username from currently logged-in user.
 
+    // TODO Implement fetch username from currently logged-in user.
     // TODO Fix date from Create and Edit Workout
+
+    public static final String CREATE_SUCCESS_MESSAGE = "Workout created successfully!";
+    public static final String UPDATE_SUCCESS_MESSAGE = "Workout updated successfully!";
+    public static final String DELETE_SUCCESS_MESSAGE = "Workout deleted successfully!";
 
     public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
@@ -48,49 +53,53 @@ public class WorkoutController {
     public String createWorkout(@RequestParam(required = false) Integer exerciseCount,
                                 @Valid WorkoutDto workoutDto,
                                 BindingResult bindingResult,
-                                Model model) {
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         if (exerciseCount != null) {
             List<ExerciseLogDto> exercises = new ArrayList<>();
             for (int i = 0; i < exerciseCount; i++) {
                 exercises.add(new ExerciseLogDto());
             }
             workoutDto.setExercises(exercises);
-            model.addAttribute("workoutDto", workoutDto);
             model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
             return "workouts-create";
-        } else {
-            if (bindingResult.hasErrors()) {
-                model.addAttribute("workoutDto", workoutDto);
-                model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
-                return "workouts-create";
-            }
-            workoutService.createWorkout(workoutDto, TEST_USER);
-            return "redirect:/workouts/history";
         }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            return "workouts-create";
+        }
+
+        workoutService.createWorkout(workoutDto, TEST_USER);
+        redirectAttributes.addFlashAttribute("successMessage", CREATE_SUCCESS_MESSAGE);
+        return "redirect:/workouts/history";
     }
 
-    @GetMapping("/{workoutId}/edit")
-    public String showEditWorkoutForm(@PathVariable("workoutId") Long workoutId, Model model) {
-        WorkoutDto workoutDto = workoutService.findWorkoutById(workoutId);
+    @GetMapping("/{id}/edit")
+    public String showEditWorkoutForm(@PathVariable("id") Long id,
+                                      Model model) {
+        WorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
         return "workouts-edit";
     }
 
-    @PostMapping("/{workoutId}/edit")
-    public String editWorkout(@PathVariable("workoutId") Long workoutId,
+    @PostMapping("/{id}/edit")
+    public String editWorkout(@PathVariable("id") Long id,
                               @Valid WorkoutDto workoutDto,
                               BindingResult bindingResult,
-                              Model model) {
+                              Model model,
+                              RedirectAttributes redirectAttributes) {
+        workoutDto.setId(id);
+
         if (bindingResult.hasErrors()) {
-            workoutDto.setId(workoutId);
-            model.addAttribute("workoutDto", workoutDto);
             model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
             return "workouts-edit";
         }
-        workoutDto.setId(workoutId);
+
         workoutService.editWorkout(workoutDto, TEST_USER);
-        return "redirect:/workouts/{workoutId}/details";
+        redirectAttributes.addFlashAttribute("successMessage", UPDATE_SUCCESS_MESSAGE);
+        return "redirect:/workouts/{id}/details";
     }
 
     @GetMapping("/{id}/details")
@@ -102,8 +111,10 @@ public class WorkoutController {
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteWorkout(@PathVariable Long id) {
+    public String deleteWorkout(@PathVariable Long id,
+                                RedirectAttributes redirectAttributes) {
         workoutService.deleteWorkout(id);
+        redirectAttributes.addFlashAttribute("successMessage", DELETE_SUCCESS_MESSAGE);
         return "redirect:/workouts/history";
     }
 }

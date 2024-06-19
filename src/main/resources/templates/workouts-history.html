@@ -15,6 +15,10 @@
                 <h1 class="fw-bolder">Workout Log</h1>
                 <p class="lead fw-normal text-muted mb-0">Your workout history</p>
             </div>
+            <!-- Success Message -->
+            <div th:if="${successMessage}"
+                 class="alert alert-success"
+                 th:text="${successMessage}"></div>
             <div class="row gx-5">
                 <!-- Loop through the workouts and display each one -->
                 <div th:each="workout : ${workouts}"
