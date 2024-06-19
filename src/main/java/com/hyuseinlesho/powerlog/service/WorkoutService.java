@@ -13,4 +13,6 @@ public interface WorkoutService {
     WorkoutDto findWorkoutById(Long workoutId);
 
     void editWorkout(WorkoutDto workoutDto, String testUser);
+
+    void deleteWorkout(Long id);
 }

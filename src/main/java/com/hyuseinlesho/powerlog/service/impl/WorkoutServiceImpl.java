@@ -91,6 +91,11 @@ public class WorkoutServiceImpl implements WorkoutService {
         workoutRepository.save(workout);
     }
 
+    @Override
+    public void deleteWorkout(Long id) {
+        workoutRepository.deleteById(id);
+    }
+
     private UserEntity getUser(String username) {
         return userRepository.findByUsername(username);
     }

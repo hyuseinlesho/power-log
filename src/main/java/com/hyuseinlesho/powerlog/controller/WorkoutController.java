@@ -90,7 +90,7 @@ public class WorkoutController {
         }
         workoutDto.setId(workoutId);
         workoutService.editWorkout(workoutDto, TEST_USER);
-        return "redirect:/workouts/history";
+        return "redirect:/workouts/{workoutId}/details";
     }
 
     @GetMapping("/{id}/details")
@@ -99,5 +99,11 @@ public class WorkoutController {
         WorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         return "workout-details";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteWorkout(@PathVariable Long id) {
+        workoutService.deleteWorkout(id);
+        return "redirect:/workouts/history";
     }
 }
