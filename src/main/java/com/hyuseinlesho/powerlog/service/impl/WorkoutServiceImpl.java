@@ -13,7 +13,9 @@ import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
@@ -52,7 +54,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public void editWorkout(WorkoutDto workoutDto, String testUser) {
+    public void editWorkout(WorkoutDto workoutDto, String username) {
         Workout workout = workoutRepository.findById(workoutDto.getId()).get();
         workout.setTitle(workoutDto.getTitle());
         workout.setDate(workoutDto.getDate());
@@ -94,6 +96,14 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public void deleteWorkout(Long id) {
         workoutRepository.deleteById(id);
+    }
+
+    @Override
+    public List<WorkoutDto> searchWorkoutsForUser(String username, String query) {
+        List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);
+        return workouts.stream()
+                .map(WorkoutMapper.INSTANCE::workoutToWorkoutDto)
+                .collect(Collectors.toList());
     }
 
     private UserEntity getUser(String username) {

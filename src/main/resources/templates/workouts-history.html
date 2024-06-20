@@ -19,6 +19,22 @@
             <div th:if="${successMessage}"
                  class="alert alert-success"
                  th:text="${successMessage}"></div>
+            <!-- Search Form -->
+            <div class="mb-4">
+                <form th:action="@{/workouts/history/search}" method="get">
+                    <div class="input-group">
+                        <input type="text"
+                               name="query"
+                               class="form-control"
+                               placeholder="Search workouts..."
+                               aria-label="Search workouts"
+                               aria-describedby="button-search">
+                        <button class="btn btn-primary"
+                                type="submit"
+                                id="button-search">Search</button>
+                    </div>
+                </form>
+            </div>
             <div class="row gx-5">
                 <!-- Loop through the workouts and display each one -->
                 <div th:each="workout : ${workouts}"

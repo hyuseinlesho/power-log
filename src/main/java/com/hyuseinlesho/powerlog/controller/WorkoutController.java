@@ -51,7 +51,7 @@ public class WorkoutController {
 
     @PostMapping("/create")
     public String createWorkout(@RequestParam(required = false) Integer exerciseCount,
-                                @Valid WorkoutDto workoutDto,
+                                @Valid @ModelAttribute("workoutDto") WorkoutDto workoutDto,
                                 BindingResult bindingResult,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
@@ -86,7 +86,7 @@ public class WorkoutController {
 
     @PostMapping("/{id}/edit")
     public String editWorkout(@PathVariable("id") Long id,
-                              @Valid WorkoutDto workoutDto,
+                              @Valid @ModelAttribute("workoutDto") WorkoutDto workoutDto,
                               BindingResult bindingResult,
                               Model model,
                               RedirectAttributes redirectAttributes) {
@@ -103,7 +103,7 @@ public class WorkoutController {
     }
 
     @GetMapping("/{id}/details")
-    public String getWorkoutDetails(@PathVariable Long id,
+    public String getWorkoutDetails(@PathVariable("id") Long id,
                                     Model model) {
         WorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
@@ -111,10 +111,18 @@ public class WorkoutController {
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteWorkout(@PathVariable Long id,
+    public String deleteWorkout(@PathVariable("id") Long id,
                                 RedirectAttributes redirectAttributes) {
         workoutService.deleteWorkout(id);
         redirectAttributes.addFlashAttribute("successMessage", DELETE_SUCCESS_MESSAGE);
         return "redirect:/workouts/history";
+    }
+
+    @GetMapping("/history/search")
+    public String searchWorkouts(@RequestParam("query") String query,
+                                 Model model) {
+        List<WorkoutDto> workouts = workoutService.searchWorkoutsForUser(TEST_USER, query);
+        model.addAttribute("workouts", workouts);
+        return "workouts-history";
     }
 }

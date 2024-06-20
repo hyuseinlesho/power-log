@@ -12,7 +12,9 @@ public interface WorkoutService {
 
     WorkoutDto findWorkoutById(Long workoutId);
 
-    void editWorkout(WorkoutDto workoutDto, String testUser);
+    void editWorkout(WorkoutDto workoutDto, String username);
 
     void deleteWorkout(Long id);
+
+    List<WorkoutDto> searchWorkoutsForUser(String username, String query);
 }

@@ -40,7 +40,7 @@ public class ExerciseController {
         return "exercises-create";
     }
     @PostMapping("/create")
-    public String createExercise(@Valid ExerciseDto exerciseDto,
+    public String createExercise(@Valid @ModelAttribute("exerciseDto") ExerciseDto exerciseDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -66,7 +66,7 @@ public class ExerciseController {
 
     @PostMapping("/{id}/edit")
     public String editExercise(@PathVariable("id") Long id,
-                               @Valid ExerciseDto exerciseDto,
+                               @Valid @ModelAttribute("exerciseDto") ExerciseDto exerciseDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
