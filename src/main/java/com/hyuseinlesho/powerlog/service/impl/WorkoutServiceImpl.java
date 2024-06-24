@@ -2,7 +2,6 @@ package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.dto.ExerciseLogDto;
 import com.hyuseinlesho.powerlog.dto.WorkoutDto;
-import com.hyuseinlesho.powerlog.mapper.ExerciseLogMapper;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.UserEntity;
@@ -13,7 +12,6 @@ import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
