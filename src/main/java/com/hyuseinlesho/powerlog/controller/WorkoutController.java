@@ -20,7 +20,6 @@ import java.util.List;
 public class WorkoutController {
 
     // TODO Implement fetch username from currently logged-in user.
-    // TODO Fix date from Create and Edit Workout
 
     public static final String CREATE_SUCCESS_MESSAGE = "Workout created successfully!";
     public static final String UPDATE_SUCCESS_MESSAGE = "Workout updated successfully!";

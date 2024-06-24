@@ -11,7 +11,6 @@ import lombok.Setter;
 public class ExerciseDto {
     private Long id;
 
-    // TODO Case when exercise with the same name and type already exists for the user
     @NotBlank(message = "Name is required")
     public String name;
 
