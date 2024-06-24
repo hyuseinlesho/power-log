@@ -16,6 +16,9 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
@@ -32,11 +35,13 @@ public class UserEntity extends BaseEntity {
             orphanRemoval = true)
     private Set<Workout> workouts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL)
     private Set<Exercise> exercises;
 
     public UserEntity() {
         this.roles = new HashSet<>();
         this.workouts = new HashSet<>();
+        this.exercises = new HashSet<>();
     }
 }
