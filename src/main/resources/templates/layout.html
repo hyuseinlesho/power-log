@@ -21,7 +21,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
         <a class="navbar-brand"
-           href="/">PowerLog</a>
+           th:href="@{/}">PowerLog</a>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -33,13 +33,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link"
-                                        href="/">Home</a></li>
+                                        th:href="@{/}">Home</a></li>
                 <li class="nav-item"><a class="nav-link"
-                                        href="/about">About</a></li>
+                                        th:href="@{/about}">About</a></li>
                 <li class="nav-item"><a class="nav-link"
-                                        href="/contact">Contact</a></li>
+                                        th:href="@{/contact}">Contact</a></li>
                 <li class="nav-item"><a class="nav-link"
-                                        href="/profile">Profile</a></li>
+                                        th:href="@{/profile}">Profile</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
                        id="navbarDropdownWelcome"
@@ -49,11 +49,11 @@
                        aria-expanded="false">Welcome</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownWelcome">
                         <li><a class="dropdown-item"
-                               href="/workouts/history">Workout History</a></li>
+                               th:href="@{/workouts/history}">Workout History</a></li>
                         <li><a class="dropdown-item"
-                               href="/workouts/create">Create Workout</a></li>
+                               th:href="@{/workouts/create}">Create Workout</a></li>
                         <li><a class="dropdown-item"
-                               href="/exercises">Exercises</a></li>
+                               th:href="@{/exercises}">Exercises</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -65,14 +65,14 @@
                        aria-expanded="false">Account</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
                         <li><a class="dropdown-item"
-                               href="/register">Register</a></li>
+                               th:href="@{/register}">Register</a></li>
                         <li><a class="dropdown-item"
-                               href="/login">Login</a></li>
+                               th:href="@{/login}">Login</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item"
-                               href="/logout">Logout</a></li>
+                               th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -96,7 +96,7 @@
                    href="#">Terms</a>
                 <span class="text-white mx-1">&middot;</span>
                 <a class="link-light small"
-                   href="/contact">Contact</a>
+                   th:href="@{/contact}">Contact</a>
             </div>
         </div>
     </div>

@@ -44,10 +44,8 @@ public class AuthController {
                 && existingUserUsername.getUsername() != null
                 && !existingUserUsername.getUsername().isEmpty()) {
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    "Username is already in use.");
             redirectAttributes.addFlashAttribute("registerDto", registerDto);
-            return "redirect:/register";
+            return "redirect:/register?fail";
         }
 
         UserEntity existingUserEmail = userService.findByEmail(registerDto.getEmail());
@@ -55,15 +53,19 @@ public class AuthController {
                 && existingUserEmail.getEmail() != null
                 && !existingUserEmail.getEmail().isEmpty()) {
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    "Email is already in use.");
             redirectAttributes.addFlashAttribute("registerDto", registerDto);
-            return "redirect:/register";
+            return "redirect:/register?fail";
         }
 
         userService.registerUser(registerDto);
 
         // TODO Implement home page
-        return "redirect:/";
+        return "redirect:/?success";
+    }
+
+    // TODO Fix login in Spring Security
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
     }
 }

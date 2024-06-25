@@ -20,6 +20,11 @@ spring:
     init:
       mode: never
 
+  security:
+    user:
+      name: "test_user"
+      password: "test1234"
+
 logging:
   level:
     org: WARN

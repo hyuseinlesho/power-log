@@ -10,13 +10,14 @@
 <main class="flex-shrink-0" layout:fragment="content">
     <section class="py-5">
         <div class="container px-5 my-5">
-            <!-- Error message -->
-            <div th:if="${errorMessage}"
-                 class="alert alert-danger"
-                 th:text="${errorMessage}"></div>
+            <!-- Fail message -->
+            <div th:if="${param.fail}"
+                 class="alert alert-danger">
+                Username or email already exists!</div>
             <!-- Register Form -->
             <form th:action="@{/register}"
                   method="post"
+                  role="form"
                   th:object="${registerDto}">
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
@@ -67,7 +68,11 @@
                 <div class="text-danger"
                      th:if="${#fields.hasErrors('passwordsMatching')}"
                      th:errors="*{passwordsMatching}"></div>
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button th:href="@{/register}"
+                        type="submit"
+                        class="btn btn-primary">Register</button>
+                <a th:href="@{/login}"
+                   class="btn btn-primary">Login here.</a>
             </form>
         </div>
     </section>
