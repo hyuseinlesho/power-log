@@ -14,9 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/exercises")
 public class ExerciseController {
-
-    // TODO Implement fetch username from currently logged-in user.
-    public static final String TEST_USER = "john_doe";
     private final ExerciseService exerciseService;
 
     public ExerciseController(ExerciseService exerciseService) {
@@ -30,7 +27,7 @@ public class ExerciseController {
 
     @GetMapping()
     public String showExercisesPage(Model model) {
-        model.addAttribute("exercises", exerciseService.findAllExercisesForUser(TEST_USER));
+        model.addAttribute("exercises", exerciseService.findAllExercises());
         return "exercises";
     }
 
@@ -48,7 +45,7 @@ public class ExerciseController {
         }
 
         try {
-            exerciseService.createExercise(exerciseDto, TEST_USER);
+            exerciseService.createExercise(exerciseDto);
             return "redirect:/exercises";
         } catch (ExerciseAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -75,7 +72,7 @@ public class ExerciseController {
 
         try {
             exerciseDto.setId(id);
-            exerciseService.editExercise(exerciseDto, TEST_USER);
+            exerciseService.editExercise(exerciseDto);
             return "redirect:/exercises";
         } catch (ExerciseAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

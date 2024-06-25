@@ -19,13 +19,10 @@ import java.util.List;
 @RequestMapping("/workouts")
 public class WorkoutController {
 
-    // TODO Implement fetch username from currently logged-in user.
-
     public static final String CREATE_SUCCESS_MESSAGE = "Workout created successfully!";
     public static final String UPDATE_SUCCESS_MESSAGE = "Workout updated successfully!";
     public static final String DELETE_SUCCESS_MESSAGE = "Workout deleted successfully!";
 
-    public static final String TEST_USER = "john_doe";
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
 
@@ -36,7 +33,7 @@ public class WorkoutController {
 
     @GetMapping("/history")
     public String showWorkoutHistory(Model model) {
-        List<Workout> workouts = workoutService.findWorkoutsByUsername(TEST_USER);
+        List<Workout> workouts = workoutService.findAllWorkouts();
         model.addAttribute("workouts", workouts);
         return "workouts-history";
     }
@@ -44,7 +41,7 @@ public class WorkoutController {
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
         model.addAttribute("workoutDto", new WorkoutDto());
-        model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
         return "workouts-create";
     }
 
@@ -60,16 +57,16 @@ public class WorkoutController {
                 exercises.add(new ExerciseLogDto());
             }
             workoutDto.setExercises(exercises);
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
             return "workouts-create";
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
             return "workouts-create";
         }
 
-        workoutService.createWorkout(workoutDto, TEST_USER);
+        workoutService.createWorkout(workoutDto);
         redirectAttributes.addFlashAttribute("successMessage", CREATE_SUCCESS_MESSAGE);
         return "redirect:/workouts/history";
     }
@@ -79,7 +76,7 @@ public class WorkoutController {
                                       Model model) {
         WorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
-        model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
         return "workouts-edit";
     }
 
@@ -92,11 +89,11 @@ public class WorkoutController {
         workoutDto.setId(id);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercisesForUser(TEST_USER));
+            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
             return "workouts-edit";
         }
 
-        workoutService.editWorkout(workoutDto, TEST_USER);
+        workoutService.editWorkout(workoutDto);
         redirectAttributes.addFlashAttribute("successMessage", UPDATE_SUCCESS_MESSAGE);
         return "redirect:/workouts/{id}/details";
     }
@@ -120,7 +117,7 @@ public class WorkoutController {
     @GetMapping("/history/search")
     public String searchWorkouts(@RequestParam("query") String query,
                                  Model model) {
-        List<WorkoutDto> workouts = workoutService.searchWorkoutsForUser(TEST_USER, query);
+        List<WorkoutDto> workouts = workoutService.searchWorkouts(query);
         model.addAttribute("workouts", workouts);
         return "workouts-history";
     }

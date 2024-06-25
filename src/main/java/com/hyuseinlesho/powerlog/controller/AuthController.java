@@ -58,12 +58,8 @@ public class AuthController {
         }
 
         userService.registerUser(registerDto);
-
-        // TODO Implement home page
         return "redirect:/login?success";
     }
-
-    // TODO Fix login in Spring Security
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";

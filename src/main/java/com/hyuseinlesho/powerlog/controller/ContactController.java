@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ContactController {
-
     private static final String CONTACT_MESSAGE_SUCCESS = "Thank you for your message! We'll get back to you soon.";
+
     private final ContactService contactService;
 
     public ContactController(ContactService contactService) {

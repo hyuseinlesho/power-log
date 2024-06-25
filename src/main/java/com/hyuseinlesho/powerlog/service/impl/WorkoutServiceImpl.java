@@ -9,6 +9,7 @@ import com.hyuseinlesho.powerlog.model.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
+import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +29,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<Workout> findWorkoutsByUsername(String username) {
-        return workoutRepository.findByUser(getUser(username));
-    }
-
-    @Override
-    public void createWorkout(WorkoutDto workoutDto, String username) {
+    public void createWorkout(WorkoutDto workoutDto) {
         Workout workout = WorkoutMapper.INSTANCE.mapToWorkout(workoutDto);
-        workout.setUser(getUser(username));
+        workout.setUser(getUser());
 
         List<ExerciseLog> exercises = workout.getExercises();
         for (ExerciseLog exercise : exercises) {
@@ -52,7 +48,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public void editWorkout(WorkoutDto workoutDto, String username) {
+    public List<Workout> findAllWorkouts() {
+        return workoutRepository.findAllByUser(getUser());
+    }
+
+    @Override
+    public void editWorkout(WorkoutDto workoutDto) {
         Workout workout = workoutRepository.findById(workoutDto.getId()).get();
         workout.setTitle(workoutDto.getTitle());
         workout.setDate(workoutDto.getDate());
@@ -97,14 +98,17 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<WorkoutDto> searchWorkoutsForUser(String username, String query) {
+    public List<WorkoutDto> searchWorkouts(String query) {
+        String username = SecurityUtil.getSessionUser();
+
         List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);
         return workouts.stream()
                 .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
                 .collect(Collectors.toList());
     }
 
-    private UserEntity getUser(String username) {
+    private UserEntity getUser() {
+        String username = SecurityUtil.getSessionUser();
         return userRepository.findByUsername(username);
     }
 }

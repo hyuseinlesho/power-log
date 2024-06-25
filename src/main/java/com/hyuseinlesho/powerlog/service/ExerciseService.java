@@ -6,14 +6,13 @@ import com.hyuseinlesho.powerlog.model.Exercise;
 import java.util.List;
 
 public interface ExerciseService {
-
-    void createExercise(ExerciseDto exerciseDto, String username);
-
-    List<ExerciseDto> findAllExercisesForUser(String username);
+    void createExercise(ExerciseDto exerciseDto);
 
     ExerciseDto findExerciseById(Long exerciseId);
 
-    void editExercise(ExerciseDto exerciseDto, String username);
+    List<ExerciseDto> findAllExercises();
+
+    void editExercise(ExerciseDto exerciseDto);
 
     void deleteExercise(Long id);
 }
