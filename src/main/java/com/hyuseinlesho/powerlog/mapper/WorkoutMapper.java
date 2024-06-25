@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface WorkoutMapper {
     WorkoutMapper INSTANCE = Mappers.getMapper(WorkoutMapper.class);
 
-    Workout workoutDtoToWorkout(WorkoutDto workoutDto);
+    Workout mapToWorkout(WorkoutDto workoutDto);
 
-    WorkoutDto workoutToWorkoutDto(Workout workout);
+    WorkoutDto mapToWorkoutDto(Workout workout);
 }

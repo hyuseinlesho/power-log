@@ -25,7 +25,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void createExercise(ExerciseDto exerciseDto, String username) {
-        Exercise exercise = ExerciseMapper.INSTANCE.exerciseDtoToExercise(exerciseDto);
+        Exercise exercise = ExerciseMapper.INSTANCE.mapToExercise(exerciseDto);
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
         if (exercises.contains(exercise)) {
@@ -40,14 +40,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     public List<ExerciseDto> findAllExercisesForUser(String username) {
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
         return exercises.stream()
-                .map(ExerciseMapper.INSTANCE::exerciseToExerciseDto)
+                .map(ExerciseMapper.INSTANCE::mapExerciseDto)
                 .toList();
     }
 
     @Override
     public ExerciseDto findExerciseById(Long exerciseId) {
         Exercise exercise = exerciseRepository.findById(exerciseId).get();
-        return ExerciseMapper.INSTANCE.exerciseToExerciseDto(exercise);
+        return ExerciseMapper.INSTANCE.mapExerciseDto(exercise);
     }
 
     @Override

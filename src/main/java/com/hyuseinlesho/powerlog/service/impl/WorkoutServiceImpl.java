@@ -34,7 +34,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public void createWorkout(WorkoutDto workoutDto, String username) {
-        Workout workout = WorkoutMapper.INSTANCE.workoutDtoToWorkout(workoutDto);
+        Workout workout = WorkoutMapper.INSTANCE.mapToWorkout(workoutDto);
         workout.setUser(getUser(username));
 
         List<ExerciseLog> exercises = workout.getExercises();
@@ -48,7 +48,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutDto findWorkoutById(Long workoutId) {
         Workout workout = workoutRepository.findById(workoutId).get();
-        return WorkoutMapper.INSTANCE.workoutToWorkoutDto(workout);
+        return WorkoutMapper.INSTANCE.mapToWorkoutDto(workout);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public List<WorkoutDto> searchWorkoutsForUser(String username, String query) {
         List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);
         return workouts.stream()
-                .map(WorkoutMapper.INSTANCE::workoutToWorkoutDto)
+                .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
                 .collect(Collectors.toList());
     }
 

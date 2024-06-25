@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface ContactMapper {
     ContactMapper INSTANCE = Mappers.getMapper(ContactMapper.class);
 
-    Contact contactDtoToContact(ContactDto contactDto);
+    Contact mapToContact(ContactDto contactDto);
 }
