@@ -60,7 +60,7 @@ public class AuthController {
         userService.registerUser(registerDto);
 
         // TODO Implement home page
-        return "redirect:/?success";
+        return "redirect:/login?success";
     }
 
     // TODO Fix login in Spring Security

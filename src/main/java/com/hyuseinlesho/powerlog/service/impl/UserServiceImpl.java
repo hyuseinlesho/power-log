@@ -4,9 +4,9 @@ import com.hyuseinlesho.powerlog.dto.UserRegisterDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
 import com.hyuseinlesho.powerlog.model.Role;
 import com.hyuseinlesho.powerlog.model.UserEntity;
-import com.hyuseinlesho.powerlog.model.enums.UserRole;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -15,17 +15,20 @@ import java.util.Collections;
 public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void registerUser(UserRegisterDto registerDto) {
         UserEntity user = UserMapper.INSTANCE.mapToUserEntity(registerDto);
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Role role = roleRepository.findByName(UserRole.USER);
+        Role role = roleRepository.findByName("USER");
         user.setRoles(Collections.singleton(role));
 
         userRepository.save(user);

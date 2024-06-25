@@ -10,6 +10,10 @@
 <main class="flex-shrink-0" layout:fragment="content">
     <section class="py-5">
         <div class="container px-5 my-5">
+            <!-- Success message -->
+            <div th:if="${param.success}" class="alert alert-success">
+                You are registered successfully!
+            </div>
             <!-- Error message -->
             <div th:if="${param.error}"
                  class="alert alert-danger">
@@ -25,6 +29,7 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text"
+                           name="username"
                            class="form-control"
                            id="username"
                            aria-describedby="usernameHelp"
@@ -33,6 +38,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password"
+                           name="password"
                            class="form-control"
                            id="password"
                            placeholder="Password">
