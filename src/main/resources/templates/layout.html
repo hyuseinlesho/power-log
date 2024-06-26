@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -20,7 +21,11 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand"
+        <a sec:authorize="isAuthenticated()"
+           class="navbar-brand"
+           th:href="@{/home}">PowerLog</a>
+        <a sec:authorize="!isAuthenticated()"
+           class="navbar-brand"
            th:href="@{/}">PowerLog</a>
         <button class="navbar-toggler"
                 type="button"
@@ -32,15 +37,27 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link"
-                                        th:href="@{/home}">Home</a></li>
+                <li sec:authorize="isAuthenticated()"
+                    class="nav-item">
+                    <a class="nav-link"
+                       th:href="@{/home}">Home</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()"
+                    class="nav-item">
+                    <a class="nav-link"
+                       th:href="@{/}">Home</a>
+                </li>
                 <li class="nav-item"><a class="nav-link"
                                         th:href="@{/about}">About</a></li>
                 <li class="nav-item"><a class="nav-link"
                                         th:href="@{/contact}">Contact</a></li>
-                <li class="nav-item"><a class="nav-link"
-                                        th:href="@{/profile}">Profile</a></li>
-                <li class="nav-item dropdown">
+                <li sec:authorize="isAuthenticated()"
+                    class="nav-item">
+                    <a class="nav-link"
+                       th:href="@{/profile}">Profile</a>
+                </li>
+                <li sec:authorize="isAuthenticated()"
+                     class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
                        id="navbarDropdownWelcome"
                        href="#"
@@ -48,12 +65,18 @@
                        data-bs-toggle="dropdown"
                        aria-expanded="false">Welcome</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownWelcome">
-                        <li><a class="dropdown-item"
-                               th:href="@{/workouts/history}">Workout History</a></li>
-                        <li><a class="dropdown-item"
-                               th:href="@{/workouts/create}">Create Workout</a></li>
-                        <li><a class="dropdown-item"
-                               th:href="@{/exercises}">Exercises</a></li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{/workouts/history}">Workout History</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{/workouts/create}">Create Workout</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{/exercises}">Exercises</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -64,15 +87,18 @@
                        data-bs-toggle="dropdown"
                        aria-expanded="false">Account</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
-                        <li><a class="dropdown-item"
-                               th:href="@{/register}">Register</a></li>
-                        <li><a class="dropdown-item"
-                               th:href="@{/login}">Login</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                        <li sec:authorize="!isAuthenticated()">
+                            <a class="dropdown-item"
+                               th:href="@{/register}">Register</a>
                         </li>
-                        <li><a class="dropdown-item"
-                               th:href="@{/logout}">Logout</a></li>
+                        <li sec:authorize="!isAuthenticated()">
+                            <a class="dropdown-item"
+                               th:href="@{/login}">Login</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item"
+                               th:href="@{/logout}">Logout</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
