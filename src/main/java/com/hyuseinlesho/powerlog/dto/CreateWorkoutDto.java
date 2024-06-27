@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -20,9 +20,11 @@ public class CreateWorkoutDto {
     @Size(max = 100, message = "Title cannot be longer than 100 characters")
     private String title;
 
-    @NotNull(message = "Date is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    // TODO Make it to work with 24 hour format, not am and pm, also to fix display format - "2024-06-27T17:00"
+
+    @NotNull(message = "Date and time is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime dateTime;
 
     @NotNull(message = "Exercises cannot be null")
     @Valid
