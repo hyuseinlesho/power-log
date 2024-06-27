@@ -38,3 +38,6 @@ out/
 
 # Ignore data.sql file
 data.sql
+
+# Ignore .gitattributes file
+.gitattributes
