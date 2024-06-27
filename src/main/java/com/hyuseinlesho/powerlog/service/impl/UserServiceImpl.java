@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.UserRegisterDto;
+import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
 import com.hyuseinlesho.powerlog.model.Role;
 import com.hyuseinlesho.powerlog.model.UserEntity;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     }
 
     @Override
-    public void registerUser(UserRegisterDto registerDto) {
+    public void registerUser(RegisterUserDto registerDto) {
         UserEntity user = UserMapper.INSTANCE.mapToUserEntity(registerDto);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 

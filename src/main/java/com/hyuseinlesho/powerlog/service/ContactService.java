@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
-import com.hyuseinlesho.powerlog.dto.ContactDto;
+import com.hyuseinlesho.powerlog.dto.CreateContactDto;
 
 public interface ContactService {
-    void saveContact(ContactDto contactDto);
+    void saveContact(CreateContactDto contactDto);
 }

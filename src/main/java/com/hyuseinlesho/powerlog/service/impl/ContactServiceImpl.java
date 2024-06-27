@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.ContactDto;
+import com.hyuseinlesho.powerlog.dto.CreateContactDto;
 import com.hyuseinlesho.powerlog.mapper.ContactMapper;
 import com.hyuseinlesho.powerlog.model.Contact;
 import com.hyuseinlesho.powerlog.repository.ContactRepository;
@@ -16,7 +16,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void saveContact(ContactDto contactDto) {
+    public void saveContact(CreateContactDto contactDto) {
         Contact contact = ContactMapper.INSTANCE.mapToContact(contactDto);
 
         contactRepository.save(contact);

@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseDto;
+import com.hyuseinlesho.powerlog.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
 import com.hyuseinlesho.powerlog.model.Exercise;
@@ -26,7 +26,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void createExercise(ExerciseDto exerciseDto) {
+    public void createExercise(CreateExerciseDto exerciseDto) {
         Exercise exercise = ExerciseMapper.INSTANCE.mapToExercise(exerciseDto);
 
         String username = SecurityUtil.getSessionUser();
@@ -41,13 +41,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ExerciseDto findExerciseById(Long exerciseId) {
+    public CreateExerciseDto findExerciseById(Long exerciseId) {
         Exercise exercise = exerciseRepository.findById(exerciseId).get();
         return ExerciseMapper.INSTANCE.mapExerciseDto(exercise);
     }
 
     @Override
-    public List<ExerciseDto> findAllExercises() {
+    public List<CreateExerciseDto> findAllExercises() {
         String username = SecurityUtil.getSessionUser();
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
@@ -57,7 +57,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void editExercise(ExerciseDto exerciseDto) {
+    public void editExercise(CreateExerciseDto exerciseDto) {
         Exercise exercise = exerciseRepository.findById(exerciseDto.getId()).get();
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());

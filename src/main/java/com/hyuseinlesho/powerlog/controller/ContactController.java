@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.ContactDto;
+import com.hyuseinlesho.powerlog.dto.CreateContactDto;
 import com.hyuseinlesho.powerlog.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -23,12 +23,12 @@ public class ContactController {
 
     @GetMapping("/contact")
     public String showContactForm(Model model) {
-        model.addAttribute("contactDto", new ContactDto());
+        model.addAttribute("contactDto", new CreateContactDto());
         return "contact-form";
     }
 
     @PostMapping("/contact")
-    public String submitContactForm(@Valid @ModelAttribute("contactDto") ContactDto contactDto,
+    public String submitContactForm(@Valid @ModelAttribute("contactDto") CreateContactDto contactDto,
                                     BindingResult bindingResult,
                                     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {

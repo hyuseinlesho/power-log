@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContactDto {
+public class CreateContactDto {
 
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;

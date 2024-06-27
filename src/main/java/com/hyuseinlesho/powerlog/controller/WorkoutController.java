@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseLogDto;
-import com.hyuseinlesho.powerlog.dto.WorkoutDto;
+import com.hyuseinlesho.powerlog.dto.CreateExerciseLogDto;
+import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.Workout;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
@@ -40,21 +40,21 @@ public class WorkoutController {
 
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
-        model.addAttribute("workoutDto", new WorkoutDto());
+        model.addAttribute("workoutDto", new CreateWorkoutDto());
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
         return "workouts-create";
     }
 
     @PostMapping("/create")
     public String createWorkout(@RequestParam(required = false) Integer exerciseCount,
-                                @Valid @ModelAttribute("workoutDto") WorkoutDto workoutDto,
+                                @Valid @ModelAttribute("workoutDto") CreateWorkoutDto workoutDto,
                                 BindingResult bindingResult,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
         if (exerciseCount != null) {
-            List<ExerciseLogDto> exercises = new ArrayList<>();
+            List<CreateExerciseLogDto> exercises = new ArrayList<>();
             for (int i = 0; i < exerciseCount; i++) {
-                exercises.add(new ExerciseLogDto());
+                exercises.add(new CreateExerciseLogDto());
             }
             workoutDto.setExercises(exercises);
             model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
@@ -74,7 +74,7 @@ public class WorkoutController {
     @GetMapping("/{id}/edit")
     public String showEditWorkoutForm(@PathVariable("id") Long id,
                                       Model model) {
-        WorkoutDto workoutDto = workoutService.findWorkoutById(id);
+        CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
         return "workouts-edit";
@@ -82,7 +82,7 @@ public class WorkoutController {
 
     @PostMapping("/{id}/edit")
     public String editWorkout(@PathVariable("id") Long id,
-                              @Valid @ModelAttribute("workoutDto") WorkoutDto workoutDto,
+                              @Valid @ModelAttribute("workoutDto") CreateWorkoutDto workoutDto,
                               BindingResult bindingResult,
                               Model model,
                               RedirectAttributes redirectAttributes) {
@@ -101,7 +101,7 @@ public class WorkoutController {
     @GetMapping("/{id}/details")
     public String getWorkoutDetails(@PathVariable("id") Long id,
                                     Model model) {
-        WorkoutDto workoutDto = workoutService.findWorkoutById(id);
+        CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         return "workout-details";
     }
@@ -117,7 +117,7 @@ public class WorkoutController {
     @GetMapping("/history/search")
     public String searchWorkouts(@RequestParam("query") String query,
                                  Model model) {
-        List<WorkoutDto> workouts = workoutService.searchWorkouts(query);
+        List<CreateWorkoutDto> workouts = workoutService.searchWorkouts(query);
         model.addAttribute("workouts", workouts);
         return "workouts-history";
     }

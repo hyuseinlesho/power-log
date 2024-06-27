@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseLogDto;
-import com.hyuseinlesho.powerlog.dto.WorkoutDto;
+import com.hyuseinlesho.powerlog.dto.CreateExerciseLogDto;
+import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.UserEntity;
@@ -29,7 +29,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public void createWorkout(WorkoutDto workoutDto) {
+    public void createWorkout(CreateWorkoutDto workoutDto) {
         Workout workout = WorkoutMapper.INSTANCE.mapToWorkout(workoutDto);
         workout.setUser(getUser());
 
@@ -42,7 +42,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public WorkoutDto findWorkoutById(Long workoutId) {
+    public CreateWorkoutDto findWorkoutById(Long workoutId) {
         Workout workout = workoutRepository.findById(workoutId).get();
         return WorkoutMapper.INSTANCE.mapToWorkoutDto(workout);
     }
@@ -53,18 +53,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public void editWorkout(WorkoutDto workoutDto) {
+    public void editWorkout(CreateWorkoutDto workoutDto) {
         Workout workout = workoutRepository.findById(workoutDto.getId()).get();
         workout.setTitle(workoutDto.getTitle());
         workout.setDate(workoutDto.getDate());
 
         List<ExerciseLog> exercises = exerciseLogRepository.findAllByWorkout(workout);
-        List<ExerciseLogDto> exerciseDtos = workoutDto.getExercises();
+        List<CreateExerciseLogDto> exerciseDtos = workoutDto.getExercises();
 
         int minSize = Math.min(exercises.size(), exerciseDtos.size());
         for (int i = 0; i < minSize; i++) {
             ExerciseLog exerciseLog = exercises.get(i);
-            ExerciseLogDto exerciseDto = exerciseDtos.get(i);
+            CreateExerciseLogDto exerciseDto = exerciseDtos.get(i);
 
             exerciseLog.setName(exerciseDto.getName());
             exerciseLog.setSets(exerciseDto.getSets());
@@ -74,7 +74,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         if (exerciseDtos.size() > exercises.size()) {
             for (int i = exercises.size(); i < exerciseDtos.size(); i++) {
-                ExerciseLogDto exerciseDto = exerciseDtos.get(i);
+                CreateExerciseLogDto exerciseDto = exerciseDtos.get(i);
                 ExerciseLog newExerciseLog = new ExerciseLog();
 
                 newExerciseLog.setWorkout(workout);
@@ -98,7 +98,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<WorkoutDto> searchWorkouts(String query) {
+    public List<CreateWorkoutDto> searchWorkouts(String query) {
         String username = SecurityUtil.getSessionUser();
 
         List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);

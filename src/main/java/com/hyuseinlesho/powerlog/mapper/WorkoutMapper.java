@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.mapper;
 
-import com.hyuseinlesho.powerlog.dto.WorkoutDto;
+import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.Workout;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface WorkoutMapper {
     WorkoutMapper INSTANCE = Mappers.getMapper(WorkoutMapper.class);
 
-    Workout mapToWorkout(WorkoutDto workoutDto);
+    Workout mapToWorkout(CreateWorkoutDto workoutDto);
 
-    WorkoutDto mapToWorkoutDto(Workout workout);
+    CreateWorkoutDto mapToWorkoutDto(Workout workout);
 }

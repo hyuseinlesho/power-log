@@ -1,18 +1,17 @@
 package com.hyuseinlesho.powerlog.service;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseDto;
-import com.hyuseinlesho.powerlog.model.Exercise;
+import com.hyuseinlesho.powerlog.dto.CreateExerciseDto;
 
 import java.util.List;
 
 public interface ExerciseService {
-    void createExercise(ExerciseDto exerciseDto);
+    void createExercise(CreateExerciseDto exerciseDto);
 
-    ExerciseDto findExerciseById(Long exerciseId);
+    CreateExerciseDto findExerciseById(Long exerciseId);
 
-    List<ExerciseDto> findAllExercises();
+    List<CreateExerciseDto> findAllExercises();
 
-    void editExercise(ExerciseDto exerciseDto);
+    void editExercise(CreateExerciseDto exerciseDto);
 
     void deleteExercise(Long id);
 }

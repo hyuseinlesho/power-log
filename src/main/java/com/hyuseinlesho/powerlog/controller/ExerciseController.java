@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.ExerciseDto;
+import com.hyuseinlesho.powerlog.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
@@ -33,11 +33,11 @@ public class ExerciseController {
 
     @GetMapping("/create")
     public String showCreateExerciseForm(Model model) {
-        model.addAttribute("exerciseDto", new ExerciseDto());
+        model.addAttribute("exerciseDto", new CreateExerciseDto());
         return "exercises-create";
     }
     @PostMapping("/create")
-    public String createExercise(@Valid @ModelAttribute("exerciseDto") ExerciseDto exerciseDto,
+    public String createExercise(@Valid @ModelAttribute("exerciseDto") CreateExerciseDto exerciseDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -56,14 +56,14 @@ public class ExerciseController {
     @GetMapping("/{id}/edit")
     public String showEditExerciseForm(@PathVariable("id") Long id,
                                        Model  model) {
-        ExerciseDto exerciseDto = exerciseService.findExerciseById(id);
+        CreateExerciseDto exerciseDto = exerciseService.findExerciseById(id);
         model.addAttribute("exerciseDto", exerciseDto);
         return "exercises-edit";
     }
 
     @PostMapping("/{id}/edit")
     public String editExercise(@PathVariable("id") Long id,
-                               @Valid @ModelAttribute("exerciseDto") ExerciseDto exerciseDto,
+                               @Valid @ModelAttribute("exerciseDto") CreateExerciseDto exerciseDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {

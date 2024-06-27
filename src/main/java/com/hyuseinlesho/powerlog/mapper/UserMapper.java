@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.mapper;
 
-import com.hyuseinlesho.powerlog.dto.UserRegisterDto;
+import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    UserEntity mapToUserEntity(UserRegisterDto registerDto);
+    UserEntity mapToUserEntity(RegisterUserDto registerDto);
 }

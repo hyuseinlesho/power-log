@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.mapper;
 
-import com.hyuseinlesho.powerlog.dto.ContactDto;
+import com.hyuseinlesho.powerlog.dto.CreateContactDto;
 import com.hyuseinlesho.powerlog.model.Contact;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface ContactMapper {
     ContactMapper INSTANCE = Mappers.getMapper(ContactMapper.class);
 
-    Contact mapToContact(ContactDto contactDto);
+    Contact mapToContact(CreateContactDto contactDto);
 }

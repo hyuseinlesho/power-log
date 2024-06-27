@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class WorkoutDto {
+public class CreateWorkoutDto {
     private Long id;
 
     @NotBlank(message = "Title is required")
@@ -26,7 +26,7 @@ public class WorkoutDto {
 
     @NotNull(message = "Exercises cannot be null")
     @Valid
-    private List<ExerciseLogDto> exercises;
+    private List<CreateExerciseLogDto> exercises;
 
     @Size(max = 300, message = "Comment cannot be longer than 300 characters")
     private String comment;

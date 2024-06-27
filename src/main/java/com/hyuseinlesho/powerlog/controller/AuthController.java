@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.UserRegisterDto;
+import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.UserEntity;
 import com.hyuseinlesho.powerlog.service.UserService;
 import jakarta.validation.Valid;
@@ -21,8 +21,8 @@ public class AuthController {
     }
 
     @ModelAttribute("registerDto")
-    public UserRegisterDto registerDto() {
-        return new UserRegisterDto();
+    public RegisterUserDto registerDto() {
+        return new RegisterUserDto();
     }
 
     @GetMapping("/register")
@@ -30,7 +30,7 @@ public class AuthController {
         return "register";
     }
     @PostMapping("/register")
-    public String register(@Valid UserRegisterDto registerDto,
+    public String register(@Valid RegisterUserDto registerDto,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
