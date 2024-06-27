@@ -7,6 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+    @GetMapping("/")
+    public String showIndexPage() {
+        if (SecurityUtil.getSessionUser() != null) {
+            return "redirect:/home";
+        }
+
+        return "index";
+    }
+
     @GetMapping("/home")
     public String showHomePage(Model model) {
         model.addAttribute("user", SecurityUtil.getSessionUser());

@@ -6,51 +6,45 @@
 <head>
     <title>Login</title>
 </head>
-<body class="d-flex flex-column">
-<main class="flex-shrink-0" layout:fragment="content">
+<body>
+<main layout:fragment="content">
     <section class="py-5">
-        <div class="container px-5 my-5">
-            <!-- Success message -->
-            <div th:if="${param.success}" class="alert alert-success">
-                You are registered successfully!
-            </div>
-            <!-- Error message -->
-            <div th:if="${param.error}"
-                 class="alert alert-danger">
-                Invalid username or password.</div>
-            <!-- Logout message -->
-            <div th:if="${param.logout}"
-                 class="alert alert-success">
-                You have been logged out.
-            </div>
-            <!-- Login Form -->
-            <form th:action="@{/login}"
-                  method="post">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text"
-                           name="username"
-                           class="form-control"
-                           id="username"
-                           aria-describedby="usernameHelp"
-                           placeholder="Username">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card border-0 shadow rounded-3">
+                        <div class="card-body p-4 p-sm-5">
+                            <h2 class="text-center mb-4">Login</h2>
+                            <form th:action="@{/login}" method="post">
+                                <!-- Success message -->
+                                <div th:if="${param.success}" class="alert alert-success mb-4">
+                                    You are registered successfully!
+                                </div>
+                                <!-- Error message -->
+                                <div th:if="${param.error}" class="alert alert-danger mb-4">
+                                    Invalid username or password.
+                                </div>
+                                <!-- Logout message -->
+                                <div th:if="${param.logout}" class="alert alert-success mb-4">
+                                    You have been logged out.
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="username" class="form-control" id="username" placeholder="Username" required autofocus>
+                                    <label for="username">Username</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Login</button>
+                                    <a th:href="@{/register}" class="btn btn-secondary mt-2">Don't have an account? Register here</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password"
-                           name="password"
-                           class="form-control"
-                           id="password"
-                           placeholder="Password">
-                </div>
-                <button type="submit"
-                        value="Log in"
-                        class="btn btn-secondary">Login</button>
-                <a th:href="@{/register}"
-                   class="btn btn-light">
-                    Don't have an account already? Register Here.
-                </a>
-            </form>
+            </div>
         </div>
     </section>
 </main>
