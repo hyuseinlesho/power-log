@@ -1,0 +1,2 @@
+# Exclude the Bootstrap styles.css file from language stats
+styles.css linguist-vendored
