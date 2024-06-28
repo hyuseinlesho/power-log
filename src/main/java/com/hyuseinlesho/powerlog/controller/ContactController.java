@@ -24,7 +24,7 @@ public class ContactController {
     @GetMapping("/contact")
     public String showContactForm(Model model) {
         model.addAttribute("contactDto", new CreateContactDto());
-        return "contact-form";
+        return "/common/contact";
     }
 
     @PostMapping("/contact")
@@ -32,7 +32,7 @@ public class ContactController {
                                     BindingResult bindingResult,
                                     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "contact-form";
+            return "common/contact";
         }
 
         contactService.saveContact(contactDto);

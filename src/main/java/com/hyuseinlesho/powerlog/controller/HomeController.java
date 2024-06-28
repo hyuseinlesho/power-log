@@ -13,17 +13,17 @@ public class HomeController {
             return "redirect:/home";
         }
 
-        return "index";
+        return "/common/index";
     }
 
     @GetMapping("/home")
     public String showHomePage(Model model) {
         model.addAttribute("user", SecurityUtil.getSessionUser());
-        return "home";
+        return "/common/home";
     }
 
     @GetMapping("/about")
     public String showAboutPage() {
-        return "about";
+        return "common/about";
     }
 }

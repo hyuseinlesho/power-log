@@ -35,14 +35,14 @@ public class WorkoutController {
     public String showWorkoutHistory(Model model) {
         List<Workout> workouts = workoutService.findAllWorkouts();
         model.addAttribute("workouts", workouts);
-        return "workouts-history";
+        return "/workouts/history";
     }
 
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
         model.addAttribute("workoutDto", new CreateWorkoutDto());
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
-        return "workouts-create";
+        return "/workouts/create";
     }
 
     @PostMapping("/create")
@@ -58,12 +58,12 @@ public class WorkoutController {
             }
             workoutDto.setExercises(exercises);
             model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
-            return "workouts-create";
+            return "/workouts/create";
         }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
-            return "workouts-create";
+            return "/workouts/create";
         }
 
         workoutService.createWorkout(workoutDto);
@@ -77,7 +77,7 @@ public class WorkoutController {
         CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
-        return "workouts-edit";
+        return "/workouts/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -90,7 +90,7 @@ public class WorkoutController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
-            return "workouts-edit";
+            return "/workouts/edit";
         }
 
         workoutService.editWorkout(workoutDto);
@@ -103,7 +103,7 @@ public class WorkoutController {
                                     Model model) {
         CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
-        return "workout-details";
+        return "/workouts/details";
     }
 
     @PostMapping("/{id}/delete")
@@ -119,6 +119,6 @@ public class WorkoutController {
                                  Model model) {
         List<CreateWorkoutDto> workouts = workoutService.searchWorkouts(query);
         model.addAttribute("workouts", workouts);
-        return "workouts-history";
+        return "/workouts/history";
     }
 }

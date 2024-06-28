@@ -28,20 +28,20 @@ public class ExerciseController {
     @GetMapping()
     public String showExercisesPage(Model model) {
         model.addAttribute("exercises", exerciseService.findAllExercises());
-        return "exercises";
+        return "/exercises/list";
     }
 
     @GetMapping("/create")
     public String showCreateExerciseForm(Model model) {
         model.addAttribute("exerciseDto", new CreateExerciseDto());
-        return "exercises-create";
+        return "/exercises/create";
     }
     @PostMapping("/create")
     public String createExercise(@Valid @ModelAttribute("exerciseDto") CreateExerciseDto exerciseDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "exercises-create";
+            return "/exercises/create";
         }
 
         try {
@@ -58,7 +58,7 @@ public class ExerciseController {
                                        Model  model) {
         CreateExerciseDto exerciseDto = exerciseService.findExerciseById(id);
         model.addAttribute("exerciseDto", exerciseDto);
-        return "exercises-edit";
+        return "/exercises/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -67,7 +67,7 @@ public class ExerciseController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "exercises-edit";
+            return "/exercises/edit";
         }
 
         try {
