@@ -42,6 +42,8 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
 
     // https://mapstruct.org/documentation/installation
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
