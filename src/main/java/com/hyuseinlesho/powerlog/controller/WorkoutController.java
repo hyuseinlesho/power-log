@@ -1,8 +1,8 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.CreateExerciseLogDto;
-import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
-import com.hyuseinlesho.powerlog.model.Workout;
+import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
+import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import jakarta.validation.Valid;

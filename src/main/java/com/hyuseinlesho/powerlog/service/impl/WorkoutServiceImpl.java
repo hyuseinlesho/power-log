@@ -1,11 +1,11 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.CreateExerciseLogDto;
-import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
+import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
-import com.hyuseinlesho.powerlog.model.ExerciseLog;
-import com.hyuseinlesho.powerlog.model.UserEntity;
-import com.hyuseinlesho.powerlog.model.Workout;
+import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
+import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;

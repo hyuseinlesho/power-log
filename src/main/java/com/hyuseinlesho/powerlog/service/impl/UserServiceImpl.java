@@ -1,9 +1,9 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
+import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
-import com.hyuseinlesho.powerlog.model.Role;
-import com.hyuseinlesho.powerlog.model.UserEntity;
+import com.hyuseinlesho.powerlog.model.entity.Role;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
-import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
-import com.hyuseinlesho.powerlog.model.UserEntity;
+import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 
 public interface UserService {
     void registerUser(RegisterUserDto registerDto);

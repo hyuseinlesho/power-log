@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
-import com.hyuseinlesho.powerlog.dto.CreateWorkoutDto;
-import com.hyuseinlesho.powerlog.model.Workout;
+import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.entity.Workout;
 
 import java.util.List;
 

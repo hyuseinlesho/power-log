@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.model;
+package com.hyuseinlesho.powerlog.model.entity;
 
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import jakarta.persistence.*;

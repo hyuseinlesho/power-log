@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.CreateExerciseDto;
+import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;

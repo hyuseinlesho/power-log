@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.model;
+package com.hyuseinlesho.powerlog.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

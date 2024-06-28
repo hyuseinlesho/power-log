@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.dto.RegisterUserDto;
-import com.hyuseinlesho.powerlog.model.UserEntity;
+import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

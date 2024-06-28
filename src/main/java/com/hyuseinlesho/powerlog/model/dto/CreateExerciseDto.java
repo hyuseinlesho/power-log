@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.dto;
+package com.hyuseinlesho.powerlog.model.dto;
 
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import jakarta.validation.constraints.NotBlank;

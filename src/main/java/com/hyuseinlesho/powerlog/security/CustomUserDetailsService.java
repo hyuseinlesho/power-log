@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.security;
 
-import com.hyuseinlesho.powerlog.model.UserEntity;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

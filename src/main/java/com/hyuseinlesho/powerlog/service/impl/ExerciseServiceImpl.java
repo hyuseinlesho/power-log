@@ -1,10 +1,10 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.dto.CreateExerciseDto;
+import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
-import com.hyuseinlesho.powerlog.model.Exercise;
-import com.hyuseinlesho.powerlog.model.UserEntity;
+import com.hyuseinlesho.powerlog.model.entity.Exercise;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.ExerciseRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;

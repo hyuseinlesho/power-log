@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.dto;
+package com.hyuseinlesho.powerlog.model.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;

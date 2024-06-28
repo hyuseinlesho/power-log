@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.mapper;
 
-import com.hyuseinlesho.powerlog.dto.CreateContactDto;
-import com.hyuseinlesho.powerlog.model.Contact;
+import com.hyuseinlesho.powerlog.model.dto.CreateContactDto;
+import com.hyuseinlesho.powerlog.model.entity.Contact;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

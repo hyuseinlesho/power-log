@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.repository;
 
-import com.hyuseinlesho.powerlog.model.UserEntity;
-import com.hyuseinlesho.powerlog.model.Workout;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
+import com.hyuseinlesho.powerlog.model.entity.Workout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
