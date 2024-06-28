@@ -54,11 +54,6 @@
                 <li class="nav-item"><a class="nav-link"
                                         th:href="@{/contact}">Contact</a></li>
                 <li sec:authorize="isAuthenticated()"
-                    class="nav-item">
-                    <a class="nav-link"
-                       th:href="@{/profile}">Profile</a>
-                </li>
-                <li sec:authorize="isAuthenticated()"
                      class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
                        id="navbarDropdownWelcome"
@@ -97,6 +92,12 @@
                             <a class="dropdown-item"
                                th:href="@{/login}">Login</a>
                         </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item"
+                               th:href="@{/profile}">Profile</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()"
+                            class="dropdown-divider"></li>
                         <li sec:authorize="isAuthenticated()">
                             <a class="dropdown-item"
                                th:href="@{/logout}">Logout</a>
