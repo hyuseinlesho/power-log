@@ -12,6 +12,6 @@ import java.util.List;
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     List<Workout> findAllByUser(UserEntity user);
 
-    @Query("SELECT w FROM Workout w WHERE w.user.username = :username AND (w.title LIKE %:query% OR CAST(w.dateTime AS string) LIKE %:query%)")
+    @Query("SELECT w FROM Workout w WHERE w.user.username = :username AND (w.title LIKE %:query% OR CAST(w.date AS string) LIKE %:query% OR w.time like %:query%)")
     List<Workout> findByUserAndSearchQuery(String username, String query);
 }

@@ -56,7 +56,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void editWorkout(CreateWorkoutDto workoutDto) {
         Workout workout = workoutRepository.findById(workoutDto.getId()).get();
         workout.setTitle(workoutDto.getTitle());
-        workout.setDateTime(workoutDto.getDateTime());
+
+        workout.setDate(workoutDto.getDate());
+        workout.setTime(workoutDto.getTime());
 
         List<ExerciseLog> exercises = exerciseLogRepository.findAllByWorkout(workout);
         List<CreateExerciseLogDto> exerciseDtos = workoutDto.getExercises();

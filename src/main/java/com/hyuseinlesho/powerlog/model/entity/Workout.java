@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +17,11 @@ public class Workout extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "date_time", nullable = false)
-    private LocalDateTime dateTime;
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private String time;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

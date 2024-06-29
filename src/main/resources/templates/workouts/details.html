@@ -23,7 +23,7 @@
                             <h2 class="fw-bolder mb-1"
                                 th:text="${workoutDto.title}"></h2>
                             <div class="text-muted fst-italic"
-                                 th:text="${#temporals.format(workoutDto.dateTime, 'dd-MM-yyyy HH:mm')}"></div>
+                                 th:text="${workoutDto.getDate()} + ' at ' + ${workoutDto.time}"></div>
                         </header>
                         <section class="card-body">
                             <h3 class="fw-bolder mb-4 mt-3">Exercises</h3>

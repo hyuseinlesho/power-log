@@ -76,6 +76,21 @@
                         </li>
                     </ul>
                 </li>
+                <li sec:authorize="isAuthenticated()"
+                    class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       id="navbarDropdownTools"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">Tools</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownTools">
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{/weight}">Weight</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
                        id="navbarDropdownAccount"
@@ -94,7 +109,7 @@
                         </li>
                         <li sec:authorize="isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/profile}">Profile</a>
+                               th:href="@{/users/profile}">Profile</a>
                         </li>
                         <li sec:authorize="isAuthenticated()"
                             class="dropdown-divider"></li>

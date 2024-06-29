@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,9 +20,12 @@ public class CreateWorkoutDto {
     @Size(max = 100, message = "Title cannot be longer than 100 characters")
     private String title;
 
-    @NotNull(message = "Date and time is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dateTime;
+    @NotNull(message = "Date is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
+    @NotBlank(message = "Time is required")
+    private String time;
 
     @NotNull(message = "Exercises cannot be null")
     @Valid

@@ -7,6 +7,7 @@
     <title>Create Workout</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="/css/workouts-create-edit.css">
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -30,17 +31,30 @@
                          th:errors="*{title}"></div>
                 </div>
 
-                <!-- DateTime Field -->
-                <div class="form-group">
-                    <label for="dateTime">Date and Time</label>
-                    <input type="text"
-                           class="form-control"
-                           id="dateTime"
-                           th:field="*{dateTime}">
-                    <div class="text-danger"
-                         th:if="${#fields.hasErrors('dateTime')}"
-                         th:errors="*{dateTime}"></div>
-                </div>
+                <!-- Date and Time Fields -->
+                <section class="selectDateAndTime">
+                    <label>Date & Time</label>
+                    <!-- Date Field -->
+                    <div class="date-time">
+                        <input type="text"
+                               class="form-control"
+                               id="date"
+                               th:field="*{date}">
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('date')}"
+                             th:errors="*{date}"></div>
+                    </div>
+                    <!-- Time Field -->
+                    <div class="date-time">
+                        <input type="text"
+                               class="form-control"
+                               id="time"
+                               th:field="*{time}">
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('time')}"
+                             th:errors="*{time}"></div>
+                    </div>
+                </section>
 
                 <section class="selectExerciseCount"
                          th:if="${workoutDto.exercises == null}">
@@ -54,7 +68,7 @@
                                min="1" max="20" required>
                     </div>
                     <button type="submit"
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-primary btn-sm mt-2"
                             th:onclick="setExerciseCount()">Set
                     </button>
                 </section>
@@ -123,7 +137,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit"
-                        class="btn btn-primary"
+                        class="btn btn-primary mt-2"
                         th:if="${workoutDto.exercises != null}">Create Workout
                 </button>
             </form>
