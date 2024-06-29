@@ -15,35 +15,71 @@
                     <div class="card border-0 shadow rounded-3">
                         <div class="card-body p-4 p-sm-5">
                             <h2 class="text-center mb-4">Register</h2>
-                            <form th:action="@{/register}" method="post" th:object="${registerDto}">
+                            <form th:action="@{/register}"
+                                  method="post"
+                                  th:object="${registerDto}">
                                 <!-- Fail message -->
-                                <div th:if="${param.fail}" class="alert alert-danger mb-4">
+                                <div th:if="${param.fail}"
+                                     class="alert alert-danger mb-4">
                                     Username or email already exists!
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username" th:field="*{username}" required autofocus>
                                     <label for="inputUsername">Username</label>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputUsername"
+                                           placeholder="Username"
+                                           th:field="*{username}"
+                                           required autofocus autocomplete="username">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('username')}"
+                                         th:errors="*{username}"></div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" th:field="*{email}" required>
                                     <label for="inputEmail">Email address</label>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                    <input type="email"
+                                           class="form-control"
+                                           id="inputEmail"
+                                           placeholder="Email"
+                                           th:field="*{email}"
+                                           required>
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('email')}"
+                                         th:errors="*{email}"></div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" th:field="*{password}" required>
-                                    <label for="inputPassword">Password</label>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                                    <label for="inputPassword">Password</label>4
+                                    <input type="password"
+                                           class="form-control"
+                                           id="inputPassword"
+                                           placeholder="Password"
+                                           th:field="*{password}"
+                                           required autocomplete="new-password">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('password')}"
+                                         th:errors="*{password}"></div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm Password" th:field="*{confirmPassword}" required>
                                     <label for="inputConfirmPassword">Confirm Password</label>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="inputConfirmPassword"
+                                           placeholder="Confirm Password"
+                                           th:field="*{confirmPassword}"
+                                           required autocomplete="new-password">
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('confirmPassword')}"
+                                         th:errors="*{confirmPassword}"></div>
                                 </div>
-                                <div class="text-danger mb-3" th:if="${#fields.hasErrors('passwordsMatching')}" th:errors="*{passwordsMatching}"></div>
+                                <div class="text-danger mb-3"
+                                     th:if="${#fields.hasErrors('passwordsMatching')}"
+                                     th:errors="*{passwordsMatching}"></div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Register</button>
-                                    <a th:href="@{/login}" class="btn btn-secondary mt-2">Login here</a>
+                                    <button type="submit"
+                                            class="btn btn-primary">Register
+                                    </button>
+                                    <a th:href="@{/login}"
+                                       class="btn btn-secondary mt-2">Login here</a>
                                 </div>
                             </form>
                         </div>

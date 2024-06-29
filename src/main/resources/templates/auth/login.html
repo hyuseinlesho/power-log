@@ -15,30 +15,47 @@
                     <div class="card border-0 shadow rounded-3">
                         <div class="card-body p-4 p-sm-5">
                             <h2 class="text-center mb-4">Login</h2>
-                            <form th:action="@{/login}" method="post">
+                            <form th:action="@{/login}"
+                                  method="post">
                                 <!-- Success message -->
-                                <div th:if="${param.success}" class="alert alert-success mb-4">
+                                <div th:if="${param.success}"
+                                     class="alert alert-success mb-4">
                                     You are registered successfully!
                                 </div>
                                 <!-- Error message -->
-                                <div th:if="${param.error}" class="alert alert-danger mb-4">
+                                <div th:if="${param.error}"
+                                     class="alert alert-danger mb-4">
                                     Invalid username or password.
                                 </div>
                                 <!-- Logout message -->
-                                <div th:if="${param.logout}" class="alert alert-success mb-4">
+                                <div th:if="${param.logout}"
+                                     class="alert alert-success mb-4">
                                     You have been logged out.
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="username" class="form-control" id="username" placeholder="Username" required autofocus>
+                                    <input type="text"
+                                           name="username"
+                                           class="form-control"
+                                           id="username"
+                                           placeholder="Username"
+                                           required autofocus>
                                     <label for="username">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                                    <input type="password"
+                                           name="password"
+                                           class="form-control"
+                                           id="password"
+                                           placeholder="Password"
+                                           required autocomplete="password">
                                     <label for="password">Password</label>
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Login</button>
-                                    <a th:href="@{/register}" class="btn btn-secondary mt-2">Don't have an account? Register here</a>
+                                    <button type="submit"
+                                            class="btn btn-primary">Login
+                                    </button>
+                                    <a th:href="@{/register}"
+                                       class="btn btn-secondary mt-2">Don't have an account? Register here</a>
                                 </div>
                             </form>
                         </div>

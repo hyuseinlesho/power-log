@@ -4,18 +4,6 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-modern-business/blob/master/LICENSE)
 */
 
-document.addEventListener('DOMContentLoaded', function() {
-    flatpickr("#date", {
-        dateFormat: "Y-m-d"
-    });
-    flatpickr("#time", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true
-    });
-});
-
 function validateEmail(email) {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!email) {
