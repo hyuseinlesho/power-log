@@ -7,7 +7,6 @@
     <title>Create Workout</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link rel="stylesheet" href="/css/workouts-create-edit.css">
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -35,7 +34,7 @@
                 <section class="selectDateAndTime">
                     <label>Date & Time</label>
                     <!-- Date Field -->
-                    <div class="date-time">
+                    <div class="form-group" style="margin-bottom: 8px;">
                         <input type="text"
                                class="form-control"
                                id="date"
@@ -45,7 +44,7 @@
                              th:errors="*{date}"></div>
                     </div>
                     <!-- Time Field -->
-                    <div class="date-time">
+                    <div class="form-group">
                         <input type="text"
                                class="form-control"
                                id="time"

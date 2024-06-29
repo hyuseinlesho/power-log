@@ -16,70 +16,106 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function changeUsername() {
-    const newUsername = document.getElementById('newUsername').value;
+function validateEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!email) {
+        return 'Email is required';
+    }
+    if (!emailPattern.test(email)) {
+        return 'Invalid email format';
+    }
+    if (email.length > 50) {
+        return 'Email must be less than 50 characters';
+    }
+    return '';
+}
 
-    fetch('/users/profile/change-username', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-        },
-        body: JSON.stringify({ username: newUsername })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('username').value = newUsername;
-                $('#changeUsernameModal').modal('hide');
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+function validatePassword(oldPassword, newPassword, confirmPassword) {
+    if (!oldPassword) {
+        return 'Old password is required';
+    }
+    if (!newPassword) {
+        return 'New password is required';
+    }
+    if (newPassword.length < 8 || newPassword.length > 50) {
+        return 'New password must be between 8 and 50 characters';
+    }
+    if (!confirmPassword) {
+        return 'Password confirmation is required';
+    }
+    if (newPassword !== confirmPassword) {
+        return 'New password and confirmation do not match';
+    }
+    return '';
 }
 
 function changeEmail() {
-    const newEmail = document.getElementById('newEmail').value;
+    const newEmail = $('#newEmail').val();
+    const emailError = $('#emailError');
 
-    fetch('/users/profile/change-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-        },
-        body: JSON.stringify({ email: newEmail })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('email').value = newEmail;
+    const error = validateEmail(newEmail);
+    if (error) {
+        emailError.text(error);
+        return;
+    }
+
+    emailError.text('');
+
+    $.ajax({
+        type: 'POST',
+        url: '/users/profile/change-email',
+        contentType: 'application/json',
+        data: JSON.stringify({ email: newEmail }),
+        success: function(response) {
+            if (response.success) {
+                $('#email').val(newEmail);
                 $('#changeEmailModal').modal('hide');
             } else {
-                alert(data.message);
+                alert(response.message);
             }
-        })
-        .catch(error => console.error('Error:', error));
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            alert('An error occurred while changing email. Please try again.');
+        }
+    });
 }
 
 function changePassword() {
-    const newPassword = document.getElementById('newPassword').value;
+    const oldPassword = $('#oldPassword').val();
+    const newPassword = $('#newPassword').val();
+    const confirmPassword = $('#confirmPassword').val();
+    const passwordError = $('#passwordError');
 
-    fetch('/users/profile/change-password', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-        },
-        body: JSON.stringify({ password: newPassword })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
+    const error = validatePassword(oldPassword, newPassword, confirmPassword);
+    if (error) {
+        passwordError.text(error);
+        return;
+    }
+
+    passwordError.text('');
+
+    $.ajax({
+        type: 'POST',
+        url: '/users/profile/change-password',
+        contentType: 'application/json',
+        data: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword }),
+        success: function(response) {
+            if (response.success) {
                 $('#changePasswordModal').modal('hide');
+                alert('Password changed successfully.');
             } else {
-                alert(data.message);
+                alert(response.message);
             }
-        })
-        .catch(error => console.error('Error:', error));
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            alert('An error occurred while changing password. Please try again.');
+        }
+    });
 }
+
+$(document).ready(function() {
+    window.changeEmail = changeEmail;
+    window.changePassword = changePassword;
+});

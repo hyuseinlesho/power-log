@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
-import com.hyuseinlesho.powerlog.model.dto.UserDto;
+import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 
 public interface UserService {
@@ -10,11 +10,9 @@ public interface UserService {
     UserEntity findByEmail(String email);
 
     UserEntity findByUsername(String username);
-    UserDto getSessionUser();
-
-    boolean changeUsername(String newUsername);
+    UserProfileDto getSessionUser();
 
     boolean changeEmail(String newEmail);
 
-    boolean changePassword(String newPassword);
+    boolean changePassword(String oldPassword, String newPassword);
 }

@@ -5,8 +5,6 @@
       layout:decorate="~{layout}">
 <head>
     <title>Profile</title>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -25,10 +23,6 @@
                                    id="username"
                                    th:value="*{username}"
                                    readonly>
-                            <button type="button"
-                                    class="btn btn-sm btn-secondary ms-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#changeUsernameModal">Change</button>
                         </div>
                         <div class="form-group mb-3 d-flex align-items-center">
                             <label for="email" class="me-3">Email:</label>
@@ -60,27 +54,6 @@
         </div>
     </section>
 
-    <!-- Change Username Modal -->
-    <div class="modal fade" id="changeUsernameModal" tabindex="-1" aria-labelledby="changeUsernameModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changeUsernameModalLabel">Change Username</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="changeUsernameForm">
-                        <div class="mb-3">
-                            <label for="newUsername" class="form-label">New Username</label>
-                            <input type="text" class="form-control" id="newUsername" name="newUsername">
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="changeUsername()">Save changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Change Email Modal -->
     <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -94,6 +67,7 @@
                         <div class="mb-3">
                             <label for="newEmail" class="form-label">New Email</label>
                             <input type="email" class="form-control" id="newEmail" name="newEmail">
+                            <div class="text-danger" id="emailError"></div>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="changeEmail()">Save changes</button>
                     </form>
@@ -113,8 +87,17 @@
                 <div class="modal-body">
                     <form id="changePasswordForm">
                         <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                        </div>
+                        <div class="mb-3">
                             <label for="newPassword" class="form-label">New Password</label>
                             <input type="password" class="form-control" id="newPassword" name="newPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                            <div class="text-danger" id="passwordError"></div>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="changePassword()">Save changes</button>
                     </form>

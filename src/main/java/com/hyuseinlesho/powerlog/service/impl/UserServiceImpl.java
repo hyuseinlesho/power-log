@@ -2,7 +2,7 @@ package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
-import com.hyuseinlesho.powerlog.model.dto.UserDto;
+import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
 import com.hyuseinlesho.powerlog.model.entity.Role;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
@@ -47,22 +47,9 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     }
 
     @Override
-    public UserDto getSessionUser() {
+    public UserProfileDto getSessionUser() {
         UserEntity user = userRepository.findByUsername(SecurityUtil.getSessionUser());
         return UserMapper.INSTANCE.mapToUserDto(user);
-    }
-
-    @Override
-    public boolean changeUsername(String newUsername) {
-        UserEntity user = getCurrentUser();
-
-        if (user != null) {
-            user.setUsername(newUsername);
-            userRepository.save(user);
-            return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -79,11 +66,11 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     }
 
     @Override
-    public boolean changePassword(String newPassword) {
+    public boolean changePassword(String oldPassword, String newPassword) {
         UserEntity user = getCurrentUser();
 
-        if (user != null) {
-            user.setPassword(newPassword);
+        if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             return true;
         }
