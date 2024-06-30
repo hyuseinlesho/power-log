@@ -21,7 +21,8 @@
                            th:field="*{name}"
                            class="form-control"
                            id="formControlInput1"
-                           placeholder="e.g. Squat">
+                           placeholder="e.g. Squat"
+                           autocomplete="name">
                     <div class="text-danger"
                          th:if="${#fields.hasErrors('name')}"
                          th:errors="*{name}"></div>

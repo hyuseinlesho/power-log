@@ -78,7 +78,8 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
         return false;
     }
 
-    private UserEntity getCurrentUser() {
+    @Override
+    public UserEntity getCurrentUser() {
         return userRepository.findByUsername(SecurityUtil.getSessionUser());
     }
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Weight</title>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Flatpickr init -->
+    <script src="/js/flatpickr-init.js"></script>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <div class="container py-5">
+        <h2 class="mb-4">Weight Logs</h2>
+        <div class="row mb-3">
+            <div class="col">
+                <button type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addWeightModal">
+                    Add Weight
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Weight</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="log : ${weightLogs}">
+                        <td th:text="${log.weight}"></td>
+                        <td th:text="${log.date}"></td>
+                        <td th:text="${log.time}"></td>
+                        <td th:if="${log} != null"
+                            th:text="${log.comment}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Weight Modal -->
+    <div class="modal fade" id="addWeightModal" tabindex="-1" aria-labelledby="addWeightModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addWeightModalLabel">Add Weight</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addWeightForm">
+                        <div class="mb-3">
+                            <label for="weightValue" class="form-label">Weight (kg):</label>
+                            <input type="number"
+                                   class="form-control"
+                                   id="weightValue"
+                                   name="weightValue"
+                                   step="0.1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="weightDate" class="form-label">Date:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="weightDate"
+                                   name="weightDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="weightTime" class="form-label">Time:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="weightTime"
+                                   name="weightTime">
+                        </div>
+                        <div class="mb-3">
+                            <label for="weightComment" class="form-label">Comment:</label>
+                            <textarea class="form-control"
+                                      id="weightComment"
+                                      name="weightComment"
+                                      rows="3"></textarea>
+                            <div class="text-danger" id="weightError"></div>
+                        </div>
+                        <button type="submit"
+                                class="btn btn-primary">Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

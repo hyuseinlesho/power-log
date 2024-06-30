@@ -9,3 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
         time_24hr: true
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    flatpickr("#weightDate", {
+        dateFormat: "Y-m-d"
+    });
+    flatpickr("#weightTime", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+});

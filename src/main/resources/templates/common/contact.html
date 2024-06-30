@@ -27,36 +27,39 @@
                               method="post">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <label for="name">Name</label>
                                 <input class="form-control"
                                        id="name"
                                        type="text"
                                        placeholder="Enter your name..."
-                                       th:field="*{name}"/>
+                                       th:field="*{name}"
+                                       autocomplete="name"/>
+                                <label for="name">Name</label>
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('name')}"
                                      th:errors="*{name}"></div>
                             </div>
                             <!-- Email address input-->
                             <div class="form-floating mb-3">
-                                <label for="email">Email address</label>
                                 <input class="form-control"
                                        id="email"
                                        type="email"
                                        placeholder="name@example.com"
-                                       th:field="*{email}"/>
+                                       th:field="*{email}"
+                                       autocomplete="email"/>
+                                <label for="email">Email address</label>
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('email')}"
                                      th:errors="*{email}"></div>
                             </div>
                             <!-- Message input-->
                             <div class="form-floating mb-3">
-                                <label for="message">Message</label>
                                 <textarea class="form-control"
                                           id="message"
                                           placeholder="Enter your message here..."
                                           style="height: 10rem"
-                                          th:field="*{message}"></textarea>
+                                          th:field="*{message}"
+                                          autocomplete="off"></textarea>
+                                <label for="message">Message</label>
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('message')}"
                                      th:errors="*{message}"></div>

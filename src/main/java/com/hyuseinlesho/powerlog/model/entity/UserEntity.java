@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,6 +39,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL)
     private Set<Exercise> exercises;
+
+    @OneToMany(mappedBy = "user")
+    private List<WeightLog> weightLogs;
 
     public UserEntity() {
         this.roles = new HashSet<>();
