@@ -82,9 +82,10 @@
                     <h4>Exercise <span th:text="${iterStat.index + 1}"></span></h4>
                     <div class="form-group">
                         <label th:for="'exerciseSelect' + ${iterStat.index}">Exercise</label>
-                        <select class="form-control"
+                        <select class="form-control exercise-select"
                                 th:id="'exerciseSelect' + ${iterStat.index}"
-                                th:field="*{exercises[__${iterStat.index}__].name}">
+                                th:field="*{exercises[__${iterStat.index}__].name}"
+                                data-index="${iterStat.index}">
                             <option value="" selected disabled>Select Exercise</option>
                             <option th:each="exerciseOption : ${exerciseOptions}"
                                     th:value="${exerciseOption.name}"
@@ -93,6 +94,11 @@
                         <div class="text-danger"
                              th:if="${#fields.hasErrors('exercises[' + iterStat.index + '].name')}"
                              th:errors="*{exercises[__${iterStat.index}__].name}"></div>
+                        <button type="button"
+                                class="btn btn-link"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addNewExerciseModal">Or add new exercise
+                        </button>
                     </div>
                     <div class="form-group">
                         <label th:for="'sets' + ${iterStat.index}">Sets</label>
@@ -146,6 +152,48 @@
             </form>
         </div>
     </section>
+
+    <!-- Add New Exercise Modal -->
+    <div class="modal fade" id="addNewExerciseModal" tabindex="-1" aria-labelledby="addNewExerciseModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewExerciseModalLabel">Add New Exercise</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNewExerciseForm">
+                        <div class="mb-3">
+                            <label for="exerciseName" class="form-label">Name:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="exerciseName"
+                                   name="exerciseName"
+                                   placeholder="e.g. Squat">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exerciseType" class="form-label">Select type:</label>
+                            <select class="form-control"
+                                    id="exerciseType"
+                                    name="exerciseType">
+                                <option>Strength</option>
+                                <option>Cardio</option>
+                            </select>
+                            <div class="text-danger" id="exerciseError"></div>
+                        </div>
+                        <button type="button"
+                                class="btn btn-primary"
+                                onclick="addNewExercise()">Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 </html>

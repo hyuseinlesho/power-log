@@ -3,6 +3,7 @@ package com.hyuseinlesho.powerlog.controller;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
+import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import jakarta.validation.Valid;
@@ -42,6 +43,7 @@ public class WorkoutController {
     public String showCreateWorkoutForm(Model model) {
         model.addAttribute("workoutDto", new CreateWorkoutDto());
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/workouts/create";
     }
 
@@ -77,6 +79,7 @@ public class WorkoutController {
         CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
         model.addAttribute("workoutDto", workoutDto);
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/workouts/edit";
     }
 

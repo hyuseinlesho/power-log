@@ -18,25 +18,6 @@ function validateEmail(email) {
     return '';
 }
 
-function validatePassword(oldPassword, newPassword, confirmPassword) {
-    if (!oldPassword) {
-        return 'Old password is required';
-    }
-    if (!newPassword) {
-        return 'New password is required';
-    }
-    if (newPassword.length < 8 || newPassword.length > 50) {
-        return 'New password must be between 8 and 50 characters';
-    }
-    if (!confirmPassword) {
-        return 'Password confirmation is required';
-    }
-    if (newPassword !== confirmPassword) {
-        return 'New password and confirmation do not match';
-    }
-    return '';
-}
-
 function changeEmail() {
     const newEmail = $('#newEmail').val();
     const emailError = $('#emailError');
@@ -67,6 +48,29 @@ function changeEmail() {
             alert('An error occurred while changing email. Please try again.');
         }
     });
+}
+
+$(document).ready(function() {
+    window.changeEmail = changeEmail;
+});
+
+function validatePassword(oldPassword, newPassword, confirmPassword) {
+    if (!oldPassword) {
+        return 'Old password is required';
+    }
+    if (!newPassword) {
+        return 'New password is required';
+    }
+    if (newPassword.length < 8 || newPassword.length > 50) {
+        return 'New password must be between 8 and 50 characters';
+    }
+    if (!confirmPassword) {
+        return 'Password confirmation is required';
+    }
+    if (newPassword !== confirmPassword) {
+        return 'New password and confirmation do not match';
+    }
+    return '';
 }
 
 function changePassword() {
@@ -104,6 +108,61 @@ function changePassword() {
 }
 
 $(document).ready(function() {
-    window.changeEmail = changeEmail;
     window.changePassword = changePassword;
+});
+
+function validateExercise(name, type) {
+    if (!name) {
+        return 'Name is required';
+    }
+    if (!type) {
+        return 'Name is required';
+    }
+    return '';
+}
+
+function addNewExercise() {
+    const exerciseName = $('#exerciseName').val().trim();
+    const exerciseType = $('#exerciseType').val();
+    const exerciseError = $('#exerciseError');
+
+    const error = validateExercise(exerciseName, exerciseType);
+    if (error) {
+        exerciseError.text(error);
+        return;
+    }
+
+    exerciseError.text('');
+
+    $.ajax({
+        type: 'POST',
+        url: '/exercises/add-new',
+        contentType: 'application/json',
+        data: JSON.stringify({ name: exerciseName, type: exerciseType }),
+        success: function(response) {
+            if (response.success) {
+                const newOption = $('<option></option>')
+                    .val(exerciseName)
+                    .text(exerciseName);
+
+                $('.exercise-select').each(function() {
+                    $(this).append(newOption.clone());
+                });
+
+                $('#addNewExerciseModal').modal('hide');
+                $('#exerciseName').val('');
+                $('#exerciseType').val('');
+            } else {
+                exerciseError.text(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            exerciseError.text('An error occurred while adding new exercise. Please try again.');
+        }
+    });
+}
+
+$(document).ready(function() {
+    window.addNewExercise = addNewExercise;
 });
