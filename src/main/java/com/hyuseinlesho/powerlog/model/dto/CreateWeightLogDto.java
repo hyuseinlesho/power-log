@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class CreateWeightLogDto {
-    private Long id;
 
     @NotNull(message = "Weight is required")
     @Positive(message = "Weight must be a positive number")

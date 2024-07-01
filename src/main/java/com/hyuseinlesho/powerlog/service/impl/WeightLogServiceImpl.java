@@ -33,12 +33,12 @@ public class WeightLogServiceImpl implements WeightLogService {
     }
 
     @Override
-    public void addWeightLog(CreateWeightLogDto weightLogDto) {
+    public WeightLog createWeightLog(CreateWeightLogDto weightLogDto) {
         UserEntity currentUser = userService.getCurrentUser();
 
         WeightLog weightLog = WeightLogMapper.INSTANCE.mapToWeightLog(weightLogDto);
         weightLog.setUser(currentUser);
 
-        weightLogRepository.save(weightLog);
+        return weightLogRepository.save(weightLog);
     }
 }
