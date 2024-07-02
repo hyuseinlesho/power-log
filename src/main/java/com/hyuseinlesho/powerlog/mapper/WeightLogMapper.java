@@ -14,5 +14,6 @@ public interface WeightLogMapper {
     WeightLog mapToWeightLog(CreateWeightLogDto weightLogDto);
 
     WeightLogDto mapToWeightLogDto(WeightLog weightLog);
+
     WeightLogResponseDto mapToWeightLogResponseDto(WeightLog weightLog);
 }

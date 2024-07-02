@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateExerciseDto {
+public class UpdateExerciseDto {
 
     @NotBlank(message = "Name is required")
     public String name;

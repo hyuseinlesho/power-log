@@ -3,6 +3,8 @@ package com.hyuseinlesho.powerlog.service.impl;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
+import com.hyuseinlesho.powerlog.model.dto.ExerciseDto;
+import com.hyuseinlesho.powerlog.model.dto.UpdateExerciseDto;
 import com.hyuseinlesho.powerlog.model.entity.Exercise;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
@@ -28,39 +30,39 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void createExercise(CreateExerciseDto exerciseDto) {
+    public Exercise createExercise(CreateExerciseDto exerciseDto) {
         Exercise exercise = ExerciseMapper.INSTANCE.mapToExercise(exerciseDto);
 
         String username = SecurityUtil.getSessionUser();
-
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
+
         if (exercises.contains(exercise)) {
             throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
         }
+
         exercise.setUser(getUser());
-        
-        exerciseRepository.save(exercise);
+        return exerciseRepository.save(exercise);
     }
 
     @Override
     public CreateExerciseDto findExerciseById(Long exerciseId) {
         Exercise exercise = exerciseRepository.findById(exerciseId).get();
-        return ExerciseMapper.INSTANCE.mapExerciseDto(exercise);
+        return ExerciseMapper.INSTANCE.mapToCreateExerciseDto(exercise);
     }
 
     @Override
-    public List<CreateExerciseDto> findAllExercises() {
+    public List<ExerciseDto> findAllExercises() {
         String username = SecurityUtil.getSessionUser();
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
         return exercises.stream()
-                .map(ExerciseMapper.INSTANCE::mapExerciseDto)
+                .map(ExerciseMapper.INSTANCE::mapToExerciseDto)
                 .toList();
     }
 
     @Override
-    public void editExercise(CreateExerciseDto exerciseDto) {
-        Exercise exercise = exerciseRepository.findById(exerciseDto.getId()).get();
+    public Exercise updateExercise(Long id, UpdateExerciseDto exerciseDto) {
+        Exercise exercise = exerciseRepository.findById(id).get();
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
@@ -71,7 +73,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
         }
 
-        exerciseRepository.save(exercise);
+        return exerciseRepository.save(exercise);
     }
 
     @Override

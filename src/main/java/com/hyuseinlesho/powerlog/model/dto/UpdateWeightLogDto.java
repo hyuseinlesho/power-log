@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class UpdateWeightLogDto {
+
     @NotNull(message = "Weight is required")
     @Positive(message = "Weight must be a positive number")
     private Double weight;
