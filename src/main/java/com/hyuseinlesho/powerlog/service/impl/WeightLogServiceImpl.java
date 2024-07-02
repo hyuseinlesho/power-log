@@ -23,7 +23,7 @@ public class WeightLogServiceImpl implements WeightLogService {
     }
 
     @Override
-    public List<WeightLogDto> getWeightLogs() {
+    public List<WeightLogDto> findAllWeightLogs() {
         UserEntity currentUser = userService.getCurrentUser();
         List<WeightLog> weightLogs = weightLogRepository.findAllByUser(currentUser);
 

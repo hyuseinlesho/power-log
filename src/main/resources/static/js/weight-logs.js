@@ -1,19 +1,22 @@
 $(document).ready(function() {
+    flatpickr("#weightDate", {
+        dateFormat: "Y-m-d"
+    });
+    flatpickr("#weightTime", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
     $('#addWeightForm').submit(function(event) {
         event.preventDefault();
-        console.log("Form submitted");
         clearErrors();
+        disableSubmitButton(true);
         const formData = JSON.stringify(getFormData($(this)));
         createWeightLog(formData);
     });
 });
-
-function clearErrors() {
-    $('#weightError').text('');
-    $('#dateError').text('');
-    $('#timeError').text('');
-    $('#commentError').text('');
-}
 
 function getFormData($form) {
     let unindexed_array = $form.serializeArray();
@@ -32,19 +35,26 @@ function createWeightLog(formData) {
         method: 'POST',
         data: formData,
         contentType: 'application/json',
-        success: function () {
+        success: function (response) {
             $('#addWeightModal').modal('hide');
-            alert('Weight added successfully');
+            appendWeightLog(response);
         },
         error: function (jqXHR) {
+            disableSubmitButton(false);
             if (jqXHR.status === 400) {
-                let errors = jqXHR.responseJSON;
-                displayErrors(errors);
+                displayErrors(jqXHR.responseJSON);
             } else {
                 alert('Error adding weight');
             }
         }
     });
+}
+
+function clearErrors() {
+    $('#weightError').text('');
+    $('#dateError').text('');
+    $('#timeError').text('');
+    $('#commentError').text('');
 }
 
 function displayErrors(errors) {
@@ -60,4 +70,17 @@ function displayErrors(errors) {
     if (errors.comment) {
         $('#commentError').text(errors.comment);
     }
+}
+
+function appendWeightLog(log) {
+    let tbody = $('#weightLogsTableBody');
+    tbody.append('<tr><td>' + log.weight + '</td>'
+        + '<td>' + log.date + '</td>'
+        + '<td>' + log.time + '</td>'
+        + '<td>' + (log.comment || '') + '</td></tr>');
+    disableSubmitButton(false);
+}
+
+function disableSubmitButton(disable) {
+    $('#addWeightForm button[type="submit"]').prop('disabled', disable);
 }

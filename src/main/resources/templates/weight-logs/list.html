@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Flatpickr init -->
-    <script th:src="@{/js/flatpickr-init.js}"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/weight-logs.js}"></script>
@@ -18,13 +16,12 @@
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
     <div class="container py-5">
-        <h2 class="mb-4">Weight Logs</h2>
+        <h2 class="mb-4">Weight Log</h2>
         <div class="row mb-3">
             <div class="col">
                 <button class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#addWeightModal">
-                    Add Weight
+                        data-bs-target="#addWeightModal">Add Weight
                 </button>
             </div>
         </div>
@@ -39,12 +36,12 @@
                         <th>Comment</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="weightLogsTableBody">
                     <tr th:each="log : ${weightLogs}">
                         <td th:text="${log.weight}"></td>
                         <td th:text="${log.date}"></td>
                         <td th:text="${log.time}"></td>
-                        <td th:if="${log} != null"
+                        <td th:if="${log.comment != null}"
                             th:text="${log.comment}"></td>
                     </tr>
                     </tbody>
@@ -54,7 +51,8 @@
     </div>
 
     <!-- Add Weight Modal -->
-    <div class="modal fade" id="addWeightModal" tabindex="-1" role="dialog" aria-labelledby="addWeightModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addWeightModal" tabindex="-1" role="dialog" aria-labelledby="addWeightModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -72,7 +70,8 @@
                                    class="form-control"
                                    id="weightValue"
                                    name="weight"
-                                   step="0.1">
+                                   step="0.1"
+                                   required>
                             <div class="text-danger" id="weightError"></div>
                         </div>
                         <div class="mb-3">

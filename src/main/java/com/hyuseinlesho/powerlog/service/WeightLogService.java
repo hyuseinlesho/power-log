@@ -7,6 +7,6 @@ import com.hyuseinlesho.powerlog.model.entity.WeightLog;
 import java.util.List;
 
 public interface WeightLogService {
-    List<WeightLogDto> getWeightLogs();
+    List<WeightLogDto> findAllWeightLogs();
     WeightLog createWeightLog(CreateWeightLogDto weightLogDto);
 }

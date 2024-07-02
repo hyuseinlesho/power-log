@@ -1,6 +1,8 @@
 package com.hyuseinlesho.powerlog.controller;
 
+import com.hyuseinlesho.powerlog.mapper.WeightLogMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateWeightLogDto;
+import com.hyuseinlesho.powerlog.model.dto.WeightLogResponseDto;
 import com.hyuseinlesho.powerlog.model.entity.WeightLog;
 import com.hyuseinlesho.powerlog.service.WeightLogService;
 import jakarta.validation.Valid;
@@ -37,6 +39,8 @@ public class WeightLogRestController {
         }
 
         WeightLog created = weightLogService.createWeightLog(weightLogDto);
-        return ResponseEntity.ok(created);
+        WeightLogResponseDto response = WeightLogMapper.INSTANCE.mapToWeightLogResponseDto(created);
+
+        return ResponseEntity.ok(response);
     }
 }
