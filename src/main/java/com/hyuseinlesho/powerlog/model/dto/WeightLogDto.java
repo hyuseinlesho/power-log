@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class WeightLogDto {
+    private Long id;
     private Double weight;
     private LocalDate date;
     private String time;

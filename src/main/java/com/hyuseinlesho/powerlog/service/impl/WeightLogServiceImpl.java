@@ -2,6 +2,7 @@ package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.mapper.WeightLogMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateWeightLogDto;
+import com.hyuseinlesho.powerlog.model.dto.UpdateWeightLogDto;
 import com.hyuseinlesho.powerlog.model.dto.WeightLogDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.entity.WeightLog;
@@ -40,5 +41,22 @@ public class WeightLogServiceImpl implements WeightLogService {
         weightLog.setUser(currentUser);
 
         return weightLogRepository.save(weightLog);
+    }
+
+    @Override
+    public WeightLog updateWeightLog(Long id, UpdateWeightLogDto weightLogDto) {
+        WeightLog weightLog = weightLogRepository.findById(id).get();
+
+        weightLog.setWeight(weightLogDto.getWeight());
+        weightLog.setDate(weightLogDto.getDate());
+        weightLog.setTime(weightLogDto.getTime());
+        weightLog.setComment(weightLogDto.getComment());
+
+        return weightLogRepository.save(weightLog);
+    }
+
+    @Override
+    public void deleteWeightLog(Long id) {
+        weightLogRepository.deleteById(id);
     }
 }
