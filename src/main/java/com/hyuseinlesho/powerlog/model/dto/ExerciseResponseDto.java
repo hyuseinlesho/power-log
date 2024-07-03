@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.model.dto;
 
+import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +9,5 @@ import lombok.Setter;
 public class ExerciseResponseDto {
     private Long id;
     private String name;
-    private String description;
+    private ExerciseType type;
 }

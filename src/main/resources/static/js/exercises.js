@@ -44,6 +44,7 @@ function createExercise(formData) {
         success: function (response) {
             $('#addExerciseModal').modal('hide');
             appendExercise(response);
+            $('#addExerciseForm')[0].reset();
         },
         error: function (jqXHR) {
             disableSubmitButton(false);
@@ -99,10 +100,8 @@ function deleteExercise(exerciseId) {
 function updateListItem(exerciseId, exercise) {
     let item = $(`a[data-id="${exerciseId}"]`);
     item.data('name', exercise.name);
-    item.data('type', exercise.type);
 
-    item.find('a').eq(0).text(exercise.name);
-    item.find('a').eq(1).text(exercise.type);
+    item.find('span').text(exercise.name);
 }
 
 function clearErrors(prefix) {
