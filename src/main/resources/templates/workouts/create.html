@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Flatpickr init -->
-    <script th:src="@{/js/flatpickr-init.js}"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/workouts.js}"></script>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -154,9 +155,9 @@
     </section>
 
     <!-- Add New Exercise Modal -->
-    <div class="modal fade" id="addNewExerciseModal" tabindex="-1" aria-labelledby="addNewExerciseModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="addNewExerciseModal" tabindex="-1" role="dialog"
+         aria-labelledby="addNewExerciseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addNewExerciseModalLabel">Add New Exercise</h5>
@@ -172,22 +173,24 @@
                             <input type="text"
                                    class="form-control"
                                    id="exerciseName"
-                                   name="exerciseName"
-                                   placeholder="e.g. Squat">
+                                   name="name"
+                                   placeholder="e.g. Squat"
+                                   autocomplete="name"
+                                   required>
+                            <div class="text-danger" id="nameError"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exerciseType" class="form-label">Select type:</label>
+                            <label for="exerciseType" class="form-label">Type:</label>
                             <select class="form-control"
                                     id="exerciseType"
-                                    name="exerciseType">
+                                    name="type">
                                 <option>Strength</option>
                                 <option>Cardio</option>
                             </select>
-                            <div class="text-danger" id="exerciseError"></div>
+                            <div class="text-danger" id="typeError"></div>
                         </div>
-                        <button type="button"
-                                class="btn btn-primary"
-                                onclick="addNewExercise()">Save
+                        <button type="submit"
+                                class="btn btn-primary">Add
                         </button>
                     </form>
                 </div>

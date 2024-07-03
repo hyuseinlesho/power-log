@@ -64,6 +64,7 @@ function createWeightLog(formData) {
         success: function (response) {
             $('#addWeightLogModal').modal('hide');
             appendWeightLog(response);
+            $('#addWeightLogForm')[0].reset();
         },
         error: function (jqXHR) {
             disableSubmitButton(false);
