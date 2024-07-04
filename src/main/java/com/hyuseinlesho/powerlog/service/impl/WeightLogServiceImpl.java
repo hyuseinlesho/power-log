@@ -24,16 +24,6 @@ public class WeightLogServiceImpl implements WeightLogService {
     }
 
     @Override
-    public List<WeightLogDto> findAllWeightLogs() {
-        UserEntity currentUser = userService.getCurrentUser();
-        List<WeightLog> weightLogs = weightLogRepository.findAllByUser(currentUser);
-
-        return weightLogs.stream()
-                .map(WeightLogMapper.INSTANCE::mapToWeightLogDto)
-                .toList();
-    }
-
-    @Override
     public WeightLog createWeightLog(CreateWeightLogDto weightLogDto) {
         UserEntity currentUser = userService.getCurrentUser();
 
@@ -41,6 +31,15 @@ public class WeightLogServiceImpl implements WeightLogService {
         weightLog.setUser(currentUser);
 
         return weightLogRepository.save(weightLog);
+    }
+
+    @Override
+    public List<WeightLogDto> findAllWeightLogs() {
+        List<WeightLog> weightLogs = weightLogRepository.findAllByUser(userService.getCurrentUser());
+
+        return weightLogs.stream()
+                .map(WeightLogMapper.INSTANCE::mapToWeightLogDto)
+                .toList();
     }
 
     @Override

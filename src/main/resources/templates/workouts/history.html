@@ -8,7 +8,6 @@
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
-    <!-- Page content-->
     <section class="py-5">
         <div class="container px-5 my-5">
             <div class="text-center mb-5">
@@ -37,7 +36,6 @@
                 </form>
             </div>
             <div class="row gx-5">
-                <!-- Loop through the workouts and display each one -->
                 <div th:each="workout : ${workouts}"
                      class="col-lg-12 mb-5">
                     <div class="card">

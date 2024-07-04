@@ -47,12 +47,6 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     }
 
     @Override
-    public UserProfileDto getSessionUser() {
-        UserEntity user = userRepository.findByUsername(SecurityUtil.getSessionUser());
-        return UserMapper.INSTANCE.mapToUserDto(user);
-    }
-
-    @Override
     public boolean changeEmail(String newEmail) {
         UserEntity user = getCurrentUser();
 
@@ -79,7 +73,14 @@ public class UserServiceImpl implements com.hyuseinlesho.powerlog.service.UserSe
     }
 
     @Override
+    public UserProfileDto getSessionUser() {
+        UserEntity user = userRepository.findByUsername(SecurityUtil.getSessionUser());
+        return UserMapper.INSTANCE.mapToUserDto(user);
+    }
+
+    @Override
     public UserEntity getCurrentUser() {
-        return userRepository.findByUsername(SecurityUtil.getSessionUser());
+        String username = SecurityUtil.getSessionUser();
+        return userRepository.findByUsername(username);
     }
 }

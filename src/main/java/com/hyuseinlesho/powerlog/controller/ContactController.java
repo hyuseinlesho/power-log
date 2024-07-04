@@ -13,8 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ContactController {
-    private static final String CONTACT_MESSAGE_SUCCESS = "Thank you for your message! We'll get back to you soon.";
-
     private final ContactService contactService;
 
     public ContactController(ContactService contactService) {
@@ -36,7 +34,8 @@ public class ContactController {
         }
 
         contactService.saveContact(contactDto);
-        redirectAttributes.addFlashAttribute("message", CONTACT_MESSAGE_SUCCESS);
+        redirectAttributes.addFlashAttribute("message",
+                "Thank you for your message! We'll get back to you soon.");
         return "redirect:/contact";
     }
 }

@@ -10,7 +10,6 @@ import lombok.Setter;
 public class CreateExerciseLogDto {
     private Long id;
 
-
     @NotBlank(message = "Exercise is required")
     private String name;
 

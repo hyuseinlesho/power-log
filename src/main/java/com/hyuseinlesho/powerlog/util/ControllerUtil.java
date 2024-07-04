@@ -1,23 +1,23 @@
 package com.hyuseinlesho.powerlog.util;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ControllerUtil {
 
-    public static ResponseEntity<Map<String, Object>> handleValidationErrors(BindingResult bindingResult) {
-        Map<String, Object> response = new HashMap<>();
-
+    public static ResponseEntity<?> validateRequest(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            response.put("success", false);
-            response.put("message", Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
-            return ResponseEntity.badRequest().body(response);
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-
         return null;
     }
 }

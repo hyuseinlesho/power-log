@@ -11,11 +11,11 @@ public interface UserService {
 
     UserEntity findByUsername(String username);
 
-    UserProfileDto getSessionUser();
-
     boolean changeEmail(String newEmail);
 
     boolean changePassword(String oldPassword, String newPassword);
+
+    UserProfileDto getSessionUser();
 
     UserEntity getCurrentUser();
 }

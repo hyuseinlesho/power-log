@@ -4,12 +4,12 @@ import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
-import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;
+import com.hyuseinlesho.powerlog.service.UserService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +20,20 @@ import java.util.stream.Collectors;
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ExerciseLogRepository exerciseLogRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseLogRepository exerciseLogRepository, UserRepository userService) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseLogRepository exerciseLogRepository, UserService userService, UserRepository userRepository) {
         this.workoutRepository = workoutRepository;
         this.exerciseLogRepository = exerciseLogRepository;
-        this.userRepository = userService;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void createWorkout(CreateWorkoutDto workoutDto) {
         Workout workout = WorkoutMapper.INSTANCE.mapToWorkout(workoutDto);
-        workout.setUser(getUser());
+        workout.setUser(userService.getCurrentUser());
 
         List<ExerciseLog> exercises = workout.getExercises();
         for (ExerciseLog exercise : exercises) {
@@ -49,7 +51,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public List<Workout> findAllWorkouts() {
-        return workoutRepository.findAllByUser(getUser());
+        return workoutRepository.findAllByUser(userService.getCurrentUser());
     }
 
     @Override
@@ -107,10 +109,5 @@ public class WorkoutServiceImpl implements WorkoutService {
         return workouts.stream()
                 .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
                 .collect(Collectors.toList());
-    }
-
-    private UserEntity getUser() {
-        String username = SecurityUtil.getSessionUser();
-        return userRepository.findByUsername(username);
     }
 }

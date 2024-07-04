@@ -18,7 +18,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public void saveContact(CreateContactDto contactDto) {
         Contact contact = ContactMapper.INSTANCE.mapToContact(contactDto);
-
         contactRepository.save(contact);
     }
 }

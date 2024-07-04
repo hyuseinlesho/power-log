@@ -1,14 +1,16 @@
-package com.hyuseinlesho.powerlog.controller;
+package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.model.dto.ChangeEmailDto;
 import com.hyuseinlesho.powerlog.model.dto.ChangePasswordDto;
 import com.hyuseinlesho.powerlog.service.UserService;
+import com.hyuseinlesho.powerlog.util.ControllerUtil;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class UserProfileController {
     @PostMapping("/change-email")
     public ResponseEntity<?> changeEmail(@Valid @RequestBody ChangeEmailDto emailDto,
                                          BindingResult bindingResult) {
-        ResponseEntity<?> errorResponse = validateRequest(bindingResult);
+        ResponseEntity<?> errorResponse = ControllerUtil.validateRequest(bindingResult);
         if (errorResponse != null) {
             return errorResponse;
         }
@@ -40,7 +42,7 @@ public class UserProfileController {
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDto passwordDto,
                                             BindingResult bindingResult) {
-        ResponseEntity<?> errorResponse = validateRequest(bindingResult);
+        ResponseEntity<?> errorResponse = ControllerUtil.validateRequest(bindingResult);
         if (errorResponse != null) {
             return errorResponse;
         }
@@ -56,16 +58,5 @@ public class UserProfileController {
         response.put("success", success);
         response.put("message", success ? "Password changed successfully." : "Old password isn't correct");
         return ResponseEntity.ok(response);
-    }
-
-    private ResponseEntity<?> validateRequest(BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errors.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-        return null;
     }
 }

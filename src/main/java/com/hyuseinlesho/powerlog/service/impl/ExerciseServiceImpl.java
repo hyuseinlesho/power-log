@@ -6,12 +6,12 @@ import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
 import com.hyuseinlesho.powerlog.model.dto.ExerciseDto;
 import com.hyuseinlesho.powerlog.model.dto.UpdateExerciseDto;
 import com.hyuseinlesho.powerlog.model.entity.Exercise;
-import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.repository.ExerciseRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
+import com.hyuseinlesho.powerlog.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +20,12 @@ import java.util.Optional;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, UserRepository userRepository) {
+    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, UserService userService, UserRepository userRepository) {
         this.exerciseRepository = exerciseRepository;
+        this.userService = userService;
         this.userRepository = userRepository;
     }
 
@@ -31,15 +33,28 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Exercise createExercise(CreateExerciseDto exerciseDto) {
         Exercise exercise = ExerciseMapper.INSTANCE.mapToExercise(exerciseDto);
 
-        String username = SecurityUtil.getSessionUser();
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
-
+        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
         if (exercises.contains(exercise)) {
             throw new ExerciseAlreadyExistsException();
         }
 
-        exercise.setUser(getUser());
+        exercise.setUser(userService.getCurrentUser());
         return exerciseRepository.save(exercise);
+    }
+
+    @Override
+    public boolean addNewExercise(String name, ExerciseType type) {
+        Optional<Exercise> optional = exerciseRepository.findByNameAndType(name, type);
+
+        if (optional.isEmpty()) {
+            Exercise exercise = new Exercise();
+            exercise.setName(name);
+            exercise.setType(type);
+            exercise.setUser(userService.getCurrentUser());
+            exerciseRepository.save(exercise);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -50,9 +65,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<ExerciseDto> findAllExercises() {
-        String username = SecurityUtil.getSessionUser();
-
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
+        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
         return exercises.stream()
                 .map(ExerciseMapper.INSTANCE::mapToExerciseDto)
                 .toList();
@@ -64,9 +77,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
-        String username = SecurityUtil.getSessionUser();
-
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
+        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
         if (exercises.contains(exercise)) {
             throw new ExerciseAlreadyExistsException();
         }
@@ -77,27 +88,5 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteExercise(Long id) {
         exerciseRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean addNewExercise(String name, ExerciseType type) {
-        Optional<Exercise> optional = exerciseRepository.findByNameAndType(name, type);
-
-        if (optional.isEmpty()) {
-            Exercise exercise = new Exercise();
-            exercise.setName(name);
-            exercise.setType(type);
-            exercise.setUser(getUser());
-
-            exerciseRepository.save(exercise);
-            return true;
-        }
-
-        return false;
-    }
-
-    private UserEntity getUser() {
-        String username = SecurityUtil.getSessionUser();
-        return userRepository.findByUsername(username);
     }
 }

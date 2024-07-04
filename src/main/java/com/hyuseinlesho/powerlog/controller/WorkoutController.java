@@ -19,11 +19,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/workouts")
 public class WorkoutController {
-
-    public static final String CREATE_SUCCESS_MESSAGE = "Workout created successfully!";
-    public static final String UPDATE_SUCCESS_MESSAGE = "Workout updated successfully!";
-    public static final String DELETE_SUCCESS_MESSAGE = "Workout deleted successfully!";
-
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
 
@@ -69,7 +64,8 @@ public class WorkoutController {
         }
 
         workoutService.createWorkout(workoutDto);
-        redirectAttributes.addFlashAttribute("successMessage", CREATE_SUCCESS_MESSAGE);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Workout created successfully!");
         return "redirect:/workouts/history";
     }
 
@@ -97,7 +93,8 @@ public class WorkoutController {
         }
 
         workoutService.editWorkout(workoutDto);
-        redirectAttributes.addFlashAttribute("successMessage", UPDATE_SUCCESS_MESSAGE);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Workout updated successfully!");
         return "redirect:/workouts/{id}/details";
     }
 
@@ -113,7 +110,8 @@ public class WorkoutController {
     public String deleteWorkout(@PathVariable("id") Long id,
                                 RedirectAttributes redirectAttributes) {
         workoutService.deleteWorkout(id);
-        redirectAttributes.addFlashAttribute("successMessage", DELETE_SUCCESS_MESSAGE);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Workout deleted successfully!");
         return "redirect:/workouts/history";
     }
 

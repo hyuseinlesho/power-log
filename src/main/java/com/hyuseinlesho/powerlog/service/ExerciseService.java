@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ExerciseService {
     Exercise createExercise(CreateExerciseDto exerciseDto);
+    boolean addNewExercise(String name, ExerciseType type);
 
     CreateExerciseDto findExerciseById(Long exerciseId);
 
@@ -18,6 +19,4 @@ public interface ExerciseService {
     Exercise updateExercise(Long id, UpdateExerciseDto exerciseDto);
 
     void deleteExercise(Long id);
-
-    boolean addNewExercise(String name, ExerciseType type);
 }
