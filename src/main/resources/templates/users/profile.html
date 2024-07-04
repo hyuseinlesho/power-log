@@ -5,7 +5,6 @@
       layout:decorate="~{layout}">
 <head>
     <title>Profile</title>
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/profile.js}"></script>
 </head>
@@ -60,9 +59,9 @@
     </section>
 
     <!-- Change Email Modal -->
-    <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel"
+    <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog" aria-labelledby="changeEmailModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="changeEmailModalLabel">Change Email</h5>
@@ -74,17 +73,17 @@
                 <div class="modal-body">
                     <form id="changeEmailForm">
                         <div class="mb-3">
-                            <label for="newEmail" class="form-label">New Email</label>
+                            <label for="newEmail" class="form-label">New Email:</label>
                             <input type="email"
                                    class="form-control"
                                    id="newEmail"
                                    name="newEmail"
-                                   autocomplete="email">
-                            <div class="text-danger" id="emailError"></div>
+                                   autocomplete="email"
+                                   required>
+                            <div class="text-danger" id="newEmailError"></div>
                         </div>
-                        <button type="button"
-                                class="btn btn-primary"
-                                onclick="changeEmail()">Save changes
+                        <button type="submit"
+                                class="btn btn-primary">Save
                         </button>
                     </form>
                 </div>
@@ -122,6 +121,7 @@
                                    id="oldPassword"
                                    name="oldPassword"
                                    autocomplete="current-password">
+                            <div class="text-danger" id="oldPasswordError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="newPassword" class="form-label">New Password</label>
@@ -130,6 +130,7 @@
                                    id="newPassword"
                                    name="newPassword"
                                    autocomplete="new-password">
+                            <div class="text-danger" id="newPasswordError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="confirmPassword" class="form-label">Confirm Password</label>
@@ -138,11 +139,10 @@
                                    id="confirmPassword"
                                    name="confirmPassword"
                                    autocomplete="new-password">
-                            <div class="text-danger" id="passwordError"></div>
+                            <div class="text-danger" id="confirmPasswordError"></div>
                         </div>
-                        <button type="button"
-                                class="btn btn-primary"
-                                onclick="changePassword()">Save changes
+                        <button type="submit"
+                                class="btn btn-primary">Save changes
                         </button>
                     </form>
                 </div>
