@@ -1,8 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function () {
     flatpickrInit();
     toastrOptions();
 
-    $('#addNewExerciseForm').submit(function(event) {
+    $('#addNewExerciseForm').submit(function (event) {
         event.preventDefault();
         const form = $(this);
         clearErrors();
@@ -34,7 +34,7 @@ function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function(n) {
+    $.map(unindexed_array, function (n) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -79,7 +79,7 @@ function appendNewExercise(exercise, form) {
         .val(exercise.name)
         .text(exercise.name);
 
-    $('.exercise-select').each(function() {
+    $('.exercise-select').each(function () {
         $(this).append(newOption.clone());
     });
 

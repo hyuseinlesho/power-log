@@ -14,6 +14,7 @@ public interface ExerciseMapper {
     Exercise mapToExercise(CreateExerciseDto exerciseDto);
 
     ExerciseDto mapToExerciseDto(Exercise exercise);
+
     CreateExerciseDto mapToCreateExerciseDto(Exercise exercise);
 
     ExerciseResponseDto mapToExerciseResponseDto(Exercise exercise);

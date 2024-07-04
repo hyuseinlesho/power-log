@@ -28,7 +28,7 @@ public class ExerciseRestController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createExercise(@Valid @RequestBody CreateExerciseDto exerciseDto,
-                                             BindingResult bindingResult) {
+                                            BindingResult bindingResult) {
         ResponseEntity<?> errorResponse = validateRequest(bindingResult);
         if (errorResponse != null) {
             return errorResponse;
@@ -47,7 +47,7 @@ public class ExerciseRestController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateExercise(@PathVariable Long id,
                                             @Valid @RequestBody UpdateExerciseDto exerciseDto,
-                                             BindingResult bindingResult) {
+                                            BindingResult bindingResult) {
         ResponseEntity<?> errorResponse = validateRequest(bindingResult);
         if (errorResponse != null) {
             return errorResponse;

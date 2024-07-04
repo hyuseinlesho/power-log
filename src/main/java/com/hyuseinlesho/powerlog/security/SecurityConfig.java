@@ -1,6 +1,5 @@
 package com.hyuseinlesho.powerlog.security;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,26 +24,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize ->
-                authorize
-                    .requestMatchers("/assets/**", "/css/**", "/images/**", "/js/**").permitAll()
-                    .requestMatchers("/register", "/login").permitAll()
-                    .requestMatchers("/", "/about", "/contact").permitAll()
-                    .anyRequest().authenticated()
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize ->
+                        authorize
+                                .requestMatchers("/assets/**", "/css/**", "/images/**", "/js/**").permitAll()
+                                .requestMatchers("/register", "/login").permitAll()
+                                .requestMatchers("/", "/about", "/contact").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form ->
-                    form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home?success")
-                        .loginProcessingUrl("/login")
-                        .failureUrl("/login?error")
-                        .permitAll()
+                        form
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/home?success")
+                                .loginProcessingUrl("/login")
+                                .failureUrl("/login?error")
+                                .permitAll()
                 )
                 .logout(logout ->
-                    logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll()
+                        logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
                 )
                 .userDetailsService(userDetailsService);
 

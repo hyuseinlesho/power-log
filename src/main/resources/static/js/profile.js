@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     toastrOptions();
 
     handleFormSubmission('#changeEmailForm', changeEmail);
@@ -12,7 +12,7 @@ function toastrOptions() {
 }
 
 function handleFormSubmission(formSelector, submitCallback) {
-    $(formSelector).submit(function(event) {
+    $(formSelector).submit(function (event) {
         event.preventDefault();
         const form = $(this);
         clearErrors();
@@ -26,7 +26,7 @@ function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function(n) {
+    $.map(unindexed_array, function (n) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -39,7 +39,7 @@ function changeEmail(formData, form) {
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
-        success: function(response) {
+        success: function (response) {
             if (response.success) {
                 $('#email').val(formData.newEmail);
                 $('#changeEmailModal').modal('hide');
@@ -50,7 +50,7 @@ function changeEmail(formData, form) {
             }
             disableSubmitButton(false, form);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             disableSubmitButton(false, form);
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON);
@@ -67,7 +67,7 @@ function changePassword(formData, form) {
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
-        success: function(response) {
+        success: function (response) {
             if (response.success) {
                 $('#changePasswordModal').modal('hide');
                 form[0].reset();
@@ -77,7 +77,7 @@ function changePassword(formData, form) {
             }
             disableSubmitButton(false, form);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             disableSubmitButton(false, form);
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON);

@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface WeightLogService {
     List<WeightLogDto> findAllWeightLogs();
+
     WeightLog createWeightLog(CreateWeightLogDto weightLogDto);
+
     WeightLog updateWeightLog(Long id, UpdateWeightLogDto weightLogDto);
+
     void deleteWeightLog(Long id);
 }

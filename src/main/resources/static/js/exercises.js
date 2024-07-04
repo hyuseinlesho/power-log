@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
     toastrOptions();
 
-    $('#addExerciseForm').submit(function(event) {
+    $('#addExerciseForm').submit(function (event) {
         event.preventDefault();
         const form = $(this);
         clearErrors();
@@ -10,7 +10,7 @@ $(document).ready(function() {
         createExercise(formData, form);
     });
 
-    $('#editExerciseForm').submit(function(event) {
+    $('#editExerciseForm').submit(function (event) {
         event.preventDefault();
         let exerciseId = $('#editExerciseModal').data('id');
         let isDelete = event.originalEvent.submitter.id === 'deleteButton';
@@ -40,7 +40,7 @@ function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function(n) {
+    $.map(unindexed_array, function (n) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -81,12 +81,12 @@ function saveChanges(exerciseId, form) {
             name: name,
             type: type
         }),
-        success: function(response) {
+        success: function (response) {
             updateListItem(exerciseId, response);
             $('#editExerciseModal').modal('hide');
             disableSubmitButton(false, form);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             disableSubmitButton(false, form);
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON, 'edit');
@@ -101,12 +101,12 @@ function deleteExercise(exerciseId, form) {
     $.ajax({
         url: `/api/exercises/${exerciseId}`,
         method: 'DELETE',
-        success: function() {
+        success: function () {
             $(`a[data-id="${exerciseId}"]`).remove();
             $('#editExerciseModal').modal('hide');
             disableSubmitButton(false, form);
         },
-        error: function() {
+        error: function () {
             disableSubmitButton(false, form);
             toastr.error('Error deleting exercise');
         }

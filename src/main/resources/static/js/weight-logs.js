@@ -1,8 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function () {
     flatpickrInit();
     toastrOptions();
 
-    $('#addWeightLogForm').submit(function(event) {
+    $('#addWeightLogForm').submit(function (event) {
         event.preventDefault();
         const form = $(this);
         clearErrors();
@@ -11,7 +11,7 @@ $(document).ready(function() {
         createWeightLog(formData, form);
     });
 
-    $('#editWeightLogForm').submit(function(event) {
+    $('#editWeightLogForm').submit(function (event) {
         event.preventDefault();
         let logId = $('#editWeightLogModal').data('id');
         let isDelete = event.originalEvent.submitter.id === 'deleteButton';
@@ -61,7 +61,7 @@ function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function(n) {
+    $.map(unindexed_array, function (n) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -106,12 +106,12 @@ function saveChanges(logId, form) {
             time: time,
             comment: comment
         }),
-        success: function(response) {
+        success: function (response) {
             updateTableRow(logId, response);
             $('#editWeightLogModal').modal('hide');
             disableSubmitButton(false, form);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             disableSubmitButton(false, form);
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON, 'edit');
@@ -126,12 +126,12 @@ function deleteWeightLog(logId, form) {
     $.ajax({
         url: `/api/weight-logs/${logId}`,
         method: 'DELETE',
-        success: function() {
+        success: function () {
             $(`tr[data-id="${logId}"]`).remove();
             $('#editWeightLogModal').modal('hide');
             disableSubmitButton(false, form);
         },
-        error: function() {
+        error: function () {
             disableSubmitButton(false, form);
             toastr.error('Error deleting weight log');
         }

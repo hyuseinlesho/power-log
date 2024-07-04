@@ -29,12 +29,14 @@ public class AuthController {
     public String showRegisterForm() {
         return "/auth/register";
     }
+
     @PostMapping("/register")
     public String register(@Valid RegisterUserDto registerDto,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerDto", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerDto",
+                    bindingResult);
             redirectAttributes.addFlashAttribute("registerDto", registerDto);
             return "redirect:/register";
         }
@@ -60,6 +62,7 @@ public class AuthController {
         userService.registerUser(registerDto);
         return "redirect:/login?success";
     }
+
     @GetMapping("/login")
     public String showLoginPage() {
         return "/auth/login";
