@@ -1,7 +1,15 @@
 $(document).ready(function() {
+    toastrOptions();
+
     handleFormSubmission('#changeEmailForm', changeEmail);
     handleFormSubmission('#changePasswordForm', changePassword);
 });
+
+function toastrOptions() {
+    toastr.options = {
+        positionClass: 'toast-bottom-right'
+    };
+}
 
 function handleFormSubmission(formSelector, submitCallback) {
     $(formSelector).submit(function(event) {
@@ -36,8 +44,9 @@ function changeEmail(formData, form) {
                 $('#email').val(formData.newEmail);
                 $('#changeEmailModal').modal('hide');
                 form[0].reset();
+                toastr.success('Email changed successfully.');
             } else {
-                alert(response.message);
+                toastr.error(response.message);
             }
             disableSubmitButton(false, form);
         },
@@ -46,7 +55,7 @@ function changeEmail(formData, form) {
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON);
             } else {
-                alert('An error occurred while changing email.');
+                toastr.error('An error occurred while changing email.');
             }
         }
     });
@@ -61,9 +70,10 @@ function changePassword(formData, form) {
         success: function(response) {
             if (response.success) {
                 $('#changePasswordModal').modal('hide');
-                alert('Password changed successfully.');
+                form[0].reset();
+                toastr.success('Password changed successfully.');
             } else {
-                alert(response.message);
+                toastr.error(response.message);
             }
             disableSubmitButton(false, form);
         },
@@ -72,7 +82,7 @@ function changePassword(formData, form) {
             if (xhr.status === 400) {
                 displayErrors(xhr.responseJSON);
             } else {
-                alert('An error occurred while changing password.');
+                toastr.error('An error occurred while changing password.');
             }
         }
     });

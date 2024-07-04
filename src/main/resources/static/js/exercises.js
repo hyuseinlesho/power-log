@@ -1,22 +1,28 @@
 $(document).ready(function() {
+    toastrOptions();
+
     $('#addExerciseForm').submit(function(event) {
         event.preventDefault();
-        clearErrors('add');
-        disableSubmitButton(true);
-        const formData = JSON.stringify(getFormData($(this)));
-        createExercise(formData);
+        const form = $(this);
+        clearErrors();
+        disableSubmitButton(true, form);
+        const formData = getFormData(form);
+        createExercise(formData, form);
     });
 
     $('#editExerciseForm').submit(function(event) {
         event.preventDefault();
         let exerciseId = $('#editExerciseModal').data('id');
         let isDelete = event.originalEvent.submitter.id === 'deleteButton';
+        const form = $(this);
 
         if (isDelete) {
-            deleteExercise(exerciseId);
+            deleteExercise(exerciseId, form);
         } else {
-            saveChanges(exerciseId);
+            saveChanges(exerciseId, form);
         }
+
+        disableSubmitButton(true, form);
     });
 
     $('.list-group-item').on('click', function () {
@@ -24,40 +30,46 @@ $(document).ready(function() {
     });
 });
 
+function toastrOptions() {
+    toastr.options = {
+        positionClass: 'toast-bottom-right'
+    };
+}
+
 function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function (n) {
+    $.map(unindexed_array, function(n) {
         indexed_array[n['name']] = n['value'];
     });
 
     return indexed_array;
 }
 
-function createExercise(formData) {
+function createExercise(formData, form) {
     $.ajax({
         url: '/api/exercises/create',
         method: 'POST',
-        data: formData,
+        data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {
+            appendExercise(response, form);
             $('#addExerciseModal').modal('hide');
-            appendExercise(response);
-            $('#addExerciseForm')[0].reset();
+            form[0].reset();
         },
-        error: function (jqXHR) {
-            disableSubmitButton(false);
-            if (jqXHR.status === 400) {
-                displayErrors(jqXHR.responseJSON, 'add');
+        error: function (xhr, status, error) {
+            disableSubmitButton(false, form);
+            if (xhr.status === 400) {
+                displayErrors(xhr.responseJSON, 'add');
             } else {
-                alert('Error adding exercise');
+                toastr.error('Exercise with the same name and type already exists.');
             }
         }
     });
 }
 
-function saveChanges(exerciseId) {
+function saveChanges(exerciseId, form) {
     let name = $('#editExerciseName').val();
     let type = $('#editExerciseType').val();
 
@@ -70,47 +82,50 @@ function saveChanges(exerciseId) {
             type: type
         }),
         success: function(response) {
-            $('#editExerciseModal').modal('hide');
             updateListItem(exerciseId, response);
+            $('#editExerciseModal').modal('hide');
+            disableSubmitButton(false, form);
         },
-        error: function(jqXHR) {
-            if (jqXHR.status === 400) {
-                displayErrors(jqXHR.responseJSON, 'edit');
+        error: function(xhr, status, error) {
+            disableSubmitButton(false, form);
+            if (xhr.status === 400) {
+                displayErrors(xhr.responseJSON, 'edit');
             } else {
-                alert('Error updating exercise');
+                toastr.error('Exercise with the same name and type already exists.');
             }
         }
     });
 }
 
-function deleteExercise(exerciseId) {
+function deleteExercise(exerciseId, form) {
     $.ajax({
         url: `/api/exercises/${exerciseId}`,
         method: 'DELETE',
         success: function() {
             $(`a[data-id="${exerciseId}"]`).remove();
             $('#editExerciseModal').modal('hide');
+            disableSubmitButton(false, form);
         },
         error: function() {
-            alert('Error deleting exercise');
+            disableSubmitButton(false, form);
+            toastr.error('Error deleting exercise');
         }
     });
 }
 
 function updateListItem(exerciseId, exercise) {
     let item = $(`a[data-id="${exerciseId}"]`);
-    item.data('name', exercise.name);
 
+    item.data('name', exercise.name);
     item.find('span').text(exercise.name);
 }
 
-function clearErrors(prefix) {
-    $(`#${prefix}NameError`).text('');
-    $(`#${prefix}TypeError`).text('');
+function clearErrors() {
+    $('.text-danger').text('');
 }
 
 function displayErrors(errors, prefix) {
-    clearErrors(prefix);
+    clearErrors();
     for (const [field, message] of Object.entries(errors)) {
         $(`#${prefix}${capitalizeFirstLetter(field)}Error`).text(message);
     }
@@ -120,7 +135,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function appendExercise(exercise) {
+function appendExercise(exercise, form) {
     let newItem = $('<a></a>')
         .attr('data-id', exercise.id)
         .attr('data-name', exercise.name)
@@ -141,7 +156,7 @@ function appendExercise(exercise) {
         openEditModal($(this));
     });
 
-    disableSubmitButton(false);
+    disableSubmitButton(false, form);
 }
 
 function openEditModal(exerciseItem) {
@@ -150,6 +165,7 @@ function openEditModal(exerciseItem) {
     const type = exerciseItem.data('type');
 
     const modal = $('#editExerciseModal');
+
     modal.find('#editExerciseName').val(name);
     modal.find('#editExerciseType').val(type);
 
@@ -157,6 +173,6 @@ function openEditModal(exerciseItem) {
     modal.modal('show');
 }
 
-function disableSubmitButton(disable) {
-    $('#addExerciseForm button[type="submit"]').prop('disabled', disable);
+function disableSubmitButton(disable, form) {
+    form.find('button[type="submit"]').prop('disabled', disable);
 }

@@ -1,4 +1,18 @@
 $(document).ready(function() {
+    flatpickrInit();
+    toastrOptions();
+
+    $('#addNewExerciseForm').submit(function(event) {
+        event.preventDefault();
+        const form = $(this);
+        clearErrors();
+        disableSubmitButton(true, form);
+        const formData = getFormData(form);
+        addNewExercise(formData, form);
+    });
+});
+
+function flatpickrInit() {
     flatpickr("#date", {
         dateFormat: "Y-m-d"
     });
@@ -8,52 +22,49 @@ $(document).ready(function() {
         dateFormat: "H:i",
         time_24hr: true
     });
+}
 
-    $('#addNewExerciseForm').submit(function(event) {
-        event.preventDefault();
-        clearErrors();
-        disableSubmitButton(true);
-        const formData = JSON.stringify(getFormData($(this)));
-        addNewExercise(formData);
-    });
-});
+function toastrOptions() {
+    toastr.options = {
+        positionClass: 'toast-bottom-right'
+    };
+}
 
 function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function (n) {
+    $.map(unindexed_array, function(n) {
         indexed_array[n['name']] = n['value'];
     });
 
     return indexed_array;
 }
 
-function addNewExercise(formData) {
+function addNewExercise(formData, form) {
     $.ajax({
         url: '/api/exercises/create',
         method: 'POST',
-        data: formData,
+        data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {
+            appendNewExercise(response, form);
             $('#addNewExerciseModal').modal('hide');
-            appendNewExercise(response);
-            $('#addNewExerciseForm')[0].reset();
+            form[0].reset();
         },
-        error: function (jqXHR) {
-            disableSubmitButton(false);
-            if (jqXHR.status === 400) {
-                displayErrors(jqXHR.responseJSON);
+        error: function (xhr, status, error) {
+            disableSubmitButton(false, form);
+            if (xhr.status === 400) {
+                displayErrors(xhr.responseJSON);
             } else {
-                alert('Error adding new exercise');
+                toastr.error('Error adding new exercise');
             }
         }
     });
 }
 
 function clearErrors() {
-    $(`#nameError`).text('');
-    $(`#typeError`).text('');
+    $('.text-danger').text('');
 }
 
 function displayErrors(errors) {
@@ -63,7 +74,7 @@ function displayErrors(errors) {
     }
 }
 
-function appendNewExercise(exercise) {
+function appendNewExercise(exercise, form) {
     const newOption = $('<option></option>')
         .val(exercise.name)
         .text(exercise.name);
@@ -72,9 +83,9 @@ function appendNewExercise(exercise) {
         $(this).append(newOption.clone());
     });
 
-    disableSubmitButton(false);
+    disableSubmitButton(false, form);
 }
 
-function disableSubmitButton(disable) {
-    $('#addNewExerciseForm button[type="submit"]').prop('disabled', disable);
+function disableSubmitButton(disable, form) {
+    form.find('button[type="submit"]').prop('disabled', disable);
 }

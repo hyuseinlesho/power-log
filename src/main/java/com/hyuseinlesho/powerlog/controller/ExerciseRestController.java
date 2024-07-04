@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
+import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.model.dto.ExerciseResponseDto;
@@ -33,10 +34,14 @@ public class ExerciseRestController {
             return errorResponse;
         }
 
-        Exercise created = exerciseService.createExercise(exerciseDto);
-        ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(created);
+        try {
+            Exercise created = exerciseService.createExercise(exerciseDto);
+            ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(created);
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (ExerciseAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
@@ -48,10 +53,13 @@ public class ExerciseRestController {
             return errorResponse;
         }
 
-        Exercise updated = exerciseService.updateExercise(id, exerciseDto);
-        ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(updated);
-
-        return ResponseEntity.ok(response);
+        try {
+            Exercise updated = exerciseService.updateExercise(id, exerciseDto);
+            ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(updated);
+            return ResponseEntity.ok(response);
+        } catch (ExerciseAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")

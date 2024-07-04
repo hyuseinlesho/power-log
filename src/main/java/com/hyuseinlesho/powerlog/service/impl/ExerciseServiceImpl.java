@@ -19,8 +19,6 @@ import java.util.Optional;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
-    public static final String ERROR_MESSAGE = "Exercise with the same name and type already exists.";
-
     private final ExerciseRepository exerciseRepository;
     private final UserRepository userRepository;
 
@@ -37,7 +35,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
 
         if (exercises.contains(exercise)) {
-            throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
+            throw new ExerciseAlreadyExistsException();
         }
 
         exercise.setUser(getUser());
@@ -70,7 +68,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(username);
         if (exercises.contains(exercise)) {
-            throw new ExerciseAlreadyExistsException(ERROR_MESSAGE);
+            throw new ExerciseAlreadyExistsException();
         }
 
         return exerciseRepository.save(exercise);

@@ -1,4 +1,35 @@
 $(document).ready(function() {
+    flatpickrInit();
+    toastrOptions();
+
+    $('#addWeightLogForm').submit(function(event) {
+        event.preventDefault();
+        const form = $(this);
+        clearErrors();
+        disableSubmitButton(true, form);
+        const formData = getFormData(form);
+        createWeightLog(formData, form);
+    });
+
+    $('#editWeightLogForm').submit(function(event) {
+        event.preventDefault();
+        let logId = $('#editWeightLogModal').data('id');
+        let isDelete = event.originalEvent.submitter.id === 'deleteButton';
+        const form = $(this);
+
+        if (isDelete) {
+            deleteWeightLog(logId, form);
+        } else {
+            saveChanges(logId, form);
+        }
+    });
+
+    $('.weight-log-row').on('click', function () {
+        openEditModal($(this));
+    });
+});
+
+function flatpickrInit() {
     flatpickr("#addWeightDate", {
         dateFormat: "Y-m-d"
     });
@@ -18,66 +49,48 @@ $(document).ready(function() {
         dateFormat: "H:i",
         time_24hr: true
     });
+}
 
-    $('#addWeightLogForm').submit(function(event) {
-        event.preventDefault();
-        clearErrors();
-        disableSubmitButton(true);
-        const formData = JSON.stringify(getFormData($(this)));
-        createWeightLog(formData);
-    });
-
-    $('#editWeightLogForm').submit(function(event) {
-        event.preventDefault();
-        let logId = $('#editWeightLogModal').data('id');
-        let isDelete = event.originalEvent.submitter.id === 'deleteButton';
-
-        if (isDelete) {
-            deleteWeightLog(logId);
-        } else {
-            saveChanges(logId);
-        }
-    });
-
-    $('.weight-log-row').on('click', function () {
-        openEditModal($(this));
-    });
-});
+function toastrOptions() {
+    toastr.options = {
+        positionClass: 'toast-bottom-right'
+    };
+}
 
 function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function (n) {
+    $.map(unindexed_array, function(n) {
         indexed_array[n['name']] = n['value'];
     });
 
     return indexed_array;
 }
 
-function createWeightLog(formData) {
+function createWeightLog(formData, form) {
     $.ajax({
         url: '/api/weight-logs/create',
         method: 'POST',
-        data: formData,
+        data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {
+            appendWeightLog(response, form);
             $('#addWeightLogModal').modal('hide');
-            appendWeightLog(response);
-            $('#addWeightLogForm')[0].reset();
+            form[0].reset();
         },
-        error: function (jqXHR) {
-            disableSubmitButton(false);
-            if (jqXHR.status === 400) {
-                displayErrors(jqXHR.responseJSON, 'add');
+        error: function (xhr, status, error) {
+            disableSubmitButton(false, form);
+            if (xhr.status === 400) {
+                displayErrors(xhr.responseJSON, 'add');
             } else {
-                alert('Error adding weight');
+                toastr.error('Error creating weight log');
             }
         }
     });
 }
 
-function saveChanges(logId) {
+function saveChanges(logId, form) {
     let weight = $('#editWeightValue').val();
     let date = $('#editWeightDate').val();
     let time = $('#editWeightTime').val();
@@ -94,35 +107,40 @@ function saveChanges(logId) {
             comment: comment
         }),
         success: function(response) {
-            $('#editWeightLogModal').modal('hide');
             updateTableRow(logId, response);
+            $('#editWeightLogModal').modal('hide');
+            disableSubmitButton(false, form);
         },
-        error: function(jqXHR) {
-            if (jqXHR.status === 400) {
-                displayErrors(jqXHR.responseJSON, 'edit');
+        error: function(xhr, status, error) {
+            disableSubmitButton(false, form);
+            if (xhr.status === 400) {
+                displayErrors(xhr.responseJSON, 'edit');
             } else {
-                alert('Error updating weight log');
+                toastr.error('Error updating weight log');
             }
         }
     });
 }
 
-function deleteWeightLog(logId) {
+function deleteWeightLog(logId, form) {
     $.ajax({
         url: `/api/weight-logs/${logId}`,
         method: 'DELETE',
         success: function() {
             $(`tr[data-id="${logId}"]`).remove();
             $('#editWeightLogModal').modal('hide');
+            disableSubmitButton(false, form);
         },
         error: function() {
-            alert('Error deleting weight log');
+            disableSubmitButton(false, form);
+            toastr.error('Error deleting weight log');
         }
     });
 }
 
 function updateTableRow(logId, log) {
     let row = $(`tr[data-id="${logId}"]`);
+
     row.data('weight', log.weight);
     row.data('date', log.date);
     row.data('time', log.time);
@@ -135,18 +153,11 @@ function updateTableRow(logId, log) {
 }
 
 function clearErrors() {
-    $('#weightError').text('');
-    $('#dateError').text('');
-    $('#timeError').text('');
-    $('#commentError').text('');
+    $('.text-danger').text('');
 }
 
 function displayErrors(errors, prefix) {
-    $(`#${prefix}WeightError`).text('');
-    $(`#${prefix}DateError`).text('');
-    $(`#${prefix}TimeError`).text('');
-    $(`#${prefix}CommentError`).text('');
-
+    clearErrors();
     for (const [field, message] of Object.entries(errors)) {
         $(`#${prefix}${capitalizeFirstLetter(field)}Error`).text(message);
     }
@@ -156,8 +167,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function appendWeightLog(log) {
-    let tbody = $('#weightLogsTableBody');
+function appendWeightLog(log, form) {
     let newRow = $('<tr></tr>')
         .attr('data-id', log.id)
         .attr('data-weight', log.weight)
@@ -169,13 +179,13 @@ function appendWeightLog(log) {
         .append('<td>' + log.date + '</td>')
         .append('<td>' + log.time + '</td>')
         .append('<td>' + (log.comment || '') + '</td>');
-    tbody.append(newRow);
+    $('#weightLogsTableBody').append(newRow);
 
     newRow.on('click', function () {
         openEditModal($(this));
     });
 
-    disableSubmitButton(false);
+    disableSubmitButton(false, form);
 }
 
 function openEditModal(logRow) {
@@ -186,15 +196,16 @@ function openEditModal(logRow) {
     const comment = logRow.data('comment');
 
     const modal = $('#editWeightLogModal');
+
     modal.find('#editWeightValue').val(weight);
     modal.find('#editWeightDate').val(date);
     modal.find('#editWeightTime').val(time);
     modal.find('#editWeightComment').val(comment);
-    modal.data('id', logId);
 
+    modal.data('id', logId);
     modal.modal('show');
 }
 
-function disableSubmitButton(disable) {
-    $('#addWeightLogForm button[type="submit"]').prop('disabled', disable);
+function disableSubmitButton(disable, form) {
+    form.find('button[type="submit"]').prop('disabled', disable);
 }
