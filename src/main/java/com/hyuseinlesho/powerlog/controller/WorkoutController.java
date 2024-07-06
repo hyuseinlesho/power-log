@@ -3,7 +3,6 @@ package com.hyuseinlesho.powerlog.controller;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
-import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
@@ -30,8 +29,9 @@ public class WorkoutController {
 
     @GetMapping("/history")
     public String showWorkoutHistory(Model model) {
-        List<Workout> workouts = workoutService.findAllWorkouts();
-        model.addAttribute("workouts", workouts);
+        List<WorkoutDto> workouts = workoutService.findAllWorkoutsSortedByDate();
+        List<Object> workoutsWithDelimiters = workoutService.addWeekDelimiters(workouts);
+        model.addAttribute("workoutsWithDelimiters", workoutsWithDelimiters);
         return "/workouts/history";
     }
 

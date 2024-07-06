@@ -56,8 +56,12 @@
                         </footer>
                     </article>
                     <div class="d-flex justify-content-between">
-                        <a th:href="@{|/workouts/${workoutDto.id}/edit|}"
-                           class="btn btn-primary">Edit</a>
+                        <div class="workout-details-buttons">
+                            <a th:href="@{|/workouts/${workoutDto.id}/edit|}"
+                               class="btn btn-primary">Edit</a>
+                            <a th:href="@{/workouts/history}"
+                               class="btn btn-secondary">Workout History</a>
+                        </div>
                         <form th:action="@{/workouts/{id}/delete(id=${workoutDto.id})}"
                               method="post"
                               onsubmit="return confirm('Are you sure you want to delete this workout?');">

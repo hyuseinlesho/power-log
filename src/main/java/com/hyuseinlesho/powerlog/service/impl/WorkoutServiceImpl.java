@@ -1,8 +1,8 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
+import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
-import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
@@ -13,7 +13,11 @@ import com.hyuseinlesho.powerlog.service.UserService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +53,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<Workout> findAllWorkouts() {
-        return workoutRepository.findAllByUser(userService.getCurrentUser());
+    public List<WorkoutDto> findAllWorkoutsSortedByDate() {
+        return workoutRepository.findAllByUserOrderByDateAsc(userService.getCurrentUser())
+                .stream()
+                .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
+                .toList();
     }
 
     @Override
@@ -109,6 +116,27 @@ public class WorkoutServiceImpl implements WorkoutService {
         return workouts.stream()
                 .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object> addWeekDelimiters(List<WorkoutDto> workouts) {
+        List<Object> result = new ArrayList<>();
+        int currentWeek = -1;
+
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
+        for (WorkoutDto workout : workouts) {
+            LocalDate date = workout.getDate();
+
+            int weekOfYear = date.get(weekFields.weekOfWeekBasedYear());
+
+            if (weekOfYear != currentWeek) {
+                result.add("Week starting on: " + date.with(weekFields.dayOfWeek(), 1));
+                currentWeek = weekOfYear;
+            }
+            result.add(workout);
+        }
+        return result;
     }
 
     private double calculateTotalVolume(List<ExerciseLog> exercises) {

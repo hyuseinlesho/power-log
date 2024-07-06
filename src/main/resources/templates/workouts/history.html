@@ -36,12 +36,14 @@
                 </form>
             </div>
             <div class="row gx-5">
-                <div th:each="workout : ${workouts}"
-                     class="col-lg-12 mb-5">
-                    <div class="card">
+                <div th:each="item : ${workoutsWithDelimiters}" class="col-lg-12 mb-5">
+                    <div th:if="${#strings.startsWith(item, 'Week starting on: ')}" class="mt-3">
+                        <h4 th:text="${item}"></h4>
+                    </div>
+                    <div th:unless="${#strings.startsWith(item, 'Week starting on: ')}" class="card">
                         <div class="card-header">
                             <h5 class="card-title"
-                                th:text="${workout.getDate()} + ' ' + ${workout.time}"></h5>
+                                th:text="${item.getDate()} + ' ' + ${item.time}"></h5>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
@@ -55,7 +57,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="exercise : ${workout.exercises}">
+                                    <tr th:each="exercise : ${item.exercises}">
                                         <td th:text="${exercise.name}"></td>
                                         <td th:text="${exercise.sets}"></td>
                                         <td th:text="${exercise.reps}"></td>
@@ -66,7 +68,7 @@
                             </ul>
                         </div>
                         <div class="card-footer">
-                            <a th:href="@{|/workouts/${workout.id}/details|}"
+                            <a th:href="@{|/workouts/${item.id}/details|}"
                                class="btn btn-primary btn-sm">View Details</a>
                         </div>
                     </div>
