@@ -3,10 +3,10 @@ package com.hyuseinlesho.powerlog.service.impl;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
+import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
-import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.UserService;
@@ -21,13 +21,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ExerciseLogRepository exerciseLogRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseLogRepository exerciseLogRepository, UserService userService, UserRepository userRepository) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseLogRepository exerciseLogRepository, UserService userService) {
         this.workoutRepository = workoutRepository;
         this.exerciseLogRepository = exerciseLogRepository;
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,11 +38,12 @@ public class WorkoutServiceImpl implements WorkoutService {
             exercise.setWorkout(workout);
         }
 
+        workout.setTotalVolume(calculateTotalVolume(workout.getExercises()));
         workoutRepository.save(workout);
     }
 
     @Override
-    public CreateWorkoutDto findWorkoutById(Long workoutId) {
+    public WorkoutDto findWorkoutById(Long workoutId) {
         Workout workout = workoutRepository.findById(workoutId).get();
         return WorkoutMapper.INSTANCE.mapToWorkoutDto(workout);
     }
@@ -91,6 +90,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         }
 
         workout.setExercises(exercises);
+        workout.setTotalVolume(calculateTotalVolume(exercises));
         workout.setComment(workoutDto.getComment());
 
         workoutRepository.save(workout);
@@ -102,12 +102,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<CreateWorkoutDto> searchWorkouts(String query) {
+    public List<WorkoutDto> searchWorkouts(String query) {
         String username = SecurityUtil.getSessionUser();
 
         List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);
         return workouts.stream()
                 .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
                 .collect(Collectors.toList());
+    }
+
+    private double calculateTotalVolume(List<ExerciseLog> exercises) {
+        return exercises.stream()
+                .mapToDouble(exercise -> exercise.getSets() * exercise.getReps() * exercise.getWeight())
+                .sum();
     }
 }

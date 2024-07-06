@@ -45,6 +45,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <h4 class="fw-bolder mt-4">Total Volume:
+                                <span th:text="${workoutDto.totalVolume}">0</span> kg
+                            </h4>
                         </section>
                         <footer class="card-footer"
                                 th:if="${not #strings.isEmpty(workoutDto.comment)}">

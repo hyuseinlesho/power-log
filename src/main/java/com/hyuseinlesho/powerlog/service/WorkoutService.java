@@ -1,6 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface WorkoutService {
     void createWorkout(CreateWorkoutDto workoutDto);
 
-    CreateWorkoutDto findWorkoutById(Long workoutId);
+    WorkoutDto findWorkoutById(Long workoutId);
 
     List<Workout> findAllWorkouts();
 
@@ -16,5 +17,5 @@ public interface WorkoutService {
 
     void deleteWorkout(Long id);
 
-    List<CreateWorkoutDto> searchWorkouts(String query);
+    List<WorkoutDto> searchWorkouts(String query);
 }

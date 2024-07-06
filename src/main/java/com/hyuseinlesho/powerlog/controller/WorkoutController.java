@@ -2,6 +2,7 @@ package com.hyuseinlesho.powerlog.controller;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
@@ -72,8 +73,8 @@ public class WorkoutController {
     @GetMapping("/{id}/edit")
     public String showEditWorkoutForm(@PathVariable("id") Long id,
                                       Model model) {
-        CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
-        model.addAttribute("workoutDto", workoutDto);
+        WorkoutDto workout = workoutService.findWorkoutById(id);
+        model.addAttribute("workoutDto", workout);
         model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/workouts/edit";
@@ -101,8 +102,8 @@ public class WorkoutController {
     @GetMapping("/{id}/details")
     public String getWorkoutDetails(@PathVariable("id") Long id,
                                     Model model) {
-        CreateWorkoutDto workoutDto = workoutService.findWorkoutById(id);
-        model.addAttribute("workoutDto", workoutDto);
+        WorkoutDto workout = workoutService.findWorkoutById(id);
+        model.addAttribute("workoutDto", workout);
         return "/workouts/details";
     }
 
@@ -118,7 +119,7 @@ public class WorkoutController {
     @GetMapping("/history/search")
     public String searchWorkouts(@RequestParam("query") String query,
                                  Model model) {
-        List<CreateWorkoutDto> workouts = workoutService.searchWorkouts(query);
+        List<WorkoutDto> workouts = workoutService.searchWorkouts(query);
         model.addAttribute("workouts", workouts);
         return "/workouts/history";
     }

@@ -33,6 +33,9 @@ public class Workout extends BaseEntity {
             orphanRemoval = true)
     private List<ExerciseLog> exercises;
 
+    @Column(name = "total_volume")
+    private Double totalVolume;
+
     private String comment;
 
     public Workout() {
