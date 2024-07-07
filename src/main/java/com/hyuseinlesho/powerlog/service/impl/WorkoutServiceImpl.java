@@ -13,6 +13,7 @@ import com.hyuseinlesho.powerlog.service.UserService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         List<Object> result = new ArrayList<>();
         int currentWeek = -1;
 
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
 
         for (WorkoutDto workout : workouts) {
             LocalDate date = workout.getDate();
@@ -131,13 +132,15 @@ public class WorkoutServiceImpl implements WorkoutService {
             int weekOfYear = date.get(weekFields.weekOfWeekBasedYear());
 
             if (weekOfYear != currentWeek) {
-                result.add("Week starting on: " + date.with(weekFields.dayOfWeek(), 1));
+                LocalDate startOfWeek = date.with(weekFields.dayOfWeek(), 1);
+                result.add("Week starting on: " + startOfWeek);
                 currentWeek = weekOfYear;
             }
             result.add(workout);
         }
         return result;
     }
+
 
     private double calculateTotalVolume(List<ExerciseLog> exercises) {
         return exercises.stream()
