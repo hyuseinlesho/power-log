@@ -27,6 +27,10 @@
                         data-bs-target="#addWeightLogModal">
                     <i class="bi bi-plus-circle"></i> Add Weight Log
                 </button>
+                <a th:href="@{/weight-logs/graph}"
+                   class="btn btn-secondary">
+                    <i class="bi bi-graph-up"></i> View Weight Graph
+                </a>
             </div>
             <div class="row">
                 <div class="col">
@@ -50,7 +54,8 @@
                             <td th:text="${log.weight}"></td>
                             <td th:text="${log.date}"></td>
                             <td th:text="${log.time}"></td>
-                            <td th:if="${log.comment != null}" th:text="${log.comment}"></td>
+                            <td th:if="${log.comment != null}"
+                                th:text="${log.comment}"></td>
                         </tr>
                         </tbody>
                     </table>

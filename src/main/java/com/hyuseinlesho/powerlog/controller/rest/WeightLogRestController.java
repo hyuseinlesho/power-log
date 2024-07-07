@@ -1,16 +1,20 @@
 package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.mapper.WeightLogMapper;
-import com.hyuseinlesho.powerlog.model.dto.CreateWeightLogDto;
-import com.hyuseinlesho.powerlog.model.dto.UpdateWeightLogDto;
-import com.hyuseinlesho.powerlog.model.dto.WeightLogResponseDto;
+import com.hyuseinlesho.powerlog.model.dto.*;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.entity.WeightLog;
 import com.hyuseinlesho.powerlog.service.WeightLogService;
 import com.hyuseinlesho.powerlog.util.ControllerUtil;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/weight-logs")
@@ -54,5 +58,18 @@ public class WeightLogRestController {
     public ResponseEntity<?> deleteWeightLog(@PathVariable Long id) {
         weightLogService.deleteWeightLog(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<WeightLogGraphDto>> getWeightLogs(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        List<WeightLogGraphDto> weightLogs;
+        if (startDate != null && endDate != null) {
+            weightLogs = weightLogService.getWeightLogsBetweenDates(startDate, endDate);
+        } else {
+            weightLogs = weightLogService.getWeightLogs();
+        }
+        return ResponseEntity.ok(weightLogs);
     }
 }

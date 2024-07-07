@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Weight Logs Graph</title>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- date-fns -->
+    <script src="https://cdn.jsdelivr.net/npm/date-fns"></script>
+    <!-- chartjs-adapter-date-fns -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script th:src="@{/js/weight-logs-graph.js}"></script>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Weight Logs Graph</h1>
+                <a th:href="@{/weight-logs}"
+                   class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-square"></i> Back to Weight Log
+                </a>
+            </div>
+            <div class="mb-4">
+                <label for="startDate">Start Date:</label>
+                <input type="text"
+                       id="startDate"
+                       class="flatpickr"
+                       placeholder="Select start date">
+                <label for="endDate">End Date:</label>
+                <input type="text"
+                       id="endDate"
+                       class="flatpickr"
+                       placeholder="Select end date">
+                <button id="filterButton"
+                        class="btn btn-primary">Filter
+                </button>
+            </div>
+            <div class="container">
+                <canvas id="weightLogsChart"></canvas>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

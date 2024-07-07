@@ -20,4 +20,9 @@ public class WeightLogController {
         model.addAttribute("weightLogs", weightLogService.findAllWeightLogs());
         return "/weight-logs/list";
     }
+
+    @GetMapping("/graph")
+    public String showWeightLogsGraph() {
+        return "/weight-logs/graph";
+    }
 }
