@@ -22,4 +22,10 @@ public class ExerciseController {
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/exercises/list";
     }
+
+    @GetMapping("/graph")
+    public String showExercisesGraph(Model model) {
+        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        return "/exercises/graph";
+    }
 }

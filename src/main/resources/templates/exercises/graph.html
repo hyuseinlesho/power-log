@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Weight Logs Graph</title>
+    <title>Exercises Graph</title>
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Toastr CSS -->
@@ -21,20 +22,31 @@
     <script src="https://cdn.jsdelivr.net/npm/date-fns"></script>
     <!-- chartjs-adapter-date-fns -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-    <script th:src="@{/js/weight-logs-graph.js}"></script>
+    <script th:src="@{/js/exercises-graph.js}"></script>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
     <section class="py-5">
         <div class="container px-5 my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Weight Logs Graph</h1>
-                <a th:href="@{/weight-logs}"
+                <h1>Exercises Graph</h1>
+                <a th:href="@{/exercises}"
                    class="btn btn-secondary">
-                    <i class="bi bi-arrow-left-square"></i> Back to Weight Log
+                    <i class="bi bi-arrow-left-square"></i> Back to Exercises
                 </a>
             </div>
             <div class="mb-4">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="exerciseSelect" class="form-label">Select Exercise:</label>
+                        <select id="exerciseSelect" class="form-select">
+                            <option th:each="exercise : ${exerciseOptions}"
+                                    th:value="${exercise.name}"
+                                    th:text="${exercise.name}"></option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="startDate" class="form-label">Start Date:</label>
@@ -61,7 +73,7 @@
                 </div>
             </div>
             <div class="container">
-                <canvas id="weightLogsChart"></canvas>
+                <canvas id="exerciseChart"></canvas>
             </div>
         </div>
     </section>

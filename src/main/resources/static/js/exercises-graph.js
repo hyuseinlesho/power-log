@@ -1,5 +1,5 @@
 (function($) {
-    let weightLogsChart = null;
+    let exerciseChart = null;
 
     $(document).ready(function() {
         flatpickrInit();
@@ -24,21 +24,23 @@
 
     function setupEventHandlers() {
         $('#filterButton').on('click', function() {
+            const exerciseName = $('#exerciseSelect').val();
             const startDate = $('#startDate').val();
             const endDate = $('#endDate').val();
-            if (startDate && endDate) {
-                fetchWeightLogs(startDate, endDate);
+            if (exerciseName && startDate && endDate) {
+                fetchExerciseLogs(exerciseName, startDate, endDate);
             } else {
-                toastr.warning('Please select date range.');
+                toastr.warning('Please select an exercise and date range.');
             }
         });
     }
 
-    function fetchWeightLogs(startDate, endDate) {
+    function fetchExerciseLogs(exerciseName, startDate, endDate) {
         $.ajax({
-            url: '/api/weight-logs',
+            url: '/api/exercise-logs',
             method: 'GET',
             data: {
+                exerciseName: exerciseName,
                 startDate: startDate,
                 endDate: endDate
             },
@@ -48,27 +50,27 @@
                     const data = response.map(log => log.weight);
                     renderChart(labels, data);
                 } else {
-                    toastr.info('No data available for the selected date range.');
-                    if (weightLogsChart) {
-                        weightLogsChart.destroy();
+                    toastr.info('No data available for the selected exercise and date range.');
+                    if (exerciseChart) {
+                        exerciseChart.destroy();
                     }
-                    $('#weightLogsChart').hide();
+                    $('#exerciseChart').hide();
                 }
             },
             error: function(xhr, status, error) {
-                toastr.error('Error fetching weight logs');
+                toastr.error('Error fetching exercise logs');
             }
         });
     }
 
     function renderChart(labels, data) {
-        const ctx = document.getElementById('weightLogsChart').getContext('2d');
+        const ctx = document.getElementById('exerciseChart').getContext('2d');
 
-        if (weightLogsChart) {
-            weightLogsChart.destroy();
+        if (exerciseChart) {
+            exerciseChart.destroy();
         }
 
-        weightLogsChart = new Chart(ctx, {
+        exerciseChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
