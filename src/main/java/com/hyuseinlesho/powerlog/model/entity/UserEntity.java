@@ -43,6 +43,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<WeightLog> weightLogs;
 
+    @OneToMany(mappedBy = "user")
+    private List<ProgressPhoto> progressPhotos;
+
     public UserEntity() {
         this.roles = new HashSet<>();
         this.workouts = new HashSet<>();

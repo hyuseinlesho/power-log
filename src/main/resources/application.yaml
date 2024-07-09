@@ -26,3 +26,6 @@ logging:
     blog: WARN
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+#upload:
+#  path:
