@@ -39,6 +39,23 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown ms-3">
+                    <a class="nav-link dropdown-toggle"
+                       id="navbarDropdownLanguage"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <span th:text="#{lang.change}"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="navbarDropdownLanguage">
+                        <li><a class="dropdown-item"
+                               th:text="#{lang.eng}"></a></li>
+                        <li><a class="dropdown-item"
+                               th:text="#{lang.bg}"></a></li>
+                    </ul>
+                </li>
                 <li sec:authorize="isAuthenticated()"
                     class="nav-item">
                     <a class="nav-link"
@@ -50,9 +67,11 @@
                        th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item"><a class="nav-link"
-                                        th:href="@{/about}">About</a></li>
+                                        th:href="@{/about}"
+                                        th:text="#{nav.about}"></a></li>
                 <li class="nav-item"><a class="nav-link"
-                                        th:href="@{/contact}">Contact</a></li>
+                                        th:href="@{/contact}"
+                                        th:text="#{nav.contact}"></a></li>
                 <li sec:authorize="isAuthenticated()"
                     class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
@@ -60,7 +79,8 @@
                        href="#"
                        role="button"
                        data-bs-toggle="dropdown"
-                       aria-expanded="false">Workout</a>
+                       aria-expanded="false"
+                       th:text="#{nav.workout}"></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownWelcome">
                         <li>
                             <a class="dropdown-item"
@@ -83,7 +103,8 @@
                        href="#"
                        role="button"
                        data-bs-toggle="dropdown"
-                       aria-expanded="false">Tools</a>
+                       aria-expanded="false"
+                       th:text="#{nav.tools}"></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownTools">
                         <li>
                             <a class="dropdown-item"
@@ -101,7 +122,8 @@
                        href="#"
                        role="button"
                        data-bs-toggle="dropdown"
-                       aria-expanded="false">Account</a>
+                       aria-expanded="false"
+                       th:text="#{nav.account}"></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
                         <li sec:authorize="!isAuthenticated()">
                             <a class="dropdown-item"
@@ -141,5 +163,22 @@
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".dropdown-item").click(function () {
+            const selectedOption = $(this).text();
+            const langMap = {
+                'English': 'en',
+                'Български': 'bg'
+            };
+            const selectedLang = langMap[selectedOption] || '';
+            if (selectedLang !== '') {
+                window.location.replace('?lang=' + selectedLang);
+            }
+        });
+    });
+</script>
 </body>
 </html>
