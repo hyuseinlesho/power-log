@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Home</title>
+    <title th:text="#{index.title}"></title>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -13,14 +13,17 @@
             <div class="row gx-5 align-items-center justify-content-center">
                 <div class="col-lg-8 col-xl-7 col-xxl-6">
                     <div class="my-5 text-center text-xl-start">
-                        <h1 class="display-5 fw-bolder text-white mb-2">Welcome to PowerLog</h1>
-                        <p class="lead fw-normal text-white-50 mb-4">Track your strength training workouts efficiently.
-                            Log exercises, sets, reps, weights, and manage your progress seamlessly.</p>
+                        <h1 class="display-5 fw-bolder text-white mb-2"
+                            th:text="#{index.greeting}"></h1>
+                        <p class="lead fw-normal text-white-50 mb-4"
+                           th:text="#{index.content}"></p>
                         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                             <a class="btn btn-primary btn-lg px-4 me-sm-3"
-                               th:href="@{/register}">Get Started</a>
+                               th:href="@{/register}"
+                               th:text="#{index.register}"></a>
                             <a class="btn btn-outline-light btn-lg px-4"
-                               th:href="@{/about}">Learn More</a>
+                               th:href="@{/about}"
+                               th:text="#{index.about}"></a>
                         </div>
                     </div>
                 </div>

@@ -4,15 +4,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Workout History</title>
+    <title th:text="#{workouts-history.title}"></title>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
     <section class="py-5">
         <div class="container px-5 my-5">
             <div class="text-center mb-5">
-                <h1 class="fw-bolder">Workout Log</h1>
-                <p class="lead fw-normal text-muted mb-0">Your workout history</p>
+                <h1 class="fw-bolder"
+                    th:text="#{workouts-history.header}"></h1>
+                <p class="lead fw-normal text-muted mb-0"
+                   th:text="#{workouts-history.content}"></p>
             </div>
             <!-- Success Message -->
             <div th:if="${successMessage}"
@@ -30,7 +32,8 @@
                                aria-describedby="button-search">
                         <button class="btn btn-primary"
                                 type="submit"
-                                id="button-search">Search
+                                id="button-search"
+                                th:text="#{workouts-history.search}">
                         </button>
                     </div>
                 </form>
@@ -51,10 +54,10 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Exercise</th>
-                                        <th>Sets</th>
-                                        <th>Reps</th>
-                                        <th>Weight</th>
+                                        <th th:text="#{workouts-history.exercise}"></th>
+                                        <th th:text="#{workouts-history.sets}"></th>
+                                        <th th:text="#{workouts-history.reps}"></th>
+                                        <th th:text="#{workouts-history.weight}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -70,7 +73,8 @@
                         </div>
                         <div class="card-footer">
                             <a th:href="@{|/workouts/${item.id}/details|}"
-                               class="btn btn-primary btn-sm">View Details</a>
+                               class="btn btn-primary btn-sm"
+                               th:text="#{workouts-history.details}"></a>
                         </div>
                     </div>
                 </div>

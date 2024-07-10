@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Profile</title>
+    <title th:text="#{profile.title}"></title>
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- jQuery -->
@@ -19,12 +19,15 @@
         <div class="container px-5 my-5">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="card-title">User Information</h5>
+                    <h5 class="card-title"
+                    th:text="#{profile.header}"></h5>
                 </div>
                 <div class="card-body">
                     <form th:object="${user}">
                         <div class="form-group mb-3 d-flex align-items-center">
-                            <label for="username" class="me-3">Username:</label>
+                            <label for="username"
+                                   class="me-3"
+                                   th:text="#{profile.username}"></label>
                             <input type="text"
                                    class="form-control"
                                    id="username"
@@ -32,7 +35,9 @@
                                    readonly autocomplete="username">
                         </div>
                         <div class="form-group mb-3 d-flex align-items-center">
-                            <label for="email" class="me-3">Email:</label>
+                            <label for="email"
+                                   class="me-3"
+                                   th:text="#{profile.email}"></label>
                             <input type="email"
                                    class="form-control"
                                    id="email"
@@ -41,11 +46,14 @@
                             <button type="button"
                                     class="btn btn-sm btn-secondary ms-3"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#changeEmailModal">Change
+                                    data-bs-target="#changeEmailModal"
+                                    th:text="#{profile.change}">
                             </button>
                         </div>
                         <div class="form-group mb-3 d-flex align-items-center">
-                            <label for="password" class="me-3">Password:</label>
+                            <label for="password"
+                                   class="me-3"
+                                   th:text="#{profile.password}"></label>
                             <input type="password"
                                    class="form-control"
                                    id="password"
@@ -54,7 +62,8 @@
                             <button type="button"
                                     class="btn btn-sm btn-secondary ms-3"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#changePasswordModal">Change
+                                    data-bs-target="#changePasswordModal"
+                                    th:text="#{profile.change}">
                             </button>
                         </div>
                     </form>
@@ -69,7 +78,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changeEmailModalLabel">Change Email</h5>
+                    <h5 class="modal-title"
+                        id="changeEmailModalLabel"
+                        th:text="#{profile.change.email}"></h5>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
@@ -78,7 +89,9 @@
                 <div class="modal-body">
                     <form id="changeEmailForm">
                         <div class="mb-3">
-                            <label for="newEmail" class="form-label">New Email:</label>
+                            <label for="newEmail"
+                                   class="form-label"
+                                   th:text="#{profile.new-email}"></label>
                             <input type="email"
                                    class="form-control"
                                    id="newEmail"
@@ -88,7 +101,8 @@
                             <div class="text-danger" id="newEmailError"></div>
                         </div>
                         <button type="submit"
-                                class="btn btn-primary">Save
+                                class="btn btn-primary"
+                                th:text="#{profile.save}">
                         </button>
                     </form>
                 </div>
@@ -102,7 +116,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <h5 class="modal-title"
+                        id="changePasswordModalLabel"
+                        th:text="#{profile.change-password}"></h5>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
@@ -120,7 +136,9 @@
                                    th:value="*{username}">
                         </div>
                         <div class="mb-3">
-                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <label for="oldPassword"
+                                   class="form-label"
+                                   th:text="#{profile.old-password}"></label>
                             <input type="password"
                                    class="form-control"
                                    id="oldPassword"
@@ -129,7 +147,9 @@
                             <div class="text-danger" id="oldPasswordError"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="newPassword" class="form-label">New Password</label>
+                            <label for="newPassword"
+                                   class="form-label"
+                                   th:text="#{profile.new-password}"></label>
                             <input type="password"
                                    class="form-control"
                                    id="newPassword"
@@ -138,7 +158,9 @@
                             <div class="text-danger" id="newPasswordError"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <label for="confirmPassword"
+                                   class="form-label"
+                                   th:text="#{profile.confirm-password}"></label>
                             <input type="password"
                                    class="form-control"
                                    id="confirmPassword"
@@ -147,7 +169,7 @@
                             <div class="text-danger" id="confirmPasswordError"></div>
                         </div>
                         <button type="submit"
-                                class="btn btn-primary">Save changes
+                                class="btn btn-primary" th:text="#{profile.edit.save}">
                         </button>
                     </form>
                 </div>

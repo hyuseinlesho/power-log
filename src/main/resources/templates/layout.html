@@ -59,12 +59,14 @@
                 <li sec:authorize="isAuthenticated()"
                     class="nav-item">
                     <a class="nav-link"
-                       th:href="@{/home}">Home</a>
+                       th:href="@{/home}"
+                       th:text="#{nav.home}"></a>
                 </li>
                 <li sec:authorize="!isAuthenticated()"
                     class="nav-item">
                     <a class="nav-link"
-                       th:href="@{/}">Home</a>
+                       th:href="@{/}"
+                       th:text="#{nav.home}"></a>
                 </li>
                 <li class="nav-item"><a class="nav-link"
                                         th:href="@{/about}"
@@ -84,15 +86,18 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownWelcome">
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{/workouts/history}">Workout History</a>
+                               th:href="@{/workouts/history}"
+                               th:text="#{nav.workout.history}"></a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{/workouts/create}">Create Workout</a>
+                               th:href="@{/workouts/create}"
+                               th:text="#{nav.workout.create}"></a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{/exercises}">Exercises</a>
+                               th:href="@{/exercises}"
+                               th:text="#{nav.workout.exercises}"></a>
                         </li>
                     </ul>
                 </li>
@@ -108,11 +113,13 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownTools">
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{/weight-logs}">Weight</a>
+                               th:href="@{/weight-logs}"
+                               th:text="#{nav.tools.weight}"></a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{/progress-photos}">Progress Photos</a>
+                               th:href="@{/progress-photos}"
+                               th:text="#{nav.tools.progress-photos}"></a>
                         </li>
                     </ul>
                 </li>
@@ -127,21 +134,25 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
                         <li sec:authorize="!isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/register}">Register</a>
+                               th:href="@{/register}"
+                               th:text="#{nav.account.register}"></a>
                         </li>
                         <li sec:authorize="!isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/login}">Login</a>
+                               th:href="@{/login}"
+                               th:text="#{nav.account.login}"></a>
                         </li>
                         <li sec:authorize="isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/users/profile}">Profile</a>
+                               th:href="@{/users/profile}"
+                               th:text="#{nav.account.profile}"></a>
                         </li>
                         <li sec:authorize="isAuthenticated()"
                             class="dropdown-divider"></li>
                         <li sec:authorize="isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/logout}">Logout</a>
+                               th:href="@{/logout}"
+                               th:text="#{nav.account.logout}"></a>
                         </li>
                     </ul>
                 </li>
@@ -156,7 +167,8 @@
     <div class="container px-5">
         <div class="row align-items-center justify-content-between flex-column flex-sm-row">
             <div class="col-auto">
-                <div class="small m-0 text-white">Copyright &copy; 2024 PowerLog. All rights reserved.</div>
+                <div class="small m-0 text-white"
+                     th:text="#{footer.copyright} + ' &copy; 2024 PowerLog. ' + #{footer.rights}"></div>
             </div>
         </div>
     </div>

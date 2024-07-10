@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Weight Log</title>
+    <title th:text="#{weight-logs.title}"></title>
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Toastr CSS -->
@@ -24,12 +24,14 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#addWeightLogModal">
-                    <i class="bi bi-plus-circle"></i> Add Weight Log
+                        data-bs-target="#addWeightLogModal"
+                        th:text="#{weight-logs.add}">
+                    <i class="bi bi-plus-circle"></i>
                 </button>
                 <a th:href="@{/weight-logs/graph}"
-                   class="btn btn-secondary">
-                    <i class="bi bi-graph-up"></i> View Weight Graph
+                   class="btn btn-secondary"
+                   th:text="#{weight-logs.graph}">
+                    <i class="bi bi-graph-up"></i>
                 </a>
             </div>
             <div class="row">
@@ -37,10 +39,10 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>Weight</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Comment</th>
+                            <th th:text="#{weight-logs.weight}"></th>
+                            <th th:text="#{weight-logs.date}">Date</th>
+                            <th th:text="#{weight-logs.time}">Time</th>
+                            <th th:text="#{weight-logs.comment}">Comment</th>
                         </tr>
                         </thead>
                         <tbody id="weightLogsTableBody">
@@ -69,7 +71,9 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addWeightLogModalLabel">Add Weight Log</h5>
+                            <h5 class="modal-title"
+                                id="addWeightLogModalLabel"
+                                th:text="#{weight-logs.add}"></h5>
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
@@ -78,7 +82,9 @@
                         <div class="modal-body">
                             <form id="addWeightLogForm">
                                 <div class="mb-3">
-                                    <label for="addWeightValue" class="form-label">Weight (kg):</label>
+                                    <label for="addWeightValue"
+                                           class="form-label"
+                                           th:text="#{weight-logs.add.weight}"></label>
                                     <input type="number"
                                            class="form-control"
                                            id="addWeightValue"
@@ -88,7 +94,9 @@
                                     <div class="text-danger" id="addWeightError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="addWeightDate" class="form-label">Date:</label>
+                                    <label for="addWeightDate"
+                                           class="form-label"
+                                           th:text="#{weight-logs.add.date}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="addWeightDate"
@@ -96,7 +104,9 @@
                                     <div class="text-danger" id="addDateError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="addWeightTime" class="form-label">Time:</label>
+                                    <label for="addWeightTime"
+                                           class="form-label"
+                                           th:text="#{weight-logs.add.time}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="addWeightTime"
@@ -104,7 +114,9 @@
                                     <div class="text-danger" id="addTimeError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="addWeightComment" class="form-label">Comment:</label>
+                                    <label for="addWeightComment"
+                                           class="form-label"
+                                           th:text="#{weight-logs.add.comment}"></label>
                                     <textarea class="form-control"
                                               id="addWeightComment"
                                               name="comment"
@@ -112,7 +124,8 @@
                                     <div class="text-danger" id="addCommentError"></div>
                                 </div>
                                 <button type="submit"
-                                        class="btn btn-primary">Add
+                                        class="btn btn-primary"
+                                        th:text="#{weight-logs.add.button}">
                                 </button>
                             </form>
                         </div>
@@ -127,7 +140,9 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editWeightLogModalLabel">Edit Weight Log</h5>
+                            <h5 class="modal-title"
+                                id="editWeightLogModalLabel"
+                                th:text="#{weight-logs.edit}"></h5>
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
@@ -136,7 +151,9 @@
                         <div class="modal-body">
                             <form id="editWeightLogForm">
                                 <div class="mb-3">
-                                    <label for="editWeightValue" class="form-label">Weight (kg):</label>
+                                    <label for="editWeightValue"
+                                           class="form-label"
+                                           th:text="#{weight-logs.edit.weight}"></label>
                                     <input type="number"
                                            class="form-control"
                                            id="editWeightValue"
@@ -146,7 +163,9 @@
                                     <div class="text-danger" id="editWeightError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editWeightDate" class="form-label">Date:</label>
+                                    <label for="editWeightDate"
+                                           class="form-label"
+                                           th:text="#{weight-logs.edit.date}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="editWeightDate"
@@ -154,7 +173,9 @@
                                     <div class="text-danger" id="editDateError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editWeightTime" class="form-label">Time:</label>
+                                    <label for="editWeightTime"
+                                           class="form-label"
+                                           th:text="#{weight-logs.edit.time}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="editWeightTime"
@@ -162,7 +183,9 @@
                                     <div class="text-danger" id="editTimeError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editWeightComment" class="form-label">Comment:</label>
+                                    <label for="editWeightComment"
+                                           class="form-label"
+                                           th:text="#{weight-logs.edit.comment}"></label>
                                     <textarea class="form-control"
                                               id="editWeightComment"
                                               name="comment"
@@ -171,11 +194,13 @@
                                 </div>
                                 <button type="submit"
                                         class="btn btn-primary"
-                                        id="saveChangesButton">Save changes
+                                        id="saveChangesButton"
+                                        th:text="#{weight-logs.edit.button}">
                                 </button>
                                 <button type="submit"
                                         class="btn btn-danger"
-                                        id="deleteButton">Delete
+                                        id="deleteButton"
+                                        th:text="#{weight-logs.delete}">
                                 </button>
                             </form>
                         </div>

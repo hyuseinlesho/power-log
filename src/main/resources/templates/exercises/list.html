@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Exercises</title>
+    <title th:text="#{exercises.title}"></title>
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- jQuery -->
@@ -20,18 +20,20 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#addExerciseModal">
-                    <i class="bi bi-plus-circle"></i> Add Exercise
+                        data-bs-target="#addExerciseModal"
+                        th:text="#{exercises.add}">
+                    <i class="bi bi-plus-circle"></i>
                 </button>
                 <a th:href="@{/exercises/graph}"
-                   class="btn btn-secondary">
-                    <i class="bi bi-graph-up"></i> View Exercises Graph
+                   class="btn btn-secondary"
+                   th:text="#{exercises.graph}">
+                    <i class="bi bi-graph-up"></i>
                 </a>
             </div>
             <div class="row">
                 <!-- Strength Exercises Column -->
                 <div class="col-md-6">
-                    <h3>Strength</h3>
+                    <h3 th:text="#{exercises.strength}"></h3>
                     <div class="list-group">
                         <div id="strengthExercisesListBody">
                             <a th:each="exercise : ${exercises}"
@@ -42,8 +44,8 @@
                            T(com.hyuseinlesho.powerlog.model.enums.ExerciseType).Strength}"
                                class="list-group-item list-group-item-action">
                                 <div>
-                                    <strong>Name:</strong>
-                                    <span th:text="${exercise.name}">Exercise Name</span>
+                                    <strong th:text="#{exercises.name}"></strong>
+                                    <span th:text="${exercise.name}"></span>
                                 </div>
                             </a>
                         </div>
@@ -51,7 +53,7 @@
                 </div>
                 <!-- Cardio Exercises Column -->
                 <div class="col-md-6">
-                    <h3>Cardio</h3>
+                    <h3 th:text="#{exercises.cardio}"></h3>
                     <div class="list-group">
                         <div id="cardioExercisesListBody"></div>
                         <a th:each="exercise : ${exercises}"
@@ -62,8 +64,8 @@
                            T(com.hyuseinlesho.powerlog.model.enums.ExerciseType).Cardio}"
                            class="list-group-item list-group-item-action">
                             <div>
-                                <strong>Name:</strong>
-                                <span th:text="${exercise.name}">Exercise Name</span>
+                                <strong th:text="#{exercises.name}"></strong>
+                                <span th:text="${exercise.name}"></span>
                             </div>
                         </a>
                     </div>
@@ -77,7 +79,9 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addExerciseModalLabel">Add Exercise</h5>
+                            <h5 class="modal-title"
+                                id="addExerciseModalLabel"
+                                th:text="#{exercises.add}"></h5>
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
@@ -86,7 +90,9 @@
                         <div class="modal-body">
                             <form id="addExerciseForm">
                                 <div class="mb-3">
-                                    <label for="addExerciseName" class="form-label">Name:</label>
+                                    <label for="addExerciseName"
+                                           class="form-label"
+                                           th:text="#{exercises.name}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="addExerciseName"
@@ -97,19 +103,22 @@
                                     <div class="text-danger" id="addNameError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="addExerciseType" class="form-label">Type:</label>
+                                    <label for="addExerciseType"
+                                           class="form-label"
+                                           th:text="#{exercises.type}"></label>
                                     <select class="form-control"
                                             id="addExerciseType"
                                             name="type">
                                         <option th:each="type : ${exerciseTypes}"
                                                 th:value="${type}"
-                                                th:text="${type}">Type
+                                                th:text="${type}">
                                         </option>
                                     </select>
                                     <div class="text-danger" id="addTypeError"></div>
                                 </div>
                                 <button type="submit"
-                                        class="btn btn-primary">Add
+                                        class="btn btn-primary"
+                                        th:text="#{exercises.button}">
                                 </button>
                             </form>
                         </div>
@@ -124,7 +133,9 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editExerciseModalLabel">Edit Exercise</h5>
+                            <h5 class="modal-title"
+                                id="editExerciseModalLabel"
+                                th:text="#{exercises.edit}"></h5>
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
@@ -133,7 +144,9 @@
                         <div class="modal-body">
                             <form id="editExerciseForm">
                                 <div class="mb-3">
-                                    <label for="editExerciseName" class="form-label">Name:</label>
+                                    <label for="editExerciseName"
+                                           class="form-label"
+                                           th:text="#{exercises.name}"></label>
                                     <input type="text"
                                            class="form-control"
                                            id="editExerciseName"
@@ -143,24 +156,28 @@
                                     <div class="text-danger" id="editNameError"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editExerciseType" class="form-label">Type:</label>
+                                    <label for="editExerciseType"
+                                           class="form-label"
+                                           th:text="#{exercises.type}"></label>
                                     <select class="form-control"
                                             id="editExerciseType"
                                             name="type">
                                         <option th:each="type : ${exerciseTypes}"
                                                 th:value="${type}"
-                                                th:text="${type}">Type
+                                                th:text="${type}">
                                         </option>
                                     </select>
                                     <div class="text-danger" id="editTypeError"></div>
                                 </div>
                                 <button type="submit"
                                         class="btn btn-primary"
-                                        id="saveChangesButton">Save changes
+                                        id="saveChangesButton"
+                                        th:text="#{exercises.edit.save}">
                                 </button>
                                 <button type="submit"
                                         class="btn btn-danger"
-                                        id="deleteButton">Delete
+                                        id="deleteButton"
+                                        th:text="#{exercises.edit.delete}">
                                 </button>
                             </form>
                         </div>

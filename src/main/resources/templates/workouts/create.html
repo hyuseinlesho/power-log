@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Create Workout</title>
+    <title th:text="#{workouts-create.title}"></title>
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- jQuery -->
@@ -17,14 +17,15 @@
 <main class="flex-shrink-0" layout:fragment="content">
     <section class="py-5">
         <div class="container px-5 my-5">
-            <h2>Create Workout</h2>
+            <h2 th:text="#{workouts-create.title}"></h2>
             <form th:action="@{/workouts/create}"
                   th:object="${workoutDto}"
                   method="post">
 
                 <!-- Title Field -->
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title"
+                           th:text="#{workouts-create.title-field}"></label>
                     <input type="text"
                            class="form-control"
                            id="title"
@@ -36,7 +37,8 @@
 
                 <!-- Date and Time Fields -->
                 <section class="selectDateAndTime">
-                    <label for="date">Date & Time</label>
+                    <label for="date"
+                           th:text="#{workouts-create.date-time}"></label>
                     <!-- Date Field -->
                     <div class="form-group" style="margin-bottom: 8px;">
                         <input type="text"
@@ -63,7 +65,8 @@
                          th:if="${workoutDto.exercises == null}">
                     <!-- Number of Exercises Field -->
                     <div class="form-group">
-                        <label for="exerciseCount">Number of Exercises</label>
+                        <label for="exerciseCount"
+                               th:text="#{workouts-create.number}"></label>
                         <input type="number"
                                class="form-control"
                                id="exerciseCount"
@@ -72,7 +75,8 @@
                     </div>
                     <button type="submit"
                             class="btn btn-primary btn-sm mt-2"
-                            th:onclick="setExerciseCount()">Set
+                            th:onclick="setExerciseCount()"
+                            th:text="#{workouts-create.button}">
                     </button>
                 </section>
 
@@ -81,12 +85,14 @@
                      th:each="exercise, iterStat : *{exercises}">
                     <h4>Exercise <span th:text="${iterStat.index + 1}"></span></h4>
                     <div class="form-group">
-                        <label th:for="'exerciseSelect' + ${iterStat.index}">Exercise</label>
+                        <label th:for="'exerciseSelect' + ${iterStat.index}"
+                               th:text="#{workouts-create.exercise}"></label>
                         <select class="form-control exercise-select"
                                 th:id="'exerciseSelect' + ${iterStat.index}"
                                 th:field="*{exercises[__${iterStat.index}__].name}"
                                 data-index="${iterStat.index}">
-                            <option value="" selected disabled>Select Exercise</option>
+                            <option value="" selected disabled
+                                    th:text="#{workouts-create.select}"></option>
                             <option th:each="exerciseOption : ${exerciseOptions}"
                                     th:value="${exerciseOption.name}"
                                     th:text="${exerciseOption.name}"></option>
@@ -97,11 +103,13 @@
                         <button type="button"
                                 class="btn btn-link"
                                 data-bs-toggle="modal"
-                                data-bs-target="#addNewExerciseModal">Or add new exercise
+                                data-bs-target="#addNewExerciseModal"
+                                th:text="#{workouts-create.new-exercise}">
                         </button>
                     </div>
                     <div class="form-group">
-                        <label th:for="'sets' + ${iterStat.index}">Sets</label>
+                        <label th:for="'sets' + ${iterStat.index}"
+                               th:text="#{workouts-create.sets}"></label>
                         <input type="number"
                                class="form-control"
                                th:id="'sets' + ${iterStat.index}"
@@ -111,7 +119,8 @@
                              th:errors="*{exercises[__${iterStat.index}__].sets}"></div>
                     </div>
                     <div class="form-group">
-                        <label th:for="'reps' + ${iterStat.index}">Reps</label>
+                        <label th:for="'reps' + ${iterStat.index}"
+                               th:text="#{workouts-create.reps}"></label>
                         <input type="number"
                                class="form-control"
                                th:id="'reps' + ${iterStat.index}"
@@ -121,7 +130,8 @@
                              th:errors="*{exercises[__${iterStat.index}__].reps}"></div>
                     </div>
                     <div class="form-group">
-                        <label th:for="'weight' + ${iterStat.index}">Weight (kg)</label>
+                        <label th:for="'weight' + ${iterStat.index}"
+                               th:text="#{workouts-create.weight}"></label>
                         <input type="number"
                                step="0.01"
                                class="form-control"
@@ -136,7 +146,8 @@
                 <!-- Comment Field -->
                 <div class="form-group"
                      th:if="${workoutDto.exercises != null}">
-                    <label for="comment">Comment</label>
+                    <label for="comment"
+                           th:text="#{workouts-create.comment}"></label>
                     <textarea class="form-control"
                               id="comment"
                               th:field="*{comment}"></textarea>
@@ -148,7 +159,8 @@
                 <!-- Submit Button -->
                 <button type="submit"
                         class="btn btn-primary mt-2"
-                        th:if="${workoutDto.exercises != null}">Create Workout
+                        th:if="${workoutDto.exercises != null}"
+                        th:text="#{workouts-create.submit}">
                 </button>
             </form>
         </div>
@@ -160,7 +172,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addNewExerciseModalLabel">Add New Exercise</h5>
+                    <h5 class="modal-title"
+                        id="addNewExerciseModalLabel"
+                        th:text="#{workouts-create.new-exercise.modal}"></h5>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
@@ -169,7 +183,9 @@
                 <div class="modal-body">
                     <form id="addNewExerciseForm">
                         <div class="mb-3">
-                            <label for="exerciseName" class="form-label">Name:</label>
+                            <label for="exerciseName"
+                                   class="form-label"
+                                   th:text="#{workouts-create.new-exercise.name}"></label>
                             <input type="text"
                                    class="form-control"
                                    id="exerciseName"
@@ -180,7 +196,9 @@
                             <div class="text-danger" id="nameError"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exerciseType" class="form-label">Type:</label>
+                            <label for="exerciseType"
+                                   class="form-label"
+                                   th:text="#{workouts-create.new-exercise.type}"></label>
                             <select class="form-control"
                                     id="exerciseType"
                                     name="type">
@@ -190,7 +208,8 @@
                             <div class="text-danger" id="typeError"></div>
                         </div>
                         <button type="submit"
-                                class="btn btn-primary">Add
+                                class="btn btn-primary"
+                                th:text="#{workouts-create.new-exercise.button}">
                         </button>
                     </form>
                 </div>

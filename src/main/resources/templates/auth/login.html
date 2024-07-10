@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Login</title>
+    <title th:text="#{login.title}"></title>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -14,23 +14,24 @@
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card border-0 shadow rounded-3">
                         <div class="card-body p-4 p-sm-5">
-                            <h2 class="text-center mb-4">Login</h2>
+                            <h2 class="text-center mb-4"
+                                th:text="#{login.title}"></h2>
                             <form th:action="@{/login}"
                                   method="post">
                                 <!-- Success message -->
                                 <div th:if="${param.success}"
-                                     class="alert alert-success mb-4">
-                                    You are registered successfully!
+                                     class="alert alert-success mb-4"
+                                     th:text="#{login.success}">
                                 </div>
                                 <!-- Error message -->
                                 <div th:if="${param.error}"
-                                     class="alert alert-danger mb-4">
-                                    Invalid username or password.
+                                     class="alert alert-danger mb-4"
+                                     th:text="#{login.error}">
                                 </div>
                                 <!-- Logout message -->
                                 <div th:if="${param.logout}"
-                                     class="alert alert-success mb-4">
-                                    You have been logged out.
+                                     class="alert alert-success mb-4"
+                                     th:text="#{login.logout}">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text"
@@ -40,7 +41,8 @@
                                            placeholder="Username"
                                            required autofocus
                                            autocomplete="username">
-                                    <label for="username">Username</label>
+                                    <label for="username"
+                                           th:text="#{login.username}"></label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="password"
@@ -49,14 +51,17 @@
                                            id="password"
                                            placeholder="Password"
                                            required autocomplete="current-password">
-                                    <label for="password">Password</label>
+                                    <label for="password"
+                                           th:text="#{login.password}"></label>
                                 </div>
                                 <div class="d-grid">
                                     <button type="submit"
-                                            class="btn btn-primary">Login
+                                            class="btn btn-primary"
+                                            th:text="#{login.title}">
                                     </button>
                                     <a th:href="@{/register}"
-                                       class="btn btn-secondary mt-2">Don't have an account? Register here</a>
+                                       class="btn btn-secondary mt-2"
+                                       th:text="#{login.register}"></a>
                                 </div>
                             </form>
                         </div>

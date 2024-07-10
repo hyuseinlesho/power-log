@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Register</title>
+    <title th:text="#{register.title}"></title>
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -14,14 +14,15 @@
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card border-0 shadow rounded-3">
                         <div class="card-body p-4 p-sm-5">
-                            <h2 class="text-center mb-4">Register</h2>
+                            <h2 class="text-center mb-4"
+                                th:text="#{register.title}"></h2>
                             <form th:action="@{/register}"
                                   method="post"
                                   th:object="${registerDto}">
                                 <!-- Fail message -->
                                 <div th:if="${param.fail}"
-                                     class="alert alert-danger mb-4">
-                                    Username or email already exists!
+                                     class="alert alert-danger mb-4"
+                                     th:text="#{register.fail}">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text"
@@ -30,7 +31,8 @@
                                            placeholder="Username"
                                            th:field="*{username}"
                                            required autofocus autocomplete="username">
-                                    <label for="inputUsername">Username</label>
+                                    <label for="inputUsername"
+                                           th:text="#{register.username}"></label>
                                     <div class="invalid-feedback"
                                          th:if="${#fields.hasErrors('username')}"
                                          th:errors="*{username}"></div>
@@ -42,7 +44,8 @@
                                            placeholder="Email"
                                            th:field="*{email}"
                                            required autocomplete="email">
-                                    <label for="inputEmail">Email address</label>
+                                    <label for="inputEmail"
+                                           th:text="#{register.email}"></label>
                                     <div class="invalid-feedback"
                                          th:if="${#fields.hasErrors('email')}"
                                          th:errors="*{email}"></div>
@@ -54,7 +57,8 @@
                                            placeholder="Password"
                                            th:field="*{password}"
                                            required autocomplete="new-password">
-                                    <label for="inputPassword">Password</label>
+                                    <label for="inputPassword"
+                                           th:text="#{register.password}"></label>
                                     <div class="invalid-feedback"
                                          th:if="${#fields.hasErrors('password')}"
                                          th:errors="*{password}"></div>
@@ -66,7 +70,8 @@
                                            placeholder="Confirm Password"
                                            th:field="*{confirmPassword}"
                                            required autocomplete="new-password">
-                                    <label for="inputConfirmPassword">Confirm Password</label>
+                                    <label for="inputConfirmPassword"
+                                           th:text="#{register.confirm-password}"></label>
                                     <div class="invalid-feedback"
                                          th:if="${#fields.hasErrors('confirmPassword')}"
                                          th:errors="*{confirmPassword}"></div>
@@ -76,10 +81,12 @@
                                      th:errors="*{passwordsMatching}"></div>
                                 <div class="d-grid">
                                     <button type="submit"
-                                            class="btn btn-primary">Register
+                                            class="btn btn-primary"
+                                            th:text="#{register.title}">
                                     </button>
                                     <a th:href="@{/login}"
-                                       class="btn btn-secondary mt-2">Login here</a>
+                                       class="btn btn-secondary mt-2"
+                                       th:text="#{register.login}"></a>
                                 </div>
                             </form>
                         </div>
