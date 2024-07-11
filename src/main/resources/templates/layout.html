@@ -29,6 +29,26 @@
         <a sec:authorize="!isAuthenticated()"
            class="navbar-brand"
            th:href="@{/}">PowerLog</a>
+        <!-- Language Change Dropdown -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                   id="navbarDropdownLanguage"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <span th:text="#{lang.change}"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownLanguage">
+                    <li><a class="dropdown-item"
+                           th:text="#{lang.eng}"></a></li>
+                    <li><a class="dropdown-item"
+                           th:text="#{lang.bg}"></a></li>
+                </ul>
+            </li>
+        </ul>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -39,23 +59,6 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown ms-3">
-                    <a class="nav-link dropdown-toggle"
-                       id="navbarDropdownLanguage"
-                       href="#"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <span th:text="#{lang.change}"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="navbarDropdownLanguage">
-                        <li><a class="dropdown-item"
-                               th:text="#{lang.eng}"></a></li>
-                        <li><a class="dropdown-item"
-                               th:text="#{lang.bg}"></a></li>
-                    </ul>
-                </li>
                 <li sec:authorize="isAuthenticated()"
                     class="nav-item">
                     <a class="nav-link"

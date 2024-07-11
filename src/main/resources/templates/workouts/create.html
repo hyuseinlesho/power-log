@@ -7,10 +7,14 @@
     <title th:text="#{workouts-create.title}"></title>
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script th:src="@{/js/workouts.js}"></script>
 </head>
 <body class="d-flex flex-column">
@@ -83,10 +87,12 @@
                 <!-- Exercises Fields -->
                 <div th:if="${workoutDto.exercises != null}"
                      th:each="exercise, iterStat : *{exercises}">
-                    <h4>Exercise <span th:text="${iterStat.index + 1}"></span></h4>
+                    <h4>
+                        <span th:text="#{workouts-create.exercise} + ' ' + ${iterStat.index + 1}"></span>
+                    </h4>
                     <div class="form-group">
                         <label th:for="'exerciseSelect' + ${iterStat.index}"
-                               th:text="#{workouts-create.exercise}"></label>
+                               th:text="#{workouts-create.name}"></label>
                         <select class="form-control exercise-select"
                                 th:id="'exerciseSelect' + ${iterStat.index}"
                                 th:field="*{exercises[__${iterStat.index}__].name}"
