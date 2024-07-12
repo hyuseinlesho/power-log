@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
+    private final ContactMapper contactMapper;
 
-    public ContactServiceImpl(ContactRepository contactRepository) {
+    public ContactServiceImpl(ContactRepository contactRepository, ContactMapper contactMapper) {
         this.contactRepository = contactRepository;
+        this.contactMapper = contactMapper;
     }
 
     @Override
     public void saveContact(CreateContactDto contactDto) {
-        Contact contact = ContactMapper.INSTANCE.mapToContact(contactDto);
+        Contact contact = contactMapper.mapToContact(contactDto);
         contactRepository.save(contact);
     }
 }
