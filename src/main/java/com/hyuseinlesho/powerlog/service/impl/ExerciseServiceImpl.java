@@ -1,14 +1,14 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
+import com.hyuseinlesho.powerlog.exception.ExerciseNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
+import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.model.dto.ExerciseDto;
 import com.hyuseinlesho.powerlog.model.dto.UpdateExerciseDto;
 import com.hyuseinlesho.powerlog.model.entity.Exercise;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.repository.ExerciseRepository;
-import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.UserService;
@@ -20,18 +20,18 @@ import java.util.Optional;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
+    private final ExerciseMapper exerciseMapper;
     private final UserService userService;
-    private final UserRepository userRepository;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, UserService userService, UserRepository userRepository) {
+    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, ExerciseMapper exerciseMapper, UserService userService) {
         this.exerciseRepository = exerciseRepository;
+        this.exerciseMapper = exerciseMapper;
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @Override
     public Exercise createExercise(CreateExerciseDto exerciseDto) {
-        Exercise exercise = ExerciseMapper.INSTANCE.mapToExercise(exerciseDto);
+        Exercise exercise = exerciseMapper.mapToExercise(exerciseDto);
 
         List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
         if (exercises.contains(exercise)) {
@@ -58,9 +58,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public CreateExerciseDto findExerciseById(Long exerciseId) {
-        Exercise exercise = exerciseRepository.findById(exerciseId).get();
-        return ExerciseMapper.INSTANCE.mapToCreateExerciseDto(exercise);
+    public CreateExerciseDto findExerciseById(Long id) {
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found for id: " + id));;
+        return exerciseMapper.mapToCreateExerciseDto(exercise);
     }
 
     @Override
@@ -73,7 +74,8 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise updateExercise(Long id, UpdateExerciseDto exerciseDto) {
-        Exercise exercise = exerciseRepository.findById(id).get();
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found for id: " + id));;
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
@@ -87,6 +89,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void deleteExercise(Long id) {
+        if (!exerciseRepository.existsById(id)) {
+            throw new ExerciseNotFoundException("Exercise not found for id: " + id);
+        }
+
         exerciseRepository.deleteById(id);
     }
 }

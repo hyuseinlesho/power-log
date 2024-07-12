@@ -10,9 +10,10 @@ import java.util.List;
 
 public interface ExerciseService {
     Exercise createExercise(CreateExerciseDto exerciseDto);
+
     boolean addNewExercise(String name, ExerciseType type);
 
-    CreateExerciseDto findExerciseById(Long exerciseId);
+    CreateExerciseDto findExerciseById(Long id);
 
     List<ExerciseDto> findAllExercises();
 
