@@ -26,7 +26,7 @@ public class ContactServiceImplTest {
     private ContactServiceImpl contactService;
 
     @Test
-    public void saveContact() {
+    void saveContact() {
         CreateContactDto contactDto = CreateContactDto.builder()
                 .name("John Doe")
                 .email("john.doe@example.com")

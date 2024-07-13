@@ -36,7 +36,7 @@ public class WeightLogServiceImplTest {
     private WeightLogServiceImpl weightLogService;
 
     @Test
-    public void createWeightLog_ReturnsWeightLog() {
+    void createWeightLog_ReturnsWeightLog() {
         CreateWeightLogDto weightLogDto = CreateWeightLogDto.builder()
                 .weight(70.2)
                 .date(LocalDate.of(2024, 1, 1))
@@ -64,7 +64,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void findAllWeightLogs_NoWeightLogs_ReturnsEmptyList() {
+    void findAllWeightLogs_NoWeightLogs_ReturnsEmptyList() {
         UserEntity user = new UserEntity();
         user.setUsername("test_user");
 
@@ -78,7 +78,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void findAllWeightLogs_ExercisesExists_ReturnsWeightLogDtoList() {
+    void findAllWeightLogs_ExercisesExists_ReturnsWeightLogDtoList() {
         WeightLogDto weightLogDto1 = WeightLogDto.builder()
                 .weight(70.2)
                 .date(LocalDate.of(2024, 1, 1))
@@ -119,7 +119,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void updateWeightLog_WeightLogDoesNotExist_ThrowsWeightLogNotFoundException() {
+    void updateWeightLog_WeightLogDoesNotExist_ThrowsWeightLogNotFoundException() {
         Long weightLogId = 1L;
 
         UpdateWeightLogDto weightLogDto = UpdateWeightLogDto.builder()
@@ -137,7 +137,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void updateWeightLog_WeightLogExists_ReturnsUpdatedWeightLog() {
+    void updateWeightLog_WeightLogExists_ReturnsUpdatedWeightLog() {
         Long weightLogId = 1L;
 
         UpdateWeightLogDto weightLogDto = UpdateWeightLogDto.builder()
@@ -172,7 +172,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void deleteWeightLog_WeightLogDoesNotExist_ThrowsWeightLogNotFoundException() {
+    void deleteWeightLog_WeightLogDoesNotExist_ThrowsWeightLogNotFoundException() {
         Long weightLogId = 1L;
 
         when(weightLogRepository.existsById(weightLogId)).thenReturn(false);
@@ -186,7 +186,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void deleteWeightLog_WeightLogExists_DeleteById() {
+    void deleteWeightLog_WeightLogExists_DeleteById() {
         Long weightLogId = 1L;
 
         when(weightLogRepository.existsById(weightLogId)).thenReturn(true);
@@ -199,7 +199,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void getWeightLogs_ReturnsWeightLogGraphDtoList() {
+    void getWeightLogs_ReturnsWeightLogGraphDtoList() {
         UserEntity user = new UserEntity();
 
         WeightLog weightLog1 = WeightLog.builder()
@@ -247,7 +247,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    public void getWeightLogsBetweenDates_ReturnsWeightLogGraphDtoList() {
+    void getWeightLogsBetweenDates_ReturnsWeightLogGraphDtoList() {
         UserEntity user = new UserEntity();
         LocalDate startDate = LocalDate.of(2023, 1, 1);
         LocalDate endDate = LocalDate.of(2023, 1, 5);

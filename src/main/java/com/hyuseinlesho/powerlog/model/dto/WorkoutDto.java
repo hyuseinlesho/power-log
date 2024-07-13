@@ -1,7 +1,6 @@
 package com.hyuseinlesho.powerlog.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -11,6 +10,9 @@ import java.util.Locale;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WorkoutDto {
     private Long id;
     private String title;
@@ -19,7 +21,7 @@ public class WorkoutDto {
     private LocalDate date;
 
     private String time;
-    private List<CreateExerciseLogDto> exercises;
+    private List<ExerciseLogDto> exercises;
     private double totalVolume;
     private String comment;
 

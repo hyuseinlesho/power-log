@@ -4,8 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -13,6 +12,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CreateWorkoutDto {
     private Long id;
 
@@ -29,7 +31,7 @@ public class CreateWorkoutDto {
 
     @NotNull(message = "Exercises cannot be null")
     @Valid
-    private List<CreateExerciseLogDto> exercises;
+    private List<ExerciseLogDto> exercises;
 
     @Size(max = 300, message = "Comment cannot be longer than 300 characters")
     private String comment;

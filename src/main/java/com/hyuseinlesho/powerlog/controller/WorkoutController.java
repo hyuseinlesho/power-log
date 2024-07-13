@@ -2,6 +2,7 @@ package com.hyuseinlesho.powerlog.controller;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.ExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
@@ -50,9 +51,9 @@ public class WorkoutController {
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
         if (exerciseCount != null) {
-            List<CreateExerciseLogDto> exercises = new ArrayList<>();
+            List<ExerciseLogDto> exercises = new ArrayList<>();
             for (int i = 0; i < exerciseCount; i++) {
-                exercises.add(new CreateExerciseLogDto());
+                exercises.add(new ExerciseLogDto());
             }
             workoutDto.setExercises(exercises);
             model.addAttribute("exerciseOptions", exerciseService.findAllExercises());

@@ -1,8 +1,10 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
+import com.hyuseinlesho.powerlog.exception.WeightLogNotFoundException;
+import com.hyuseinlesho.powerlog.exception.WorkoutNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
-import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.ExerciseLogDto;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
@@ -18,24 +20,25 @@ import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
+    private final WorkoutMapper workoutMapper;
     private final ExerciseLogRepository exerciseLogRepository;
     private final UserService userService;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseLogRepository exerciseLogRepository, UserService userService) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, WorkoutMapper workoutMapper, ExerciseLogRepository exerciseLogRepository, UserService userService) {
         this.workoutRepository = workoutRepository;
+        this.workoutMapper = workoutMapper;
         this.exerciseLogRepository = exerciseLogRepository;
         this.userService = userService;
     }
 
     @Override
     public void createWorkout(CreateWorkoutDto workoutDto) {
-        Workout workout = WorkoutMapper.INSTANCE.mapToWorkout(workoutDto);
+        Workout workout = workoutMapper.mapToWorkout(workoutDto);
         workout.setUser(userService.getCurrentUser());
 
         List<ExerciseLog> exercises = workout.getExercises();
@@ -48,9 +51,10 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public WorkoutDto findWorkoutById(Long workoutId) {
-        Workout workout = workoutRepository.findById(workoutId).get();
-        return WorkoutMapper.INSTANCE.mapToWorkoutDto(workout);
+    public WorkoutDto findWorkoutById(Long id) {
+        Workout workout = workoutRepository.findById(id)
+                .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + id));;
+        return workoutMapper.mapToWorkoutDto(workout);
     }
 
     @Override
@@ -70,12 +74,12 @@ public class WorkoutServiceImpl implements WorkoutService {
         workout.setTime(workoutDto.getTime());
 
         List<ExerciseLog> exercises = exerciseLogRepository.findAllByWorkout(workout);
-        List<CreateExerciseLogDto> exerciseDtos = workoutDto.getExercises();
+        List<ExerciseLogDto> exerciseDtos = workoutDto.getExercises();
 
         int minSize = Math.min(exercises.size(), exerciseDtos.size());
         for (int i = 0; i < minSize; i++) {
             ExerciseLog exerciseLog = exercises.get(i);
-            CreateExerciseLogDto exerciseDto = exerciseDtos.get(i);
+            ExerciseLogDto exerciseDto = exerciseDtos.get(i);
 
             exerciseLog.setName(exerciseDto.getName());
             exerciseLog.setSets(exerciseDto.getSets());
@@ -85,7 +89,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         if (exerciseDtos.size() > exercises.size()) {
             for (int i = exercises.size(); i < exerciseDtos.size(); i++) {
-                CreateExerciseLogDto exerciseDto = exerciseDtos.get(i);
+                ExerciseLogDto exerciseDto = exerciseDtos.get(i);
                 ExerciseLog newExerciseLog = new ExerciseLog();
 
                 newExerciseLog.setWorkout(workout);

@@ -40,7 +40,7 @@ public class ExerciseServiceImplTest {
     private ExerciseServiceImpl exerciseService;
 
     @Test
-    public void createExercise_ExerciseExists_ThrowsExerciseAlreadyExistsException() {
+    void createExercise_ExerciseExists_ThrowsExerciseAlreadyExistsException() {
         CreateExerciseDto exerciseDto = CreateExerciseDto.builder()
                 .name("Squat")
                 .type(ExerciseType.Strength).build();
@@ -65,7 +65,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void createExercise_ExerciseDoesNotExist_ReturnsExercise() {
+    void createExercise_ExerciseDoesNotExist_ReturnsExercise() {
         CreateExerciseDto exerciseDto = CreateExerciseDto.builder()
                 .name("Squat")
                 .type(ExerciseType.Strength).build();
@@ -94,7 +94,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void addNewExercise_ExerciseDoesNotExist_ReturnsTrue() {
+    void addNewExercise_ExerciseDoesNotExist_ReturnsTrue() {
         String name = "Squat";
         ExerciseType type = ExerciseType.Strength;
 
@@ -112,7 +112,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void addNewExercise_ExerciseExists_ReturnsFalse() {
+    void addNewExercise_ExerciseExists_ReturnsFalse() {
         String name = "Squat";
         ExerciseType type = ExerciseType.Strength;
 
@@ -134,7 +134,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void findExerciseById_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
+    void findExerciseById_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
         Long exerciseId = 1L;
 
         Exercise exercise = Exercise.builder()
@@ -150,7 +150,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void findExerciseById_ExerciseExists_ReturnsCreateExerciseDto() {
+    void findExerciseById_ExerciseExists_ReturnsCreateExerciseDto() {
         Long exerciseId = 1L;
 
         ExerciseDto exerciseDto = ExerciseDto.builder()
@@ -175,7 +175,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void findAllExercises_NoExercises_ReturnsEmptyList() {
+    void findAllExercises_NoExercises_ReturnsEmptyList() {
         UserEntity user = new UserEntity();
         user.setUsername("test_user");
 
@@ -189,7 +189,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void findAllExercises_ExercisesExist_ReturnsExerciseDtoList() {
+    void findAllExercises_ExercisesExist_ReturnsExerciseDtoList() {
         ExerciseDto exerciseDto1 = ExerciseDto.builder()
                 .name("Squat")
                 .type(ExerciseType.Strength).build();
@@ -225,7 +225,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void updateExercise_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
+    void updateExercise_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
         Long exerciseId = 1L;
 
         UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
@@ -241,7 +241,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void updateExercise_ExerciseAlreadyExists_ThrowsExerciseAlreadyExistsException() {
+    void updateExercise_ExerciseAlreadyExists_ThrowsExerciseAlreadyExistsException() {
         Long exerciseId = 1L;
 
         UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
@@ -273,7 +273,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void updateExercise_ExerciseExists_ReturnsUpdatedExercise() {
+    void updateExercise_ExerciseExists_ReturnsUpdatedExercise() {
         Long exerciseId = 1L;
 
         UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
@@ -309,7 +309,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void deleteExercise_ExerciseNotExists_ThrowsExerciseNotFoundException() {
+    void deleteExercise_ExerciseNotExists_ThrowsExerciseNotFoundException() {
         Long nonExistingExerciseId = 2L;
 
         when(exerciseRepository.existsById(nonExistingExerciseId)).thenReturn(false);
@@ -323,7 +323,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    public void deleteExercise_ExerciseExists_DeleteExercise() {
+    void deleteExercise_ExerciseExists_DeleteExercise() {
         Long exerciseId = 1L;
 
         when(exerciseRepository.existsById(exerciseId)).thenReturn(true);
