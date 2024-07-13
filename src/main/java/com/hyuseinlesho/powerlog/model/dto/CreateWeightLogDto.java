@@ -1,14 +1,16 @@
 package com.hyuseinlesho.powerlog.model.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CreateWeightLogDto {
 
     @NotNull(message = "Weight is required")

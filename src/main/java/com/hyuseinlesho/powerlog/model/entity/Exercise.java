@@ -8,6 +8,9 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "exercises")
 public class Exercise extends BaseEntity {

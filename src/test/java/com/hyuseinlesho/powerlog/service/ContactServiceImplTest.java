@@ -11,10 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ContactServiceImplTest {
@@ -30,24 +27,24 @@ public class ContactServiceImplTest {
 
     @Test
     public void saveContact() {
-        CreateContactDto contactDto = new CreateContactDto();
-        contactDto.setName("John Doe");
-        contactDto.setEmail("john.doe@example.com");
-        contactDto.setMessage("This is a test message.");
+        CreateContactDto contactDto = CreateContactDto.builder()
+                .name("John Doe")
+                .email("john.doe@example.com")
+                .message("This is a test message.").build();
 
-        Contact contact = new Contact();
-        contact.setName(contactDto.getName());
-        contact.setEmail(contactDto.getEmail());
-        contact.setMessage(contactDto.getMessage());
+        Contact contact = Contact.builder()
+                .name(contactDto.getName())
+                .email(contactDto.getEmail())
+                .message(contactDto.getMessage()).build();
 
-        when(contactMapper.mapToContact(any(CreateContactDto.class)))
+        when(contactMapper.mapToContact(contactDto))
                 .thenReturn(contact);
-        when(contactRepository.save(any(Contact.class)))
+        when(contactRepository.save(contact))
                 .thenReturn(contact);
 
         contactService.saveContact(contactDto);
 
-        verify(contactMapper).mapToContact(eq(contactDto));
-        verify(contactRepository).save(eq(contact));
+        verify(contactMapper, times(1)).mapToContact(contactDto);
+        verify(contactRepository, times(1)).save(contact);
     }
 }

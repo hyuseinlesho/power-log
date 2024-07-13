@@ -33,7 +33,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Exercise createExercise(CreateExerciseDto exerciseDto) {
         Exercise exercise = exerciseMapper.mapToExercise(exerciseDto);
 
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
+        List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
         if (exercises.contains(exercise)) {
             throw new ExerciseAlreadyExistsException();
         }
@@ -44,29 +44,33 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public boolean addNewExercise(String name, ExerciseType type) {
-        Optional<Exercise> optional = exerciseRepository.findByNameAndType(name, type);
+        Optional<Exercise> optional = exerciseRepository.findByNameAndTypeAndUser(
+                name, type, userService.getCurrentUser()
+        );
 
         if (optional.isEmpty()) {
-            Exercise exercise = new Exercise();
-            exercise.setName(name);
-            exercise.setType(type);
-            exercise.setUser(userService.getCurrentUser());
+            Exercise exercise = Exercise.builder()
+                    .name(name)
+                    .type(type)
+                    .user(userService.getCurrentUser()).build();
+
             exerciseRepository.save(exercise);
             return true;
         }
+
         return false;
     }
 
     @Override
-    public CreateExerciseDto findExerciseById(Long id) {
+    public ExerciseDto findExerciseById(Long id) {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found for id: " + id));;
-        return exerciseMapper.mapToCreateExerciseDto(exercise);
+        return exerciseMapper.mapToExerciseDto(exercise);
     }
 
     @Override
     public List<ExerciseDto> findAllExercises() {
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
+        List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
         return exercises.stream()
                 .map(ExerciseMapper.INSTANCE::mapToExerciseDto)
                 .toList();
@@ -79,7 +83,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
-        List<Exercise> exercises = exerciseRepository.findAllByUserUsername(SecurityUtil.getSessionUser());
+        List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
         if (exercises.contains(exercise)) {
             throw new ExerciseAlreadyExistsException();
         }

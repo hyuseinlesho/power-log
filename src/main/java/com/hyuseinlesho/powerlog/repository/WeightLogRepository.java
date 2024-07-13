@@ -6,14 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public interface WeightLogRepository extends JpaRepository<WeightLog, Long> {
     List<WeightLog> findAllByUser(UserEntity currentUser);
 
-    List<WeightLog> findByUserOrderByDateAsc(UserEntity currentUser);
+    List<WeightLog> findAllByUserOrderByDateAsc(UserEntity currentUser);
 
-    List<WeightLog> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    List<WeightLog> findAllByDateBetweenAndUser(LocalDate startDate, LocalDate endDate, UserEntity currentUser);
 }

@@ -13,7 +13,7 @@ public interface ExerciseService {
 
     boolean addNewExercise(String name, ExerciseType type);
 
-    CreateExerciseDto findExerciseById(Long id);
+    ExerciseDto findExerciseById(Long id);
 
     List<ExerciseDto> findAllExercises();
 
