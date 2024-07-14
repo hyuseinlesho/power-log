@@ -1,10 +1,10 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.exception.WeightLogNotFoundException;
 import com.hyuseinlesho.powerlog.exception.WorkoutNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.dto.ExerciseLogDto;
+import com.hyuseinlesho.powerlog.model.dto.UpdateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
@@ -53,7 +53,8 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutDto findWorkoutById(Long id) {
         Workout workout = workoutRepository.findById(id)
-                .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + id));;
+                .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + id));
+        ;
         return workoutMapper.mapToWorkoutDto(workout);
     }
 
@@ -61,13 +62,14 @@ public class WorkoutServiceImpl implements WorkoutService {
     public List<WorkoutDto> findAllWorkoutsSortedByDate() {
         return workoutRepository.findAllByUserOrderByDateAsc(userService.getCurrentUser())
                 .stream()
-                .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
+                .map(workoutMapper::mapToWorkoutDto)
                 .toList();
     }
 
     @Override
-    public void editWorkout(CreateWorkoutDto workoutDto) {
-        Workout workout = workoutRepository.findById(workoutDto.getId()).get();
+    public void editWorkout(UpdateWorkoutDto workoutDto) {
+        Workout workout = workoutRepository.findById(workoutDto.getId())
+                .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + workoutDto.getId()));
         workout.setTitle(workoutDto.getTitle());
 
         workout.setDate(workoutDto.getDate());
@@ -76,8 +78,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         List<ExerciseLog> exercises = exerciseLogRepository.findAllByWorkout(workout);
         List<ExerciseLogDto> exerciseDtos = workoutDto.getExercises();
 
-        int minSize = Math.min(exercises.size(), exerciseDtos.size());
-        for (int i = 0; i < minSize; i++) {
+        for (int i = 0; i < exercises.size(); i++) {
             ExerciseLog exerciseLog = exercises.get(i);
             ExerciseLogDto exerciseDto = exerciseDtos.get(i);
 
@@ -85,20 +86,6 @@ public class WorkoutServiceImpl implements WorkoutService {
             exerciseLog.setSets(exerciseDto.getSets());
             exerciseLog.setReps(exerciseDto.getReps());
             exerciseLog.setWeight(exerciseDto.getWeight());
-        }
-
-        if (exerciseDtos.size() > exercises.size()) {
-            for (int i = exercises.size(); i < exerciseDtos.size(); i++) {
-                ExerciseLogDto exerciseDto = exerciseDtos.get(i);
-                ExerciseLog newExerciseLog = new ExerciseLog();
-
-                newExerciseLog.setWorkout(workout);
-                newExerciseLog.setName(exerciseDto.getName());
-                newExerciseLog.setSets(exerciseDto.getSets());
-                newExerciseLog.setReps(exerciseDto.getReps());
-                newExerciseLog.setWeight(exerciseDto.getWeight());
-                exercises.add(newExerciseLog);
-            }
         }
 
         workout.setExercises(exercises);
@@ -110,16 +97,18 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public void deleteWorkout(Long id) {
+        if (!workoutRepository.existsById(id)) {
+            throw new WorkoutNotFoundException("Workout not found for id: " + id);
+        }
+
         workoutRepository.deleteById(id);
     }
 
     @Override
     public List<WorkoutDto> searchWorkouts(String query) {
-        String username = SecurityUtil.getSessionUser();
-
-        List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(username, query);
+        List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(userService.getCurrentUser(), query);
         return workouts.stream()
-                .map(WorkoutMapper.INSTANCE::mapToWorkoutDto)
+                .map(workoutMapper::mapToWorkoutDto)
                 .collect(Collectors.toList());
     }
 
@@ -142,6 +131,7 @@ public class WorkoutServiceImpl implements WorkoutService {
             }
             result.add(workout);
         }
+
         return result;
     }
 

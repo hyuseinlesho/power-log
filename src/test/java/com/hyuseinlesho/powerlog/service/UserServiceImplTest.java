@@ -1,0 +1,270 @@
+package com.hyuseinlesho.powerlog.service;
+
+import com.hyuseinlesho.powerlog.exception.UserNotFoundException;
+import com.hyuseinlesho.powerlog.mapper.UserMapper;
+import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
+import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
+import com.hyuseinlesho.powerlog.model.entity.Role;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
+import com.hyuseinlesho.powerlog.repository.RoleRepository;
+import com.hyuseinlesho.powerlog.repository.UserRepository;
+import com.hyuseinlesho.powerlog.service.impl.UserServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+public class UserServiceImplTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private UserMapper userMapper;
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
+    private UserServiceImpl userService;
+
+    private void setUpSecurityContext() {
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn("test_user");
+    }
+
+    @Test
+    void registerUser() {
+        RegisterUserDto registerUserDto = RegisterUserDto.builder()
+                .username("test_user")
+                .email("test_user@gmail.com")
+                .password("test1234")
+                .confirmPassword("test1234").build();
+
+        String encodedPassword = passwordEncoder.encode(registerUserDto.getPassword());
+
+        UserEntity user = UserEntity.builder()
+                .username(registerUserDto.getUsername())
+                .email(registerUserDto.getEmail())
+                .password(registerUserDto.getPassword()).build();
+
+        Role role = new Role();
+        role.setName("USER");
+
+        when(userMapper.mapToUserEntity(registerUserDto)).thenReturn(user);
+        when(passwordEncoder.encode(registerUserDto.getPassword())).thenReturn(encodedPassword);
+        when(roleRepository.findByName("USER")).thenReturn(role);
+
+        userService.registerUser(registerUserDto);
+
+        verify(userMapper, times(1)).mapToUserEntity(registerUserDto);
+        verify(roleRepository, times(1)).findByName("USER");
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void findByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {
+        String email = "test_user@gmail.com";
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.findByEmail(email);
+        });
+        verify(userRepository, times(1)).findByEmail(email);
+    }
+
+    @Test
+    void findByEmail_UserExists_ReturnsUser() {
+        String email = "test_user@gmail.com";
+
+        UserEntity user = UserEntity.builder()
+                .username("test_user")
+                .email(email)
+                .password("test1234").build();
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        UserEntity result = userService.findByEmail(email);
+
+        assertNotNull(result);
+        assertEquals(user.getUsername(), result.getUsername());
+        assertEquals(user.getEmail(), result.getEmail());
+        assertEquals(user.getPassword(), result.getPassword());
+
+        verify(userRepository, times(1)).findByEmail(email);
+    }
+
+    @Test
+    void findByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
+        String username = "test_user";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.findByUsername(username);
+        });
+        verify(userRepository, times(1)).findByUsername(username);
+    }
+
+    @Test
+    void findByUsername_UserExists_ReturnsUser() {
+        String username = "test_user";
+
+        UserEntity user = UserEntity.builder()
+                .username(username)
+                .email("test_user@gmail.com")
+                .password("test1234").build();
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+
+        UserEntity result = userService.findByUsername(username);
+
+        assertNotNull(result);
+        assertEquals(user.getUsername(), result.getUsername());
+        assertEquals(user.getEmail(), result.getEmail());
+        assertEquals(user.getPassword(), result.getPassword());
+
+        verify(userRepository, times(1)).findByUsername(username);
+    }
+
+    @Test
+    void changeEmail_UserIsNotFound_ReturnsFalse() {
+        setUpSecurityContext();
+        String email = "test_user@gmail.com";
+
+        when(userRepository.findByUsername("test_user")).thenReturn(Optional.empty());
+
+        boolean result = userService.changeEmail(email);
+
+        assertFalse(result);
+        verify(userRepository, never()).save(any(UserEntity.class));
+    }
+
+    @Test
+    void changeEmail_UserIsFound_ChangesEmailAndReturnsTrue() {
+        setUpSecurityContext();
+        String email = "test_user@gmail.com";
+
+        UserEntity user = new UserEntity();
+        user.setUsername("test_user");
+
+        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+
+        boolean result = userService.changeEmail(email);
+
+        assertTrue(result);
+        assertEquals(email, user.getEmail());
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void changePassword_UserIsNotFound_ReturnsFalse() {
+        setUpSecurityContext();
+        String oldPassword = "old_password";
+        String newPassword = "new_password";
+
+        when(userRepository.findByUsername("test_user")).thenReturn(Optional.empty());
+
+        boolean result = userService.changePassword(oldPassword, newPassword);
+
+        assertFalse(result);
+        verify(userRepository, never()).save(any(UserEntity.class));
+    }
+
+    @Test
+    void changePassword_UserIsFound_OldPasswordDoesNotMatch_ReturnsFalse() {
+        setUpSecurityContext();
+        String oldPassword = "old_password";
+        String newPassword = "new_password";
+
+        UserEntity user = UserEntity.builder()
+                .username("test_user")
+                .password("encoded_old_password").build();
+
+        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(false);
+
+        boolean result = userService.changePassword(oldPassword, newPassword);
+
+        assertFalse(result);
+        verify(userRepository, never()).save(any(UserEntity.class));
+    }
+
+    @Test
+    void changePassword_UserIsFound_OldPasswordMatches_ChangesPasswordAndReturnsTrue() {
+        String oldPassword = "old_password";
+        String newPassword = "new_password";
+
+        UserEntity user = UserEntity.builder()
+                .username("test_user")
+                .password("encoded_old_password").build();
+
+        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(true);
+        when(passwordEncoder.encode(newPassword)).thenReturn("encoded_new_password");
+
+        boolean result = userService.changePassword(oldPassword, newPassword);
+
+        assertTrue(result);
+        assertEquals("encoded_new_password", user.getPassword());
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void getCurrentUserDto_UserNotFound_ThrowsUserNotFoundException() {
+        String username = "test_user";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.getCurrentUserDto();
+        });
+
+        verify(userRepository, times(1)).findByUsername(username);
+        verify(userMapper, never()).mapToUserProfileDto(any(UserEntity.class));
+    }
+
+    @Test
+    void getCurrentUserDto_UserFound_ReturnsUserProfileDto() {
+        String username = "test_user";
+
+        UserEntity user = UserEntity.builder()
+                .username(username)
+                .email("test_user@gmail.com").build();
+
+        UserProfileDto userDto = UserProfileDto.builder()
+                .username(user.getUsername())
+                .email(user.getEmail()).build();
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(userMapper.mapToUserProfileDto(user)).thenReturn(userDto);
+
+        UserProfileDto result = userService.getCurrentUserDto();
+
+        assertNotNull(result);
+        assertEquals(result.getUsername(), user.getUsername());
+        assertEquals(result.getEmail(), user.getEmail());
+
+        verify(userRepository, times(1)).findByUsername(username);
+        verify(userMapper, times(1)).mapToUserProfileDto(user);
+    }
+}

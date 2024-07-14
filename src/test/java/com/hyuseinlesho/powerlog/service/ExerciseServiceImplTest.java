@@ -323,7 +323,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    void deleteExercise_ExerciseExists_DeleteExercise() {
+    void deleteExercise_ExerciseExists_DeleteById() {
         Long exerciseId = 1L;
 
         when(exerciseRepository.existsById(exerciseId)).thenReturn(true);

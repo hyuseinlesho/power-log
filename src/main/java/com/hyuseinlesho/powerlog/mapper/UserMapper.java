@@ -12,5 +12,5 @@ public interface UserMapper {
 
     UserEntity mapToUserEntity(RegisterUserDto registerDto);
 
-    UserProfileDto mapToUserDto(UserEntity user);
+    UserProfileDto mapToUserProfileDto(UserEntity user);
 }

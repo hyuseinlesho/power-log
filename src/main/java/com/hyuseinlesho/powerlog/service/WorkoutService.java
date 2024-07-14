@@ -1,6 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.UpdateWorkoutDto;
 import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface WorkoutService {
 
     List<WorkoutDto> findAllWorkoutsSortedByDate();
 
-    void editWorkout(CreateWorkoutDto workoutDto);
+    void editWorkout(UpdateWorkoutDto workoutDto);
 
     void deleteWorkout(Long id);
 

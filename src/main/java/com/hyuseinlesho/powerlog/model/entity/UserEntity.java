@@ -1,15 +1,17 @@
 package com.hyuseinlesho.powerlog.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
@@ -50,5 +52,7 @@ public class UserEntity extends BaseEntity {
         this.roles = new HashSet<>();
         this.workouts = new HashSet<>();
         this.exercises = new HashSet<>();
+        this.weightLogs = new ArrayList<>();
+        this.progressPhotos = new ArrayList<>();
     }
 }

@@ -15,7 +15,7 @@ public interface UserService {
 
     boolean changePassword(String oldPassword, String newPassword);
 
-    UserProfileDto getSessionUser();
+    UserProfileDto getCurrentUserDto();
 
     UserEntity getCurrentUser();
 }

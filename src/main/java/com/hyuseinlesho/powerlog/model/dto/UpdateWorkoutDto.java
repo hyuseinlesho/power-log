@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateWorkoutDto {
+public class UpdateWorkoutDto {
+    private Long id;
 
     @NotBlank(message = "Title is required")
     @Size(max = 100, message = "Title cannot be longer than 100 characters")

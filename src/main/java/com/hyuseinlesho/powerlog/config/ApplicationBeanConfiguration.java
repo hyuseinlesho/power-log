@@ -1,9 +1,6 @@
 package com.hyuseinlesho.powerlog.config;
 
-import com.hyuseinlesho.powerlog.mapper.ContactMapper;
-import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
-import com.hyuseinlesho.powerlog.mapper.WeightLogMapper;
-import com.hyuseinlesho.powerlog.mapper.WorkoutMapper;
+import com.hyuseinlesho.powerlog.mapper.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +26,15 @@ public class ApplicationBeanConfiguration {
     @Bean
     WorkoutMapper workoutMapper() {
         return Mappers.getMapper(WorkoutMapper.class);
+    }
+
+    @Bean
+    ExerciseLogMapper exerciseLogMapper() {
+        return Mappers.getMapper(ExerciseLogMapper.class);
+    }
+
+    @Bean
+    UserMapper userMapper() {
+        return Mappers.getMapper(UserMapper.class);
     }
 }

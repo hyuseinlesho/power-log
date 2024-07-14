@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.security;
 
+import com.hyuseinlesho.powerlog.exception.UserNotFoundException;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,10 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));;
 
         return new User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }

@@ -1,9 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.model.dto.CreateExerciseLogDto;
-import com.hyuseinlesho.powerlog.model.dto.CreateWorkoutDto;
-import com.hyuseinlesho.powerlog.model.dto.ExerciseLogDto;
-import com.hyuseinlesho.powerlog.model.dto.WorkoutDto;
+import com.hyuseinlesho.powerlog.model.dto.*;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
@@ -83,7 +80,7 @@ public class WorkoutController {
 
     @PostMapping("/{id}/edit")
     public String editWorkout(@PathVariable("id") Long id,
-                              @Valid @ModelAttribute("workoutDto") CreateWorkoutDto workoutDto,
+                              @Valid @ModelAttribute("workoutDto") UpdateWorkoutDto workoutDto,
                               BindingResult bindingResult,
                               Model model,
                               RedirectAttributes redirectAttributes) {

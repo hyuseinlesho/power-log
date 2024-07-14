@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String showProfilePage(Model model) {
-        model.addAttribute("user", userService.getSessionUser());
+        model.addAttribute("user", userService.getCurrentUserDto());
         return "/users/profile";
     }
 }
