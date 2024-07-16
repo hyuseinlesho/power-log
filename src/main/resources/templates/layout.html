@@ -46,6 +46,8 @@
                            th:text="#{lang.eng}"></a></li>
                     <li><a class="dropdown-item"
                            th:text="#{lang.bg}"></a></li>
+                    <li><a class="dropdown-item"
+                           th:text="#{lang.de}"></a></li>
                 </ul>
             </li>
         </ul>
@@ -186,7 +188,8 @@
             const selectedOption = $(this).text();
             const langMap = {
                 'English': 'en',
-                'Български': 'bg'
+                'Български': 'bg',
+                'German': 'de'
             };
             const selectedLang = langMap[selectedOption] || '';
             if (selectedLang !== '') {
