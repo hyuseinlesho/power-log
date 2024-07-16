@@ -63,15 +63,36 @@ public class ExerciseRestControllerIT {
         userRepository.deleteAll();
     }
 
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static CreateExerciseDto createCreateExerciseDto() {
+        return CreateExerciseDto.builder()
+                .name("Squat")
+                .type(ExerciseType.Strength).build();
+    }
+
+    private Exercise createExercise() {
+        return Exercise.builder()
+                .name("Squat")
+                .type(ExerciseType.Strength)
+                .user(user).build();
+    }
+
     @Test
     @WithMockUser(username = "test_user")
     void createExercise_InvalidInput_ReturnsValidationErrors() throws Exception {
-        CreateExerciseDto createExerciseDto = CreateExerciseDto.builder()
+        CreateExerciseDto exerciseDto = CreateExerciseDto.builder()
                 .name("").type(null).build();
 
         mockMvc.perform(post("/api/exercises/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(createExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.name").value("Name is required"))
                 .andExpect(jsonPath("$.type").value("Type is required"));
@@ -80,13 +101,11 @@ public class ExerciseRestControllerIT {
     @Test
     @WithMockUser(username = "test_user")
     void createExercise_ExerciseDoesNotExist_ReturnsCreatedExerciseResponseDto() throws Exception {
-        CreateExerciseDto createExerciseDto = CreateExerciseDto.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        CreateExerciseDto exerciseDto = createCreateExerciseDto();
 
         mockMvc.perform(post("/api/exercises/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(createExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Squat"))
                 .andExpect(jsonPath("$.type").value("Strength"));
@@ -95,32 +114,26 @@ public class ExerciseRestControllerIT {
     @Test
     @WithMockUser(username = "test_user")
     void createExercise_ExerciseAlreadyExists_ReturnsInternalServerError() throws Exception {
-        Exercise exercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength)
-                .user(user)
-                .build();
+        Exercise exercise = createExercise();
         exerciseRepository.save(exercise);
 
-        CreateExerciseDto createExerciseDto = CreateExerciseDto.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        CreateExerciseDto exerciseDto = createCreateExerciseDto();
 
         mockMvc.perform(post("/api/exercises/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(createExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     @WithMockUser(username = "test_user")
     void updateExercise_InvalidInput_ReturnsValidationErrors() throws Exception {
-        UpdateExerciseDto updateExerciseDto = UpdateExerciseDto.builder()
+        UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
                 .name("").type(null).build();
 
         mockMvc.perform(put("/api/exercises/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updateExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.name").value("Name is required"))
                 .andExpect(jsonPath("$.type").value("Type is required"));
@@ -129,19 +142,16 @@ public class ExerciseRestControllerIT {
     @Test
     @WithMockUser(username = "test_user")
     void updateExercise_ValidInput_ReturnsUpdatedExerciseResponseDto() throws Exception {
-        Exercise exercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength)
-                .user(user).build();
+        Exercise exercise = createExercise();
         exerciseRepository.save(exercise);
 
-        UpdateExerciseDto updateExerciseDto = UpdateExerciseDto.builder()
+        UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
                 .name("Updated Squat")
                 .type(ExerciseType.Cardio).build();
 
         mockMvc.perform(put("/api/exercises/{id}", exercise.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updateExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Updated Squat"))
                 .andExpect(jsonPath("$.type").value("Cardio"));
@@ -150,23 +160,20 @@ public class ExerciseRestControllerIT {
     @Test
     @WithMockUser(username = "test_user")
     void updateExercise_ExerciseDoesNotExist_ReturnsNotFound() throws Exception {
-        UpdateExerciseDto updateExerciseDto = UpdateExerciseDto.builder()
+        UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
                 .name("Updated Squat")
                 .type(ExerciseType.Cardio).build();
 
         mockMvc.perform(put("/api/exercises/{id}", 999L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updateExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(username = "test_user")
     void updateExercise_ExerciseAlreadyExists_ReturnsInternalServerError() throws Exception {
-        Exercise exercise1 = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength)
-                .user(user).build();
+        Exercise exercise1 = createExercise();
         exerciseRepository.save(exercise1);
 
         Exercise exercise2 = Exercise.builder()
@@ -175,23 +182,20 @@ public class ExerciseRestControllerIT {
                 .user(user).build();
         exerciseRepository.save(exercise2);
 
-        UpdateExerciseDto updateExerciseDto = UpdateExerciseDto.builder()
+        UpdateExerciseDto exerciseDto = UpdateExerciseDto.builder()
                 .name("Deadlift")
                 .type(ExerciseType.Strength).build();
 
         mockMvc.perform(put("/api/exercises/{id}", exercise1.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updateExerciseDto)))
+                        .content(asJsonString(exerciseDto)))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     @WithMockUser(username = "test_user")
     void deleteExercise_ValidId_ReturnsNoContent() throws Exception {
-        Exercise exercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength)
-                .user(user).build();
+        Exercise exercise = createExercise();
         exerciseRepository.save(exercise);
 
         mockMvc.perform(delete("/api/exercises/{id}", exercise.getId()))
@@ -199,13 +203,5 @@ public class ExerciseRestControllerIT {
 
         Optional<Exercise> deletedExercise = exerciseRepository.findById(exercise.getId());
         assertFalse(deletedExercise.isPresent());
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

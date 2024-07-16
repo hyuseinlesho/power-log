@@ -60,8 +60,6 @@ public class ExerciseRestController {
             return new ResponseEntity<>("Exercise not found", HttpStatus.NOT_FOUND);
         } catch (ExerciseAlreadyExistsException e) {
             return new ResponseEntity<>("Exercise already exists", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

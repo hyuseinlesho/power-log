@@ -11,6 +11,7 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.repository.ExerciseRepository;
 import com.hyuseinlesho.powerlog.service.impl.ExerciseServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,18 +40,39 @@ public class ExerciseServiceImplTest {
     @InjectMocks
     private ExerciseServiceImpl exerciseService;
 
-    @Test
-    void createExercise_ExerciseExists_ThrowsExerciseAlreadyExistsException() {
-        CreateExerciseDto exerciseDto = CreateExerciseDto.builder()
+    private UserEntity user;
+
+    @BeforeEach
+    public void setUp() {
+        user = new UserEntity();
+        user.setUsername("test_user");
+    }
+
+    private static CreateExerciseDto createCreateExerciseDto() {
+        return CreateExerciseDto.builder()
                 .name("Squat")
                 .type(ExerciseType.Strength).build();
+    }
+
+    private static Exercise createExercise() {
+        return Exercise.builder()
+                .name("Squat")
+                .type(ExerciseType.Strength).build();
+    }
+
+    private static ExerciseDto createExerciseDto() {
+        return ExerciseDto.builder()
+                .name("Squat")
+                .type(ExerciseType.Strength).build();
+    }
+
+    @Test
+    void createExercise_ExerciseExists_ThrowsExerciseAlreadyExistsException() {
+        CreateExerciseDto exerciseDto = createCreateExerciseDto();
 
         Exercise exercise = Exercise.builder()
                 .name(exerciseDto.getName())
                 .type(exerciseDto.getType()).build();
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         List<Exercise> existingExercises = List.of(exercise);
 
@@ -66,16 +88,11 @@ public class ExerciseServiceImplTest {
 
     @Test
     void createExercise_ExerciseDoesNotExist_ReturnsExercise() {
-        CreateExerciseDto exerciseDto = CreateExerciseDto.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        CreateExerciseDto exerciseDto = createCreateExerciseDto();
 
         Exercise exercise = Exercise.builder()
                 .name(exerciseDto.getName())
                 .type(exerciseDto.getType()).build();
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(exerciseMapper.mapToExercise(exerciseDto)).thenReturn(exercise);
         when(exerciseRepository.findAllByUser(user))
@@ -98,9 +115,6 @@ public class ExerciseServiceImplTest {
         String name = "Squat";
         ExerciseType type = ExerciseType.Strength;
 
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(exerciseRepository.findByNameAndTypeAndUser(name, type, user))
                 .thenReturn(Optional.empty());
         when(userService.getCurrentUser()).thenReturn(user);
@@ -120,9 +134,6 @@ public class ExerciseServiceImplTest {
                 .name(name)
                 .type(type).build();
 
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(userService.getCurrentUser()).thenReturn(user);
         when(exerciseRepository.findByNameAndTypeAndUser(name, type, user))
                 .thenReturn(Optional.of(existingExercise));
@@ -137,9 +148,7 @@ public class ExerciseServiceImplTest {
     void findExerciseById_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
         Long exerciseId = 1L;
 
-        Exercise exercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        Exercise exercise = createExercise();
 
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.empty());
 
@@ -153,9 +162,7 @@ public class ExerciseServiceImplTest {
     void findExerciseById_ExerciseExists_ReturnsCreateExerciseDto() {
         Long exerciseId = 1L;
 
-        ExerciseDto exerciseDto = ExerciseDto.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        ExerciseDto exerciseDto = createExerciseDto();
 
         Exercise exercise = Exercise.builder()
                 .name(exerciseDto.getName())
@@ -176,9 +183,6 @@ public class ExerciseServiceImplTest {
 
     @Test
     void findAllExercises_NoExercises_ReturnsEmptyList() {
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(exerciseRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -190,9 +194,7 @@ public class ExerciseServiceImplTest {
 
     @Test
     void findAllExercises_ExercisesExist_ReturnsExerciseDtoList() {
-        ExerciseDto exerciseDto1 = ExerciseDto.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        ExerciseDto exerciseDto1 = createExerciseDto();
 
         ExerciseDto exerciseDto2 = ExerciseDto.builder()
                 .name("Running")
@@ -205,9 +207,6 @@ public class ExerciseServiceImplTest {
         Exercise exercise2 = Exercise.builder()
                 .name(exerciseDto2.getName())
                 .type(exerciseDto2.getType()).build();
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         List<Exercise> exercises = List.of(exercise1, exercise2);
 
@@ -248,18 +247,13 @@ public class ExerciseServiceImplTest {
                 .name("Updated Squat")
                 .type(ExerciseType.Strength).build();
 
-        Exercise existingExercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        Exercise existingExercise = createExercise();
         existingExercise.setId(exerciseId);
 
         Exercise duplicateExercise = Exercise.builder()
                 .name(exerciseDto.getName())
                 .type(exerciseDto.getType()).build();
         duplicateExercise.setId(2L);
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.of(existingExercise));
         when(exerciseRepository.findByNameAndUserAndIdNot(user, exerciseDto.getName(), exerciseId))
@@ -281,18 +275,13 @@ public class ExerciseServiceImplTest {
                 .name("Updated Squat")
                 .type(ExerciseType.Strength).build();
 
-        Exercise existingExercise = Exercise.builder()
-                .name("Squat")
-                .type(ExerciseType.Strength).build();
+        Exercise existingExercise = createExercise();
         existingExercise.setId(exerciseId);
 
         Exercise updatedExercise = Exercise.builder()
                 .name(exerciseDto.getName())
                 .type(exerciseDto.getType()).build();
         updatedExercise.setId(exerciseId);
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(exerciseRepository.findById(exerciseId))
                 .thenReturn(Optional.of(existingExercise));

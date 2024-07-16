@@ -1,15 +1,17 @@
 package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.mapper.WeightLogMapper;
-import com.hyuseinlesho.powerlog.model.dto.*;
-import com.hyuseinlesho.powerlog.model.entity.UserEntity;
+import com.hyuseinlesho.powerlog.model.dto.CreateWeightLogDto;
+import com.hyuseinlesho.powerlog.model.dto.UpdateWeightLogDto;
+import com.hyuseinlesho.powerlog.model.dto.WeightLogGraphDto;
+import com.hyuseinlesho.powerlog.model.dto.WeightLogResponseDto;
 import com.hyuseinlesho.powerlog.model.entity.WeightLog;
 import com.hyuseinlesho.powerlog.service.WeightLogService;
 import com.hyuseinlesho.powerlog.util.ControllerUtil;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +22,11 @@ import java.util.List;
 @RequestMapping("/api/weight-logs")
 public class WeightLogRestController {
     private final WeightLogService weightLogService;
+    private final WeightLogMapper weightLogMapper;
 
-    public WeightLogRestController(WeightLogService weightLogService) {
+    public WeightLogRestController(WeightLogService weightLogService, WeightLogMapper weightLogMapper) {
         this.weightLogService = weightLogService;
+        this.weightLogMapper = weightLogMapper;
     }
 
     @PostMapping("/create")
@@ -34,9 +38,9 @@ public class WeightLogRestController {
         }
 
         WeightLog created = weightLogService.createWeightLog(weightLogDto);
-        WeightLogResponseDto response = WeightLogMapper.INSTANCE.mapToWeightLogResponseDto(created);
+        WeightLogResponseDto response = weightLogMapper.mapToWeightLogResponseDto(created);
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -49,7 +53,7 @@ public class WeightLogRestController {
         }
 
         WeightLog updated = weightLogService.updateWeightLog(id, weightLogDto);
-        WeightLogResponseDto response = WeightLogMapper.INSTANCE.mapToWeightLogResponseDto(updated);
+        WeightLogResponseDto response = weightLogMapper.mapToWeightLogResponseDto(updated);
 
         return ResponseEntity.ok(response);
     }
@@ -64,6 +68,10 @@ public class WeightLogRestController {
     public ResponseEntity<List<WeightLogGraphDto>> getWeightLogs(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         List<WeightLogGraphDto> weightLogs;
         if (startDate != null && endDate != null) {
             weightLogs = weightLogService.getWeightLogsBetweenDates(startDate, endDate);

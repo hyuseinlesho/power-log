@@ -24,6 +24,6 @@ public class CreateWeightLogDto {
     @NotBlank(message = "Time is required")
     private String time;
 
-    @Size(max = 300, message = "Comment cannot be longer than 300 characters")
+    @Size(max = 200, message = "Comment cannot be longer than 200 characters")
     private String comment;
 }

@@ -9,6 +9,7 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.service.impl.UserServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,6 +43,15 @@ public class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
+    private String username;
+    private String email;
+
+    @BeforeEach
+    public void setUp() {
+        username = "test_user";
+        email = "test_user@gmail.com";
+    }
+
     private void setUpSecurityContext() {
         SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.setContext(securityContext);
@@ -51,11 +61,18 @@ public class UserServiceImplTest {
         when(authentication.getName()).thenReturn("test_user");
     }
 
+    private UserEntity createUser() {
+        return UserEntity.builder()
+                .username(username)
+                .email(email)
+                .password("test1234").build();
+    }
+
     @Test
     void registerUser() {
         RegisterUserDto registerUserDto = RegisterUserDto.builder()
-                .username("test_user")
-                .email("test_user@gmail.com")
+                .username(username)
+                .email(email)
                 .password("test1234")
                 .confirmPassword("test1234").build();
 
@@ -82,8 +99,6 @@ public class UserServiceImplTest {
 
     @Test
     void findByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {
-        String email = "test_user@gmail.com";
-
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -94,12 +109,7 @@ public class UserServiceImplTest {
 
     @Test
     void findByEmail_UserExists_ReturnsUser() {
-        String email = "test_user@gmail.com";
-
-        UserEntity user = UserEntity.builder()
-                .username("test_user")
-                .email(email)
-                .password("test1234").build();
+        UserEntity user = createUser();
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
@@ -115,8 +125,6 @@ public class UserServiceImplTest {
 
     @Test
     void findByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
-        String username = "test_user";
-
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -127,12 +135,7 @@ public class UserServiceImplTest {
 
     @Test
     void findByUsername_UserExists_ReturnsUser() {
-        String username = "test_user";
-
-        UserEntity user = UserEntity.builder()
-                .username(username)
-                .email("test_user@gmail.com")
-                .password("test1234").build();
+        UserEntity user = createUser();
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
@@ -149,9 +152,8 @@ public class UserServiceImplTest {
     @Test
     void changeEmail_UserIsNotFound_ReturnsFalse() {
         setUpSecurityContext();
-        String email = "test_user@gmail.com";
 
-        when(userRepository.findByUsername("test_user")).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         boolean result = userService.changeEmail(email);
 
@@ -162,12 +164,11 @@ public class UserServiceImplTest {
     @Test
     void changeEmail_UserIsFound_ChangesEmailAndReturnsTrue() {
         setUpSecurityContext();
-        String email = "test_user@gmail.com";
 
         UserEntity user = new UserEntity();
-        user.setUsername("test_user");
+        user.setUsername(username);
 
-        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
         boolean result = userService.changeEmail(email);
 
@@ -182,7 +183,7 @@ public class UserServiceImplTest {
         String oldPassword = "old_password";
         String newPassword = "new_password";
 
-        when(userRepository.findByUsername("test_user")).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         boolean result = userService.changePassword(oldPassword, newPassword);
 
@@ -197,10 +198,10 @@ public class UserServiceImplTest {
         String newPassword = "new_password";
 
         UserEntity user = UserEntity.builder()
-                .username("test_user")
+                .username(username)
                 .password("encoded_old_password").build();
 
-        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(false);
 
         boolean result = userService.changePassword(oldPassword, newPassword);
@@ -215,10 +216,10 @@ public class UserServiceImplTest {
         String newPassword = "new_password";
 
         UserEntity user = UserEntity.builder()
-                .username("test_user")
+                .username(username)
                 .password("encoded_old_password").build();
 
-        when(userRepository.findByUsername("test_user")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(true);
         when(passwordEncoder.encode(newPassword)).thenReturn("encoded_new_password");
 
@@ -231,8 +232,6 @@ public class UserServiceImplTest {
 
     @Test
     void getCurrentUserDto_UserNotFound_ThrowsUserNotFoundException() {
-        String username = "test_user";
-
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -245,11 +244,9 @@ public class UserServiceImplTest {
 
     @Test
     void getCurrentUserDto_UserFound_ReturnsUserProfileDto() {
-        String username = "test_user";
-
         UserEntity user = UserEntity.builder()
                 .username(username)
-                .email("test_user@gmail.com").build();
+                .email(email).build();
 
         UserProfileDto userDto = UserProfileDto.builder()
                 .username(user.getUsername())

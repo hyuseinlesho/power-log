@@ -6,6 +6,7 @@ import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.service.impl.ExerciseLogServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,15 +36,23 @@ public class ExerciseLogServiceImplTest {
     @InjectMocks
     private ExerciseLogServiceImpl exerciseLogService;
 
-    @Test
-    void getExerciseLogs_ExerciseLogsNotFound_ReturnsEmptyList() {
-        String exerciseName = "Squat";
-        LocalDate startDate = LocalDate.of(2024, 1, 1);
-        LocalDate endDate = LocalDate.of(2024, 1, 5);
+    private UserEntity user;
+    private String exerciseName;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-        UserEntity user = new UserEntity();
+    @BeforeEach
+    public void setUp() {
+        user = new UserEntity();
         user.setUsername("test_user");
 
+        exerciseName = "Squat";
+        startDate = LocalDate.of(2024, 1, 1);
+        endDate = LocalDate.of(2024, 1, 5);
+    }
+
+    @Test
+    void getExerciseLogs_ExerciseLogsNotFound_ReturnsEmptyList() {
         when(exerciseLogRepository.findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
                 .thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
@@ -60,10 +69,6 @@ public class ExerciseLogServiceImplTest {
 
     @Test
     void getExerciseLogs_ExerciseLogsFound_ReturnsExerciseLogGraphDtoList() {
-        String exerciseName = "Squat";
-        LocalDate startDate = LocalDate.of(2024, 1, 1);
-        LocalDate endDate = LocalDate.of(2024, 1, 5);
-
         ExerciseLog exerciseLog1 = ExerciseLog.builder()
                 .name("Squat").sets(3).reps(5).weight(80).build();
         ExerciseLog exerciseLog2 = ExerciseLog.builder()
@@ -81,9 +86,6 @@ public class ExerciseLogServiceImplTest {
                 .weight(exerciseLog2.getWeight()).build();
 
         List<ExerciseLog> exercises = List.of(exerciseLog1, exerciseLog2);
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(exerciseLogRepository.findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
                 .thenReturn(exercises);

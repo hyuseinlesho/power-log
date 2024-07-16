@@ -12,6 +12,7 @@ import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
 import com.hyuseinlesho.powerlog.service.impl.WorkoutServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,8 +46,28 @@ public class WorkoutServiceImplTest {
     @InjectMocks
     private WorkoutServiceImpl workoutService;
 
+    private UserEntity user;
+
+    @BeforeEach
+    public void setUp() {
+        user = new UserEntity();
+        user.setUsername("test_user");
+    }
+
+    private static Workout createWorkout() {
+        return Workout.builder()
+                .title("Workout A")
+                .date(LocalDate.of(2024, 1, 1))
+                .time("17:00").build();
+    }
+
+    private static ExerciseLog createExerciseLog() {
+        return ExerciseLog.builder()
+                .name("Squat").sets(3).reps(5).weight(80.0).build();
+    }
+
     @Test
-    void createWorkout() {
+    void createWorkout_SaveWorkout() {
         ExerciseLogDto logDto = ExerciseLogDto.builder()
                 .name("Squat").sets(3).reps(5).weight(80.0).build();
         List<ExerciseLogDto> exercises = List.of(logDto);
@@ -68,9 +89,6 @@ public class WorkoutServiceImplTest {
                 .date(workoutDto.getDate())
                 .time(workoutDto.getTime())
                 .exercises(List.of(exerciseLog)).build();
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(workoutMapper.mapToWorkout(workoutDto)).thenReturn(workout);
         when(userService.getCurrentUser()).thenReturn(user);
@@ -108,8 +126,7 @@ public class WorkoutServiceImplTest {
     void findWorkoutById_WorkoutExists_ReturnsWorkoutDto() {
         Long workoutId = 1L;
 
-        ExerciseLog exerciseLog = ExerciseLog.builder()
-                .name("Squat").sets(3).reps(5).weight(80.0).build();
+        ExerciseLog exerciseLog = createExerciseLog();
         List<ExerciseLog> exercises = List.of(exerciseLog);
 
         ExerciseLogDto logDto = ExerciseLogDto.builder()
@@ -119,11 +136,8 @@ public class WorkoutServiceImplTest {
                 .weight(exerciseLog.getWeight()).build();
         List<ExerciseLogDto> exerciseDtos = List.of(logDto);
 
-        Workout workout = Workout.builder()
-                .title("Workout A")
-                .date(LocalDate.of(2024, 1, 1))
-                .time("17:00")
-                .exercises(exercises).build();
+        Workout workout = createWorkout();
+        workout.setExercises(exercises);
 
         WorkoutDto workoutDto = WorkoutDto.builder()
                 .title(workout.getTitle())
@@ -185,9 +199,6 @@ public class WorkoutServiceImplTest {
 
         List<Workout> workouts = List.of(workout1, workout2);
 
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(workoutRepository.findAllByUserOrderByDateAsc(user)).thenReturn(workouts);
         when(userService.getCurrentUser()).thenReturn(user);
         when(workoutMapper.mapToWorkoutDto(workout1)).thenReturn(workoutDto1);
@@ -214,9 +225,6 @@ public class WorkoutServiceImplTest {
 
     @Test
     void findAllWorkoutsSortedByDate_NoWorkouts_ReturnsEmptyList() {
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(workoutRepository.findAllByUserOrderByDateAsc(user)).thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -316,8 +324,6 @@ public class WorkoutServiceImplTest {
     @Test
     void searchWorkouts_WorkoutsNotFound_ReturnsEmptyList() {
         String query = "Workout A";
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(workoutRepository.findByUserAndSearchQuery(user, query))
                 .thenReturn(Collections.emptyList());
@@ -335,13 +341,8 @@ public class WorkoutServiceImplTest {
     @Test
     void searchWorkouts_WorkoutsFound_ReturnsWorkoutDtoList() {
         String query = "Workout A";
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
-        Workout workout1 = Workout.builder()
-                .title("Workout A")
-                .date(LocalDate.of(2024, 1, 1))
-                .time("17:00").build();
+        Workout workout1 = createWorkout();
 
         WorkoutDto workoutDto1 = WorkoutDto.builder()
                 .title("Workout A")

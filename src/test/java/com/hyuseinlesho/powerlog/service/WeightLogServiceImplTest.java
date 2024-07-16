@@ -35,6 +35,20 @@ public class WeightLogServiceImplTest {
     @InjectMocks
     private WeightLogServiceImpl weightLogService;
 
+    private UserEntity user;
+
+    public void setUp() {
+        user = new UserEntity();
+        user.setUsername("test_user");
+    }
+
+    private static WeightLog createWeightLog() {
+        return WeightLog.builder()
+                .weight(70.5)
+                .date(LocalDate.of(2024, 1, 1))
+                .time("11:00").build();
+    }
+
     @Test
     void createWeightLog_ReturnsWeightLog() {
         CreateWeightLogDto weightLogDto = CreateWeightLogDto.builder()
@@ -65,9 +79,6 @@ public class WeightLogServiceImplTest {
 
     @Test
     void findAllWeightLogs_NoWeightLogs_ReturnsEmptyList() {
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
-
         when(weightLogRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -96,9 +107,6 @@ public class WeightLogServiceImplTest {
                 .weight(weightLogDto2.getWeight())
                 .date(weightLogDto2.getDate())
                 .time(weightLogDto2.getTime()).build();
-
-        UserEntity user = new UserEntity();
-        user.setUsername("test_user");
 
         when(weightLogRepository.findAllByUser(user))
                 .thenReturn(List.of(weightLog1, weightLog2));
@@ -142,13 +150,10 @@ public class WeightLogServiceImplTest {
 
         UpdateWeightLogDto weightLogDto = UpdateWeightLogDto.builder()
                 .weight(70.8)
-                .date(LocalDate.of(2024, 1, 3))
+                .date(LocalDate.of(2024, 1, 2))
                 .time("11:30").build();
 
-        WeightLog existingWeightLog = WeightLog.builder()
-                .weight(70.5)
-                .date(LocalDate.of(2024, 1, 2))
-                .time("11:00").build();
+        WeightLog existingWeightLog = createWeightLog();
         existingWeightLog.setId(weightLogId);
 
         WeightLog updatedWeightLog = WeightLog.builder()
@@ -200,12 +205,7 @@ public class WeightLogServiceImplTest {
 
     @Test
     void getWeightLogs_ReturnsWeightLogGraphDtoList() {
-        UserEntity user = new UserEntity();
-
-        WeightLog weightLog1 = WeightLog.builder()
-                .weight(70.5)
-                .date(LocalDate.of(2024, 1, 1))
-                .time("11:00").build();
+        WeightLog weightLog1 = createWeightLog();
 
         WeightLog weightLog2 = WeightLog.builder()
                 .weight(70.8)
@@ -248,14 +248,10 @@ public class WeightLogServiceImplTest {
 
     @Test
     void getWeightLogsBetweenDates_ReturnsWeightLogGraphDtoList() {
-        UserEntity user = new UserEntity();
         LocalDate startDate = LocalDate.of(2023, 1, 1);
         LocalDate endDate = LocalDate.of(2023, 1, 5);
 
-        WeightLog weightLog1 = WeightLog.builder()
-                .weight(70.5)
-                .date(LocalDate.of(2024, 1, 1))
-                .time("11:00").build();
+        WeightLog weightLog1 = createWeightLog();
 
         WeightLog weightLog2 = WeightLog.builder()
                 .weight(70.8)
