@@ -262,8 +262,8 @@ public class ExerciseServiceImplTest {
         user.setUsername("test_user");
 
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.of(existingExercise));
-        when(exerciseRepository.findAllByUser(user))
-                .thenReturn(List.of(existingExercise, duplicateExercise));
+        when(exerciseRepository.findByNameAndUserAndIdNot(user, exerciseDto.getName(), exerciseId))
+                .thenReturn(List.of(duplicateExercise));
         when(userService.getCurrentUser()).thenReturn(user);
 
         assertThrows(ExerciseAlreadyExistsException.class, () -> {
@@ -271,6 +271,7 @@ public class ExerciseServiceImplTest {
         });
         verify(exerciseRepository, never()).save(any(Exercise.class));
     }
+
 
     @Test
     void updateExercise_ExerciseExists_ReturnsUpdatedExercise() {
@@ -295,8 +296,6 @@ public class ExerciseServiceImplTest {
 
         when(exerciseRepository.findById(exerciseId))
                 .thenReturn(Optional.of(existingExercise));
-        when(exerciseRepository.findAllByUser(user))
-                .thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
         when(exerciseRepository.save(existingExercise)).thenReturn(updatedExercise);
 

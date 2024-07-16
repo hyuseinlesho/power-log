@@ -9,7 +9,6 @@ import com.hyuseinlesho.powerlog.model.dto.UpdateExerciseDto;
 import com.hyuseinlesho.powerlog.model.entity.Exercise;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.repository.ExerciseRepository;
-import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.UserService;
 import org.springframework.stereotype.Service;
@@ -83,8 +82,9 @@ public class ExerciseServiceImpl implements ExerciseService {
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
-        List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
-        if (exercises.contains(exercise)) {
+        List<Exercise> duplicateExercises = exerciseRepository.findByNameAndUserAndIdNot(
+                userService.getCurrentUser(), exerciseDto.getName(), id);
+        if (!duplicateExercises.isEmpty()) {
             throw new ExerciseAlreadyExistsException();
         }
 

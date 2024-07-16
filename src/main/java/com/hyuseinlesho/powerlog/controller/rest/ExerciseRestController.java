@@ -1,6 +1,7 @@
 package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.exception.ExerciseAlreadyExistsException;
+import com.hyuseinlesho.powerlog.exception.ExerciseNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.ExerciseMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateExerciseDto;
 import com.hyuseinlesho.powerlog.model.dto.ExerciseResponseDto;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/exercises")
 public class ExerciseRestController {
     private final ExerciseService exerciseService;
+    private final ExerciseMapper exerciseMapper;
 
-    public ExerciseRestController(ExerciseService exerciseService) {
+    public ExerciseRestController(ExerciseService exerciseService, ExerciseMapper exerciseMapper) {
         this.exerciseService = exerciseService;
+        this.exerciseMapper = exerciseMapper;
     }
 
     @PostMapping("/create")
@@ -33,8 +36,8 @@ public class ExerciseRestController {
 
         try {
             Exercise created = exerciseService.createExercise(exerciseDto);
-            ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(created);
-            return ResponseEntity.ok(response);
+            ExerciseResponseDto response = exerciseMapper.mapToExerciseResponseDto(created);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (ExerciseAlreadyExistsException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -51,10 +54,14 @@ public class ExerciseRestController {
 
         try {
             Exercise updated = exerciseService.updateExercise(id, exerciseDto);
-            ExerciseResponseDto response = ExerciseMapper.INSTANCE.mapToExerciseResponseDto(updated);
+            ExerciseResponseDto response = exerciseMapper.mapToExerciseResponseDto(updated);
             return ResponseEntity.ok(response);
+        } catch (ExerciseNotFoundException e) {
+            return new ResponseEntity<>("Exercise not found", HttpStatus.NOT_FOUND);
         } catch (ExerciseAlreadyExistsException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Exercise already exists", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
