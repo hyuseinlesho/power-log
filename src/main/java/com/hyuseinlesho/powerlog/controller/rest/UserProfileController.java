@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("users/profile")
+@RequestMapping("/users/profile")
 public class UserProfileController {
     private final UserService userService;
 

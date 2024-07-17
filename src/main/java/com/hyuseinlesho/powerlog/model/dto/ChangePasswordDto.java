@@ -2,11 +2,13 @@ package com.hyuseinlesho.powerlog.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ChangePasswordDto {
     @NotBlank(message = "Old password is required")
     private String oldPassword;

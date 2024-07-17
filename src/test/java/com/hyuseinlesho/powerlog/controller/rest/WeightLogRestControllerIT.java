@@ -214,6 +214,16 @@ public class WeightLogRestControllerIT {
 
     @Test
     @WithMockUser(username = "test_user")
+    void getWeightLogs_StartDateAfterEndDate_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(get("/api/weight-logs")
+                        .param("startDate", "2024-02-01")
+                        .param("endDate", "2024-01-01")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "test_user")
     void getWeightLogs_BetweenSpecificDates_ReturnsFilteredWeightLogs() throws Exception {
         WeightLog weightLog1 = createWeightLog();
 
@@ -264,15 +274,5 @@ public class WeightLogRestControllerIT {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));
-    }
-
-    @Test
-    @WithMockUser(username = "test_user")
-    void getWeightLogs_StartDateAfterEndDate_ReturnsBadRequest() throws Exception {
-        mockMvc.perform(get("/api/weight-logs")
-                        .param("startDate", "2024-02-01")
-                        .param("endDate", "2024-01-01")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
     }
 }

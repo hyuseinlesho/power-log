@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ExerciseLogService {
-    List<ExerciseLogGraphDto> getExerciseLogs(String exerciseName, LocalDate startDate, LocalDate endDate);
+    List<ExerciseLogGraphDto> getExerciseLogsBetweenDates(String exerciseName, LocalDate startDate, LocalDate endDate);
 }

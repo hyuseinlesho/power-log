@@ -57,7 +57,7 @@ public class ExerciseLogServiceImplTest {
                 .thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
 
-        List<ExerciseLogGraphDto> result = exerciseLogService.getExerciseLogs(exerciseName, startDate, endDate);
+        List<ExerciseLogGraphDto> result = exerciseLogService.getExerciseLogsBetweenDates(exerciseName, startDate, endDate);
 
         assertEquals(result, List.of());
 
@@ -93,7 +93,7 @@ public class ExerciseLogServiceImplTest {
         when(exerciseLogMapper.mapToExerciseLogGraphDto(exerciseLog1)).thenReturn(logDto1);
         when(exerciseLogMapper.mapToExerciseLogGraphDto(exerciseLog2)).thenReturn(logDto2);
 
-        List<ExerciseLogGraphDto> result = exerciseLogService.getExerciseLogs(exerciseName, startDate, endDate);
+        List<ExerciseLogGraphDto> result = exerciseLogService.getExerciseLogsBetweenDates(exerciseName, startDate, endDate);
 
         assertNotNull(result);
         assertEquals(2, result.size());

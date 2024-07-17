@@ -25,7 +25,11 @@ public class ExerciseLogRestController {
             @RequestParam String exerciseName,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate) {
-        List<ExerciseLogGraphDto> exerciseLogs = exerciseLogService.getExerciseLogs(exerciseName, startDate, endDate);
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<ExerciseLogGraphDto> exerciseLogs = exerciseLogService.getExerciseLogsBetweenDates(exerciseName, startDate, endDate);
         return ResponseEntity.ok(exerciseLogs);
     }
 }
