@@ -155,9 +155,15 @@
                         <li sec:authorize="isAuthenticated()"
                             class="dropdown-divider"></li>
                         <li sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item"
-                               th:href="@{/logout}"
-                               th:text="#{nav.account.logout}"></a>
+                            <form action="#"
+                                  th:action="@{/auth/logout}"
+                                  method="post"
+                                  style="display:inline;">
+                                <button type="submit"
+                                        class="dropdown-item"
+                                        th:text="#{nav.account.logout}">
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </li>

@@ -3,8 +3,10 @@ package com.hyuseinlesho.powerlog.controller;
 import com.hyuseinlesho.powerlog.model.dto.LoginUserDto;
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
+import com.hyuseinlesho.powerlog.security.jwt.JwtProperties;
 import com.hyuseinlesho.powerlog.security.jwt.JwtService;
 import com.hyuseinlesho.powerlog.service.impl.AuthenticationServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,17 +24,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    @Value("${security.jwt.cookie-max-age}")
-    private long cookieMaxAge;
-
     private final JwtService jwtService;
+    private final JwtProperties jwtProperties;
     private final AuthenticationServiceImpl authenticationService;
 
     public AuthenticationController(
             JwtService jwtService,
-            AuthenticationServiceImpl authenticationService
+            JwtProperties jwtProperties, AuthenticationServiceImpl authenticationService
     ) {
         this.jwtService = jwtService;
+        this.jwtProperties = jwtProperties;
         this.authenticationService = authenticationService;
     }
 
@@ -103,10 +104,10 @@ public class AuthenticationController {
 
             ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
                     .httpOnly(true)
-                    .secure(false)
+                    .secure(true)
+                    .sameSite("Strict")
                     .path("/")
-                    .maxAge(cookieMaxAge)
-                    .build();
+                    .maxAge(jwtProperties.getCookieMaxAge()).build();
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return "redirect:/home?success";
@@ -114,5 +115,20 @@ public class AuthenticationController {
             redirectAttributes.addFlashAttribute("loginDto", loginDto);
             return "redirect:/auth/login?error";
         }
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response,
+                         RedirectAttributes redirectAttributes) {
+        ResponseCookie cookie = ResponseCookie.from("accessToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(0).build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return "redirect:/auth/login?logout";
     }
 }
