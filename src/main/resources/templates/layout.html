@@ -139,12 +139,12 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
                         <li sec:authorize="!isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/register}"
+                               th:href="@{/auth/register}"
                                th:text="#{nav.account.register}"></a>
                         </li>
                         <li sec:authorize="!isAuthenticated()">
                             <a class="dropdown-item"
-                               th:href="@{/login}"
+                               th:href="@{/auth/login}"
                                th:text="#{nav.account.login}"></a>
                         </li>
                         <li sec:authorize="isAuthenticated()">

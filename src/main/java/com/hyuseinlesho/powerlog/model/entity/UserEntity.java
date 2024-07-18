@@ -2,11 +2,12 @@ package com.hyuseinlesho.powerlog.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseEntity {
+public class UserEntity extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -24,6 +25,14 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String password;
+
+//    @CreationTimestamp
+//    @Column(updatable = false, name = "created_at")
+//    private Date createdAt;
+//
+//    @UpdateTimestamp
+//    @Column(name = "updated_at")
+//    private Date updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -54,5 +63,32 @@ public class UserEntity extends BaseEntity {
         this.exercises = new HashSet<>();
         this.weightLogs = new ArrayList<>();
         this.progressPhotos = new ArrayList<>();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

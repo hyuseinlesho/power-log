@@ -16,8 +16,9 @@
                         <div class="card-body p-4 p-sm-5">
                             <h2 class="text-center mb-4"
                                 th:text="#{login.title}"></h2>
-                            <form th:action="@{/login}"
-                                  method="post">
+                            <form th:action="@{/auth/login}"
+                                  method="post"
+                                  th:object="${loginDto}">
                                 <!-- Success message -->
                                 <div th:if="${param.success}"
                                      class="alert alert-success mb-4"
@@ -39,6 +40,7 @@
                                            class="form-control"
                                            id="username"
                                            placeholder="Username"
+                                           th:field="*{username}"
                                            required autofocus
                                            autocomplete="username">
                                     <label for="username"
@@ -50,6 +52,7 @@
                                            class="form-control"
                                            id="password"
                                            placeholder="Password"
+                                           th:field="*{password}"
                                            required autocomplete="current-password">
                                     <label for="password"
                                            th:text="#{login.password}"></label>
@@ -59,7 +62,7 @@
                                             class="btn btn-primary"
                                             th:text="#{login.title}">
                                     </button>
-                                    <a th:href="@{/register}"
+                                    <a th:href="@{/auth/register}"
                                        class="btn btn-secondary mt-2"
                                        th:text="#{login.register}"></a>
                                 </div>

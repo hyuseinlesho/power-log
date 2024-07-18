@@ -2,9 +2,7 @@ package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.exception.UserNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
-import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
-import com.hyuseinlesho.powerlog.model.entity.Role;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
@@ -68,34 +66,34 @@ public class UserServiceImplTest {
                 .password("test1234").build();
     }
 
-    @Test
-    void registerUser() {
-        RegisterUserDto registerUserDto = RegisterUserDto.builder()
-                .username(username)
-                .email(email)
-                .password("test1234")
-                .confirmPassword("test1234").build();
-
-        String encodedPassword = passwordEncoder.encode(registerUserDto.getPassword());
-
-        UserEntity user = UserEntity.builder()
-                .username(registerUserDto.getUsername())
-                .email(registerUserDto.getEmail())
-                .password(registerUserDto.getPassword()).build();
-
-        Role role = new Role();
-        role.setName("USER");
-
-        when(userMapper.mapToUserEntity(registerUserDto)).thenReturn(user);
-        when(passwordEncoder.encode(registerUserDto.getPassword())).thenReturn(encodedPassword);
-        when(roleRepository.findByName("USER")).thenReturn(role);
-
-        userService.registerUser(registerUserDto);
-
-        verify(userMapper, times(1)).mapToUserEntity(registerUserDto);
-        verify(roleRepository, times(1)).findByName("USER");
-        verify(userRepository, times(1)).save(user);
-    }
+//    @Test
+//    void registerUser() {
+//        RegisterUserDto registerUserDto = RegisterUserDto.builder()
+//                .username(username)
+//                .email(email)
+//                .password("test1234")
+//                .confirmPassword("test1234").build();
+//
+//        String encodedPassword = passwordEncoder.encode(registerUserDto.getPassword());
+//
+//        UserEntity user = UserEntity.builder()
+//                .username(registerUserDto.getUsername())
+//                .email(registerUserDto.getEmail())
+//                .password(registerUserDto.getPassword()).build();
+//
+//        Role role = new Role();
+//        role.setName("USER");
+//
+//        when(userMapper.mapToUserEntity(registerUserDto)).thenReturn(user);
+//        when(passwordEncoder.encode(registerUserDto.getPassword())).thenReturn(encodedPassword);
+//        when(roleRepository.findByName("USER")).thenReturn(role);
+//
+//        userService.registerUser(registerUserDto);
+//
+//        verify(userMapper, times(1)).mapToUserEntity(registerUserDto);
+//        verify(roleRepository, times(1)).findByName("USER");
+//        verify(userRepository, times(1)).save(user);
+//    }
 
     @Test
     void findByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {

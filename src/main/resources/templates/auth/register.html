@@ -16,7 +16,7 @@
                         <div class="card-body p-4 p-sm-5">
                             <h2 class="text-center mb-4"
                                 th:text="#{register.title}"></h2>
-                            <form th:action="@{/register}"
+                            <form th:action="@{/auth/register}"
                                   method="post"
                                   th:object="${registerDto}">
                                 <!-- Fail message -->
@@ -30,7 +30,8 @@
                                            id="inputUsername"
                                            placeholder="Username"
                                            th:field="*{username}"
-                                           required autofocus autocomplete="username">
+                                           required autofocus
+                                           autocomplete="username">
                                     <label for="inputUsername"
                                            th:text="#{register.username}"></label>
                                     <div class="invalid-feedback"
@@ -84,7 +85,7 @@
                                             class="btn btn-primary"
                                             th:text="#{register.title}">
                                     </button>
-                                    <a th:href="@{/login}"
+                                    <a th:href="@{/auth/login}"
                                        class="btn btn-secondary mt-2"
                                        th:text="#{register.login}"></a>
                                 </div>

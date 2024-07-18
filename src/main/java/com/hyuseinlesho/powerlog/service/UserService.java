@@ -1,15 +1,13 @@
 package com.hyuseinlesho.powerlog.service;
 
-import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 
 public interface UserService {
-    void registerUser(RegisterUserDto registerDto);
-
-    UserEntity findByEmail(String email);
 
     UserEntity findByUsername(String username);
+
+    UserEntity findByEmail(String email);
 
     boolean changeEmail(String newEmail);
 
