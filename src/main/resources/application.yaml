@@ -31,6 +31,7 @@ security:
   jwt:
     secret-key: ${SECRET_KEY}
     expiration-time: ${EXPIRATION_TIME}
+    cookie-max-age: ${COOKIE_MAX_AGE}
 
 #upload:
 #  path:

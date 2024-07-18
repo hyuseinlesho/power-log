@@ -5,7 +5,11 @@ import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.security.jwt.JwtService;
 import com.hyuseinlesho.powerlog.service.impl.AuthenticationServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/auth")
 public class AuthenticationController {
+
+    @Value("${security.jwt.cookie-max-age}")
+    private long cookieMaxAge;
+
     private final JwtService jwtService;
     private final AuthenticationServiceImpl authenticationService;
 
@@ -79,7 +87,8 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String authenticate(@Valid LoginUserDto loginDto,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.loginDto",
@@ -91,6 +100,14 @@ public class AuthenticationController {
         try {
             UserEntity authenticatedUser = authenticationService.authenticate(loginDto);
             String jwtToken = jwtService.generateToken(authenticatedUser);
+
+            ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
+                    .httpOnly(true)
+                    .secure(false)
+                    .path("/")
+                    .maxAge(cookieMaxAge)
+                    .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return "redirect:/home?success";
         } catch (Exception e) {
