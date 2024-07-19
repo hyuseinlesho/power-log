@@ -40,17 +40,25 @@ public class ProgressPhotoController {
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.photoDto",
-                    bindingResult);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.photoDto",
+                    bindingResult
+            );
             redirectAttributes.addFlashAttribute("photoDto", photoDto);
             return "redirect:/progress-photos";
         }
 
         try {
             progressPhotoService.saveProgressPhoto(photoDto);
-            redirectAttributes.addFlashAttribute("successMessage", "Photo uploaded successfully.");
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Photo uploaded successfully."
+            );
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to upload photo.");
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Failed to upload photo."
+            );
         }
         return "redirect:/progress-photos";
     }

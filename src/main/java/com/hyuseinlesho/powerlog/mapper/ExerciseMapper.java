@@ -9,13 +9,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface ExerciseMapper {
-    ExerciseMapper INSTANCE = Mappers.getMapper(ExerciseMapper.class);
-
     Exercise mapToExercise(CreateExerciseDto exerciseDto);
 
     ExerciseDto mapToExerciseDto(Exercise exercise);
-
-    CreateExerciseDto mapToCreateExerciseDto(Exercise exercise);
 
     ExerciseResponseDto mapToExerciseResponseDto(Exercise exercise);
 }

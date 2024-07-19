@@ -7,7 +7,5 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface ProgressPhotoMapper {
-    ProgressPhotoMapper INSTANCE = Mappers.getMapper(ProgressPhotoMapper.class);
-
     ProgressPhotoDto mapToProgressPhotoDto(ProgressPhoto progressPhoto);
 }

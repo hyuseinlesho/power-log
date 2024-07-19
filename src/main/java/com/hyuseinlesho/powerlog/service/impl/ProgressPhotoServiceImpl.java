@@ -8,7 +8,6 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.ProgressPhotoRepository;
 import com.hyuseinlesho.powerlog.service.ProgressPhotoService;
 import com.hyuseinlesho.powerlog.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,10 +28,16 @@ public class ProgressPhotoServiceImpl implements ProgressPhotoService {
     private String uploadPath;
 
     private final ProgressPhotoRepository progressPhotoRepository;
+    private final ProgressPhotoMapper progressPhotoMapper;
     private final UserService userService;
 
-    public ProgressPhotoServiceImpl(ProgressPhotoRepository progressPhotoRepository, UserService userService) {
+    public ProgressPhotoServiceImpl(
+            ProgressPhotoRepository progressPhotoRepository,
+            ProgressPhotoMapper progressPhotoMapper,
+            UserService userService
+    ) {
         this.progressPhotoRepository = progressPhotoRepository;
+        this.progressPhotoMapper = progressPhotoMapper;
         this.userService = userService;
     }
 
@@ -40,7 +45,7 @@ public class ProgressPhotoServiceImpl implements ProgressPhotoService {
     public List<ProgressPhotoDto> getAllPhotos() {
         List<ProgressPhoto> photos = progressPhotoRepository.findAllByUser(userService.getCurrentUser());
         return photos.stream()
-                .map(ProgressPhotoMapper.INSTANCE::mapToProgressPhotoDto)
+                .map(progressPhotoMapper::mapToProgressPhotoDto)
                 .toList();
     }
 

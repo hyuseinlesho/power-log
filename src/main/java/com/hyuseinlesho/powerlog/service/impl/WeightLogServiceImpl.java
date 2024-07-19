@@ -21,7 +21,11 @@ public class WeightLogServiceImpl implements WeightLogService {
     private final WeightLogMapper weightLogMapper;
     private final UserService userService;
 
-    public WeightLogServiceImpl(WeightLogRepository weightLogRepository, WeightLogMapper weightLogMapper, UserService userService) {
+    public WeightLogServiceImpl(
+            WeightLogRepository weightLogRepository,
+            WeightLogMapper weightLogMapper,
+            UserService userService
+    ) {
         this.weightLogRepository = weightLogRepository;
         this.weightLogMapper = weightLogMapper;
         this.userService = userService;

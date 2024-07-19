@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
+// TODO Fix internationalization on server-side
 @Service
 public class MessageServiceImpl implements MessageService {
     private final MessageSource messageSource;
@@ -13,7 +14,6 @@ public class MessageServiceImpl implements MessageService {
     public MessageServiceImpl(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-
 
     @Override
     public String getMessage(String code, Object[] args, Locale locale) {

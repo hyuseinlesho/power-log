@@ -10,8 +10,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface WeightLogMapper {
-    WeightLogMapper INSTANCE = Mappers.getMapper(WeightLogMapper.class);
-
     WeightLog mapToWeightLog(CreateWeightLogDto weightLogDto);
 
     WeightLogDto mapToWeightLogDto(WeightLog weightLog);

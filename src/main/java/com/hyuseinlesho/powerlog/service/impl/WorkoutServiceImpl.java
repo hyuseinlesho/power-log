@@ -10,7 +10,6 @@ import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.WorkoutRepository;
-import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.UserService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final ExerciseLogRepository exerciseLogRepository;
     private final UserService userService;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, WorkoutMapper workoutMapper, ExerciseLogRepository exerciseLogRepository, UserService userService) {
+    public WorkoutServiceImpl(
+            WorkoutRepository workoutRepository,
+            WorkoutMapper workoutMapper,
+            ExerciseLogRepository exerciseLogRepository,
+            UserService userService
+    ) {
         this.workoutRepository = workoutRepository;
         this.workoutMapper = workoutMapper;
         this.exerciseLogRepository = exerciseLogRepository;

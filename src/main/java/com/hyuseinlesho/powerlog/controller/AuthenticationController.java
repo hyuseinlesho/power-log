@@ -27,20 +27,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/auth")
 public class AuthenticationController {
-    private final JwtService jwtService;
-    private final RefreshTokenService refreshTokenService;
-    private final JwtProperties jwtProperties;
     private final AuthenticationService authenticationService;
+    private final JwtService jwtService;
+    private final JwtProperties jwtProperties;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthenticationController(
+            AuthenticationService authenticationService,
             JwtService jwtService,
-            RefreshTokenService refreshTokenService, JwtProperties jwtProperties, AuthenticationService authenticationService
+            JwtProperties jwtProperties,
+            RefreshTokenService refreshTokenService
     ) {
-        this.jwtService = jwtService;
-        this.refreshTokenService = refreshTokenService;
-        this.jwtProperties = jwtProperties;
         this.authenticationService = authenticationService;
+        this.jwtService = jwtService;
+        this.jwtProperties = jwtProperties;
+        this.refreshTokenService = refreshTokenService;
     }
+
 
     @ModelAttribute("registerDto")
     public RegisterUserDto registerDto() {
@@ -122,7 +125,6 @@ public class AuthenticationController {
                     .sameSite("Strict")
                     .path("/")
                     .maxAge(jwtProperties.getRefreshTokenCookieMaxAge()).build();
-            // set refresh token cookie expiry time to 7 days
 
             response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
             response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());

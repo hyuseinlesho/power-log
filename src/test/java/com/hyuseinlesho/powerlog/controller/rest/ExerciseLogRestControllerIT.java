@@ -2,7 +2,6 @@ package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
-import com.hyuseinlesho.powerlog.model.entity.WeightLog;
 import com.hyuseinlesho.powerlog.model.entity.Workout;
 import com.hyuseinlesho.powerlog.repository.ExerciseLogRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;

@@ -22,7 +22,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseMapper exerciseMapper;
     private final UserService userService;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, ExerciseMapper exerciseMapper, UserService userService) {
+    public ExerciseServiceImpl(
+            ExerciseRepository exerciseRepository,
+            ExerciseMapper exerciseMapper,
+            UserService userService
+    ) {
         this.exerciseRepository = exerciseRepository;
         this.exerciseMapper = exerciseMapper;
         this.userService = userService;
@@ -71,7 +75,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public List<ExerciseDto> getAllExercises() {
         List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
         return exercises.stream()
-                .map(ExerciseMapper.INSTANCE::mapToExerciseDto)
+                .map(exerciseMapper::mapToExerciseDto)
                 .toList();
     }
 

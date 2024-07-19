@@ -66,8 +66,23 @@ public class ApplicationBeanConfiguration {
     }
 
     @Bean
+    ExerciseLogMapper exerciseLogMapper() {
+        return Mappers.getMapper(ExerciseLogMapper.class);
+    }
+
+    @Bean
     ExerciseMapper exerciseMapper() {
         return Mappers.getMapper(ExerciseMapper.class);
+    }
+
+    @Bean
+    ProgressPhotoMapper progressPhotoMapper() {
+        return Mappers.getMapper(ProgressPhotoMapper.class);
+    }
+
+    @Bean
+    UserMapper userMapper() {
+        return Mappers.getMapper(UserMapper.class);
     }
 
     @Bean
@@ -78,15 +93,5 @@ public class ApplicationBeanConfiguration {
     @Bean
     WorkoutMapper workoutMapper() {
         return Mappers.getMapper(WorkoutMapper.class);
-    }
-
-    @Bean
-    ExerciseLogMapper exerciseLogMapper() {
-        return Mappers.getMapper(ExerciseLogMapper.class);
-    }
-
-    @Bean
-    UserMapper userMapper() {
-        return Mappers.getMapper(UserMapper.class);
     }
 }

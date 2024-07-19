@@ -17,14 +17,22 @@ public class ExerciseLogServiceImpl implements ExerciseLogService {
     private final ExerciseLogMapper exerciseLogMapper;
     private final UserService userService;
 
-    public ExerciseLogServiceImpl(ExerciseLogRepository exerciseLogRepository, ExerciseLogMapper exerciseLogMapper, UserService userService) {
+    public ExerciseLogServiceImpl(
+            ExerciseLogRepository exerciseLogRepository,
+            ExerciseLogMapper exerciseLogMapper,
+            UserService  userService
+            ) {
         this.exerciseLogRepository = exerciseLogRepository;
         this.exerciseLogMapper = exerciseLogMapper;
         this.userService = userService;
     }
 
     @Override
-    public List<ExerciseLogGraphDto> getExerciseLogsBetweenDates(String exerciseName, LocalDate startDate, LocalDate endDate) {
+    public List<ExerciseLogGraphDto> getExerciseLogsBetweenDates(
+            String exerciseName,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
         List<ExerciseLog> exerciseLogs = exerciseLogRepository.findExerciseLogsByExerciseNameAndDateRange(
                 exerciseName, startDate, endDate, userService.getCurrentUser()
         );

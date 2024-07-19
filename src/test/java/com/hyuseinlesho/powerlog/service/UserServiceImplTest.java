@@ -66,35 +66,6 @@ public class UserServiceImplTest {
                 .password("test1234").build();
     }
 
-//    @Test
-//    void registerUser() {
-//        RegisterUserDto registerUserDto = RegisterUserDto.builder()
-//                .username(username)
-//                .email(email)
-//                .password("test1234")
-//                .confirmPassword("test1234").build();
-//
-//        String encodedPassword = passwordEncoder.encode(registerUserDto.getPassword());
-//
-//        UserEntity user = UserEntity.builder()
-//                .username(registerUserDto.getUsername())
-//                .email(registerUserDto.getEmail())
-//                .password(registerUserDto.getPassword()).build();
-//
-//        Role role = new Role();
-//        role.setName("USER");
-//
-//        when(userMapper.mapToUserEntity(registerUserDto)).thenReturn(user);
-//        when(passwordEncoder.encode(registerUserDto.getPassword())).thenReturn(encodedPassword);
-//        when(roleRepository.findByName("USER")).thenReturn(role);
-//
-//        userService.registerUser(registerUserDto);
-//
-//        verify(userMapper, times(1)).mapToUserEntity(registerUserDto);
-//        verify(roleRepository, times(1)).findByName("USER");
-//        verify(userRepository, times(1)).save(user);
-//    }
-
     @Test
     void findByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());

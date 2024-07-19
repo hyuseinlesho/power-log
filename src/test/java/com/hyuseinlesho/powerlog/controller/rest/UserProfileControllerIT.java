@@ -110,7 +110,8 @@ public class UserProfileControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(emailDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.newEmail").value("Email must be less than 50 characters"));
+                .andExpect(jsonPath("$.newEmail")
+                        .value("Email must be less than 50 characters"));
     }
 
 
