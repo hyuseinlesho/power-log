@@ -82,7 +82,7 @@ public class WeightLogServiceImplTest {
         when(weightLogRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
-        List<WeightLogDto> result = weightLogService.findAllWeightLogs();
+        List<WeightLogDto> result = weightLogService.getAllWeightLogs();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -114,7 +114,7 @@ public class WeightLogServiceImplTest {
         when(weightLogMapper.mapToWeightLogDto(weightLog1)).thenReturn(weightLogDto1);
         when(weightLogMapper.mapToWeightLogDto(weightLog2)).thenReturn(weightLogDto2);
 
-        List<WeightLogDto> result = weightLogService.findAllWeightLogs();
+        List<WeightLogDto> result = weightLogService.getAllWeightLogs();
 
         assertNotNull(result);
         assertEquals(2, result.size());

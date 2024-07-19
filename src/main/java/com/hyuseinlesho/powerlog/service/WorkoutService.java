@@ -9,9 +9,9 @@ import java.util.List;
 public interface WorkoutService {
     void createWorkout(CreateWorkoutDto workoutDto);
 
-    WorkoutDto findWorkoutById(Long workoutId);
+    WorkoutDto getWorkoutById(Long workoutId);
 
-    List<WorkoutDto> findAllWorkoutsSortedByDate();
+    List<WorkoutDto> getAllWorkoutsSortedByDate();
 
     void editWorkout(UpdateWorkoutDto workoutDto);
 

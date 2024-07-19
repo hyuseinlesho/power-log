@@ -1,6 +1,5 @@
-package com.hyuseinlesho.powerlog.repository;
+package com.hyuseinlesho.powerlog.security.jwt.refreshtoken;
 
-import com.hyuseinlesho.powerlog.model.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

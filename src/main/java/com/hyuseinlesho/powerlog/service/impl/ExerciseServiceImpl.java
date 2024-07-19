@@ -61,14 +61,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ExerciseDto findExerciseById(Long id) {
+    public ExerciseDto getExerciseById(Long id) {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found for id: " + id));;
         return exerciseMapper.mapToExerciseDto(exercise);
     }
 
     @Override
-    public List<ExerciseDto> findAllExercises() {
+    public List<ExerciseDto> getAllExercises() {
         List<Exercise> exercises = exerciseRepository.findAllByUser(userService.getCurrentUser());
         return exercises.stream()
                 .map(ExerciseMapper.INSTANCE::mapToExerciseDto)

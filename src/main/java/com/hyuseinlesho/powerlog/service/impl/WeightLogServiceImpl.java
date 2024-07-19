@@ -36,7 +36,7 @@ public class WeightLogServiceImpl implements WeightLogService {
     }
 
     @Override
-    public List<WeightLogDto> findAllWeightLogs() {
+    public List<WeightLogDto> getAllWeightLogs() {
         List<WeightLog> weightLogs = weightLogRepository.findAllByUser(userService.getCurrentUser());
 
         return weightLogs.stream()

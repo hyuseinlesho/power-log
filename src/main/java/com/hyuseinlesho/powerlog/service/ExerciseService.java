@@ -13,9 +13,9 @@ public interface ExerciseService {
 
     boolean addNewExercise(String name, ExerciseType type);
 
-    ExerciseDto findExerciseById(Long id);
+    ExerciseDto getExerciseById(Long id);
 
-    List<ExerciseDto> findAllExercises();
+    List<ExerciseDto> getAllExercises();
 
     Exercise updateExercise(Long id, UpdateExerciseDto exerciseDto);
 

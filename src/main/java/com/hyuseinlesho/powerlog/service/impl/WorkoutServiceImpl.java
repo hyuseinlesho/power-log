@@ -51,7 +51,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public WorkoutDto findWorkoutById(Long id) {
+    public WorkoutDto getWorkoutById(Long id) {
         Workout workout = workoutRepository.findById(id)
                 .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + id));
         ;
@@ -59,7 +59,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<WorkoutDto> findAllWorkoutsSortedByDate() {
+    public List<WorkoutDto> getAllWorkoutsSortedByDate() {
         return workoutRepository.findAllByUserOrderByDateAsc(userService.getCurrentUser())
                 .stream()
                 .map(workoutMapper::mapToWorkoutDto)

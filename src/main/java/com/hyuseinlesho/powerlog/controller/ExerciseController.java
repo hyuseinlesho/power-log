@@ -18,14 +18,14 @@ public class ExerciseController {
 
     @GetMapping()
     public String showExercisesPage(Model model) {
-        model.addAttribute("exercises", exerciseService.findAllExercises());
+        model.addAttribute("exercises", exerciseService.getAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/exercises/list";
     }
 
     @GetMapping("/graph")
     public String showExercisesGraph(Model model) {
-        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
         return "/exercises/graph";
     }
 }

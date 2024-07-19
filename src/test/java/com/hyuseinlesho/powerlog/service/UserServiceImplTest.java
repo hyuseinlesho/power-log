@@ -100,7 +100,7 @@ public class UserServiceImplTest {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
-            userService.findByEmail(email);
+            userService.getByEmail(email);
         });
         verify(userRepository, times(1)).findByEmail(email);
     }
@@ -111,7 +111,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
-        UserEntity result = userService.findByEmail(email);
+        UserEntity result = userService.getByEmail(email);
 
         assertNotNull(result);
         assertEquals(user.getUsername(), result.getUsername());
@@ -126,7 +126,7 @@ public class UserServiceImplTest {
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
-            userService.findByUsername(username);
+            userService.getByUsername(username);
         });
         verify(userRepository, times(1)).findByUsername(username);
     }
@@ -137,7 +137,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        UserEntity result = userService.findByUsername(username);
+        UserEntity result = userService.getByUsername(username);
 
         assertNotNull(result);
         assertEquals(user.getUsername(), result.getUsername());

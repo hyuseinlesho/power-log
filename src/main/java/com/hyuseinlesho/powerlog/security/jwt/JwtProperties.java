@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "security.jwt")
 public class JwtProperties {
     private String secretKey;
-    private long expirationTime;
-    private long cookieMaxAge;
+    private long accessTokenExpiration;
+    private long refreshTokenExpiration;
+    private long accessTokenCookieMaxAge;
+    private long refreshTokenCookieMaxAge;
 }

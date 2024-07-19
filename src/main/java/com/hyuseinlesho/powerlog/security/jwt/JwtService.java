@@ -36,11 +36,7 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return buildToken(extraClaims, userDetails, jwtProperties.getExpirationTime());
-    }
-
-    public long getExpirationTime() {
-        return jwtProperties.getExpirationTime();
+        return buildToken(extraClaims, userDetails, jwtProperties.getAccessTokenExpiration());
     }
 
     private String buildToken(

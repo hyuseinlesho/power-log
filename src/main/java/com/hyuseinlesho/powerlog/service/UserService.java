@@ -5,9 +5,9 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 
 public interface UserService {
 
-    UserEntity findByUsername(String username);
+    UserEntity getByUsername(String username);
 
-    UserEntity findByEmail(String email);
+    UserEntity getByEmail(String email);
 
     boolean changeEmail(String newEmail);
 

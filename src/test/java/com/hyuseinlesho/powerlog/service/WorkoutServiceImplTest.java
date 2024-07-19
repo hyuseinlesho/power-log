@@ -117,7 +117,7 @@ public class WorkoutServiceImplTest {
         when(workoutRepository.findById(workoutId)).thenReturn(Optional.empty());
 
         assertThrows(WorkoutNotFoundException.class, () -> {
-            workoutService.findWorkoutById(workoutId);
+            workoutService.getWorkoutById(workoutId);
         });
         verify(workoutMapper, never()).mapToWorkoutDto(any(Workout.class));
     }
@@ -148,7 +148,7 @@ public class WorkoutServiceImplTest {
         when(workoutRepository.findById(workoutId)).thenReturn(Optional.of(workout));
         when(workoutMapper.mapToWorkoutDto(workout)).thenReturn(workoutDto);
 
-        WorkoutDto result = workoutService.findWorkoutById(workoutId);
+        WorkoutDto result = workoutService.getWorkoutById(workoutId);
 
         assertNotNull(result);
         assertEquals(workoutDto.getTitle(), result.getTitle());
@@ -204,7 +204,7 @@ public class WorkoutServiceImplTest {
         when(workoutMapper.mapToWorkoutDto(workout1)).thenReturn(workoutDto1);
         when(workoutMapper.mapToWorkoutDto(workout2)).thenReturn(workoutDto2);
 
-        List<WorkoutDto> result = workoutService.findAllWorkoutsSortedByDate();
+        List<WorkoutDto> result = workoutService.getAllWorkoutsSortedByDate();
 
         assertNotNull(result);
         assertEquals(workoutDto1.getTitle(), result.get(0).getTitle());
@@ -228,7 +228,7 @@ public class WorkoutServiceImplTest {
         when(workoutRepository.findAllByUserOrderByDateAsc(user)).thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
 
-        List<WorkoutDto> result = workoutService.findAllWorkoutsSortedByDate();
+        List<WorkoutDto> result = workoutService.getAllWorkoutsSortedByDate();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());

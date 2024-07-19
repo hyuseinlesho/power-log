@@ -27,7 +27,7 @@ public class WorkoutController {
 
     @GetMapping("/history")
     public String showWorkoutHistory(Model model) {
-        List<WorkoutDto> workouts = workoutService.findAllWorkoutsSortedByDate();
+        List<WorkoutDto> workouts = workoutService.getAllWorkoutsSortedByDate();
         List<Object> workoutsWithDelimiters = workoutService.addWeekDelimiters(workouts);
         model.addAttribute("workoutsWithDelimiters", workoutsWithDelimiters);
         return "/workouts/history";
@@ -36,7 +36,7 @@ public class WorkoutController {
     @GetMapping("/create")
     public String showCreateWorkoutForm(Model model) {
         model.addAttribute("workoutDto", new CreateWorkoutDto());
-        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/workouts/create";
     }
@@ -53,12 +53,12 @@ public class WorkoutController {
                 exercises.add(new ExerciseLogDto());
             }
             workoutDto.setExercises(exercises);
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
             return "/workouts/create";
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
             return "/workouts/create";
         }
 
@@ -71,9 +71,9 @@ public class WorkoutController {
     @GetMapping("/{id}/edit")
     public String showEditWorkoutForm(@PathVariable("id") Long id,
                                       Model model) {
-        WorkoutDto workout = workoutService.findWorkoutById(id);
+        WorkoutDto workout = workoutService.getWorkoutById(id);
         model.addAttribute("workoutDto", workout);
-        model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+        model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
         return "/workouts/edit";
     }
@@ -87,7 +87,7 @@ public class WorkoutController {
         workoutDto.setId(id);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseOptions", exerciseService.findAllExercises());
+            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
             return "/workouts/edit";
         }
 
@@ -100,7 +100,7 @@ public class WorkoutController {
     @GetMapping("/{id}/details")
     public String getWorkoutDetails(@PathVariable("id") Long id,
                                     Model model) {
-        WorkoutDto workout = workoutService.findWorkoutById(id);
+        WorkoutDto workout = workoutService.getWorkoutById(id);
         model.addAttribute("workoutDto", workout);
         return "/workouts/details";
     }

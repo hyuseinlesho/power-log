@@ -62,13 +62,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserEntity findByUsername(String username) {
+    public UserEntity getByUsername(String username) {
         Optional<UserEntity> user = userRepository.findByUsername(username);
         return user.orElse(null);
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
+    public UserEntity getByEmail(String email) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         return user.orElse(null);
     }

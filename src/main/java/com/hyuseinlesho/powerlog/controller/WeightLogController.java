@@ -17,7 +17,7 @@ public class WeightLogController {
 
     @GetMapping
     public String showWeightLogsPage(Model model) {
-        model.addAttribute("weightLogs", weightLogService.findAllWeightLogs());
+        model.addAttribute("weightLogs", weightLogService.getAllWeightLogs());
         return "/weight-logs/list";
     }
 

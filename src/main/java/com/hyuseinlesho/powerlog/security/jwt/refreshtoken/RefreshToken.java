@@ -1,5 +1,7 @@
-package com.hyuseinlesho.powerlog.model.entity;
+package com.hyuseinlesho.powerlog.security.jwt.refreshtoken;
 
+import com.hyuseinlesho.powerlog.model.entity.BaseEntity;
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;

@@ -29,9 +29,11 @@ logging:
 
 security:
   jwt:
-    secret-key: ${SECRET_KEY}
-    expiration-time: ${EXPIRATION_TIME}
-    cookie-max-age: ${COOKIE_MAX_AGE}
+    secretKey: ${SECRET_KEY}
+    accessTokenExpiration: ${ACCESS_TOKEN_EXPIRATION}
+    refreshTokenExpiration: ${REFRESH_TOKEN_EXPIRATION}
+    accessTokenCookieMaxAge: ${ACCESS_TOKEN_COOKIE_MAX_AGE}
+    refreshTokenCookieMaxAge: ${REFRESH_TOKEN_COOKIE_MAX_AGE}
 
 #upload:
 #  path:

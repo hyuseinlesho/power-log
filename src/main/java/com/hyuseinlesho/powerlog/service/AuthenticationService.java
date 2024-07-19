@@ -9,7 +9,7 @@ public interface AuthenticationService {
 
     UserEntity authenticate(LoginUserDto loginDto);
 
-    UserEntity findByUsername(String username);
+    UserEntity getByUsername(String username);
 
-    UserEntity findByEmail(String email);
+    UserEntity getByEmail(String email);
 }

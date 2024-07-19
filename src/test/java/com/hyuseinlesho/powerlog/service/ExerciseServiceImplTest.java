@@ -153,7 +153,7 @@ public class ExerciseServiceImplTest {
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.empty());
 
         assertThrows(ExerciseNotFoundException.class, () -> {
-            exerciseService.findExerciseById(exerciseId);
+            exerciseService.getExerciseById(exerciseId);
         });
         verify(exerciseMapper, never()).mapToExerciseDto(exercise);
     }
@@ -174,7 +174,7 @@ public class ExerciseServiceImplTest {
         when(exerciseMapper.mapToExerciseDto(exercise))
                 .thenReturn(exerciseDto);
 
-        ExerciseDto foundExercise = exerciseService.findExerciseById(exerciseId);
+        ExerciseDto foundExercise = exerciseService.getExerciseById(exerciseId);
 
         assertNotNull(foundExercise);
         assertEquals(exerciseDto.getName(), foundExercise.getName());
@@ -186,7 +186,7 @@ public class ExerciseServiceImplTest {
         when(exerciseRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
-        List<ExerciseDto> result = exerciseService.findAllExercises();
+        List<ExerciseDto> result = exerciseService.getAllExercises();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -213,7 +213,7 @@ public class ExerciseServiceImplTest {
         when(exerciseRepository.findAllByUser(user)).thenReturn(exercises);
         when(userService.getCurrentUser()).thenReturn(user);
 
-        List<ExerciseDto> result = exerciseService.findAllExercises();
+        List<ExerciseDto> result = exerciseService.getAllExercises();
 
         assertNotNull(result);
         assertEquals(2, result.size());
