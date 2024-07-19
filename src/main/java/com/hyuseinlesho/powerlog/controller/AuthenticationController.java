@@ -2,14 +2,15 @@ package com.hyuseinlesho.powerlog.controller;
 
 import com.hyuseinlesho.powerlog.model.dto.LoginUserDto;
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
+import com.hyuseinlesho.powerlog.model.entity.RefreshToken;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.security.jwt.JwtProperties;
 import com.hyuseinlesho.powerlog.security.jwt.JwtService;
-import com.hyuseinlesho.powerlog.service.impl.AuthenticationServiceImpl;
+import com.hyuseinlesho.powerlog.service.AuthenticationService;
+import com.hyuseinlesho.powerlog.service.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Controller;
@@ -23,16 +24,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/auth")
 public class AuthenticationController {
-
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
     private final JwtProperties jwtProperties;
-    private final AuthenticationServiceImpl authenticationService;
+    private final AuthenticationService authenticationService;
 
     public AuthenticationController(
             JwtService jwtService,
-            JwtProperties jwtProperties, AuthenticationServiceImpl authenticationService
+            RefreshTokenService refreshTokenService, JwtProperties jwtProperties, AuthenticationService authenticationService
     ) {
         this.jwtService = jwtService;
+        this.refreshTokenService = refreshTokenService;
         this.jwtProperties = jwtProperties;
         this.authenticationService = authenticationService;
     }
@@ -100,15 +102,27 @@ public class AuthenticationController {
 
         try {
             UserEntity authenticatedUser = authenticationService.authenticate(loginDto);
-            String jwtToken = jwtService.generateToken(authenticatedUser);
 
-            ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
+            String jwtToken = jwtService.generateToken(authenticatedUser);
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername());
+
+            ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", jwtToken)
                     .httpOnly(true)
                     .secure(true)
                     .sameSite("Strict")
                     .path("/")
                     .maxAge(jwtProperties.getCookieMaxAge()).build();
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken.getToken())
+                    .httpOnly(true)
+                    .secure(true)
+                    .sameSite("Strict")
+                    .path("/")
+                    .maxAge(7 * 24 * 60 * 60).build();
+            // set refresh token cookie expiry time to 7 days
+
+            response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+            response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
             return "redirect:/home?success";
         } catch (Exception e) {
