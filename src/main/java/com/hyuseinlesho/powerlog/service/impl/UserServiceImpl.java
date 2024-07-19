@@ -7,11 +7,15 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.security.SecurityUtil;
 import com.hyuseinlesho.powerlog.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -60,7 +64,9 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
         } catch (UserNotFoundException e) {
-            // TODO Log the exception or handle it as necessary
+            logger.error("User not found while changing password", e);
+        } catch (Exception e) {
+            logger.error("Unexpected error occurred while changing password", e);
         }
         return false;
     }
