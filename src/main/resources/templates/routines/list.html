@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="#{routines.list.title}"></title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 th:text="#{routines.list.header}"></h1>
+                <a th:href="@{/workouts/routines/create}"
+                   class="btn btn-success"
+                   th:text="#{routines.list.add}"></a>
+            </div>
+            <div th:if="${successMessage}"
+                 class="alert alert-success"
+                 th:text="${successMessage}"></div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4"
+                     th:each="routine : ${routines}">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                th:text="${routine.name}"></h5>
+                            <a th:href="@{/workouts/routines/{id}/details(id=${routine.id})}"
+                               th:text="#{routines.details.view}"
+                               class="btn btn-primary"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

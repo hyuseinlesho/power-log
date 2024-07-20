@@ -13,6 +13,8 @@ public class JwtProperties {
     private String secretKey;
     private long accessTokenExpiration;
     private long refreshTokenExpiration;
+    private long rememberMeRefreshTokenExpiration;
     private long accessTokenCookieMaxAge;
     private long refreshTokenCookieMaxAge;
+    private long rememberMeRefreshTokenCookieMaxAge;
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="#{routines.details.title}"></title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <!-- Success Message -->
+            <div th:if="${successMessage}"
+                 class="alert alert-success"
+                 th:text="${successMessage}"></div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <article class="card shadow-sm mb-4">
+                        <header class="card-header">
+                            <h2 class="fw-bolder mb-1"
+                                th:text="${routine.name}"></h2>
+                        </header>
+                        <section class="card-body">
+                            <h3 class="fw-bolder mb-4 mt-3"
+                                th:text="#{routines.details.exercises}"></h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:text="#{routines.details.exercise}"></th>
+                                        <th th:text="#{routines.details.sets}"></th>
+                                        <th th:text="#{routines.details.reps}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="exercise : ${routine.exercises}">
+                                        <td th:text="${exercise.name}"></td>
+                                        <td th:text="${exercise.sets}"></td>
+                                        <td th:text="${exercise.reps}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </article>
+                    <div class="d-flex justify-content-between">
+                        <div class="routine-details-buttons">
+                            <a th:href="@{/workouts/routines}"
+                               class="btn btn-secondary"
+                               th:text="#{routines.details.back}">
+                                <i class="bi bi-arrow-left-square"></i>
+                            </a>
+                            <a th:href="@{/workouts/routines/{id}/edit(id=${routine.id})}"
+                               class="btn btn-primary"
+                               th:text="#{routines.details.edit}"></a>
+                        </div>
+                        <form th:action="@{/workouts/routines/{id}/delete(id=${routine.id})}"
+                              method="post">
+                            <button type="submit"
+                                    class="btn btn-danger"
+                                    th:text="#{routines.details.delete}">
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

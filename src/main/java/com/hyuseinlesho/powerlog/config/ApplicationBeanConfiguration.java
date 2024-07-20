@@ -81,6 +81,10 @@ public class ApplicationBeanConfiguration {
     }
 
     @Bean
+    RoutineMapper routineMapper() {
+        return Mappers.getMapper(RoutineMapper.class);
+    }
+    @Bean
     UserMapper userMapper() {
         return Mappers.getMapper(UserMapper.class);
     }

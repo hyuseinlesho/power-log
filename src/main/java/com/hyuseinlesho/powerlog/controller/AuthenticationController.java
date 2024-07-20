@@ -18,10 +18,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -96,6 +93,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String authenticate(@Valid LoginUserDto loginDto,
                                BindingResult bindingResult,
+                               @RequestParam(value = "rememberMe", required = false) boolean rememberMe,
                                RedirectAttributes redirectAttributes,
                                HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
@@ -110,7 +108,7 @@ public class AuthenticationController {
             UserEntity authenticatedUser = authenticationService.authenticate(loginDto);
 
             String jwtToken = jwtService.generateToken(authenticatedUser);
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername());
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername(), rememberMe);
 
             ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", jwtToken)
                     .httpOnly(true)
@@ -124,7 +122,9 @@ public class AuthenticationController {
                     .secure(true)
                     .sameSite("Strict")
                     .path("/")
-                    .maxAge(jwtProperties.getRefreshTokenCookieMaxAge()).build();
+                    .maxAge(rememberMe
+                            ? jwtProperties.getRememberMeRefreshTokenCookieMaxAge()
+                            : jwtProperties.getRefreshTokenCookieMaxAge()).build();
 
             response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
             response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());

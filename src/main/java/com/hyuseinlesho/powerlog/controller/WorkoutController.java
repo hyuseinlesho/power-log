@@ -3,6 +3,7 @@ package com.hyuseinlesho.powerlog.controller;
 import com.hyuseinlesho.powerlog.model.dto.*;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
+import com.hyuseinlesho.powerlog.service.RoutineService;
 import com.hyuseinlesho.powerlog.service.WorkoutService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,16 @@ import java.util.List;
 public class WorkoutController {
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
+    private final RoutineService routineService;
 
-    public WorkoutController(WorkoutService workoutService, ExerciseService exerciseService) {
+    public WorkoutController(
+            WorkoutService workoutService,
+            ExerciseService exerciseService,
+            RoutineService routineService
+    ) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
+        this.routineService = routineService;
     }
 
     @GetMapping("/history")
@@ -38,6 +45,7 @@ public class WorkoutController {
         model.addAttribute("workoutDto", new CreateWorkoutDto());
         model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
+        model.addAttribute("routines", routineService.getRoutines());
         return "/workouts/create";
     }
 
@@ -59,6 +67,7 @@ public class WorkoutController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
+            model.addAttribute("routines", routineService.getRoutines());
             return "/workouts/create";
         }
 
@@ -98,8 +107,7 @@ public class WorkoutController {
     }
 
     @GetMapping("/{id}/details")
-    public String getWorkoutDetails(@PathVariable("id") Long id,
-                                    Model model) {
+    public String getWorkoutDetails(@PathVariable("id") Long id, Model model) {
         WorkoutDto workout = workoutService.getWorkoutById(id);
         model.addAttribute("workoutDto", workout);
         return "/workouts/details";

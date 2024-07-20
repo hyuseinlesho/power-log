@@ -24,11 +24,15 @@ public class RefreshTokenService {
         this.jwtProperties = jwtProperties;
     }
 
-    public RefreshToken createRefreshToken(String username) {
+    public RefreshToken createRefreshToken(String username, boolean rememberMe) {
+        long expirationTime = rememberMe
+                ? jwtProperties.getRememberMeRefreshTokenExpiration()
+                : jwtProperties.getRefreshTokenExpiration();
+
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(userService.getByUsername(username))
                 .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plusMillis(jwtProperties.getRefreshTokenExpiration())).build();
+                .expiryDate(Instant.now().plusMillis(expirationTime)).build();
 
         return refreshTokenRepository.save(refreshToken);
     }

@@ -101,6 +101,11 @@
                         </li>
                         <li>
                             <a class="dropdown-item"
+                               th:href="@{/workouts/routines}"
+                               th:text="#{nav.workout.routine}"></a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
                                th:href="@{/exercises}"
                                th:text="#{nav.workout.exercises}"></a>
                         </li>
@@ -124,7 +129,7 @@
                         <li>
                             <a class="dropdown-item"
                                th:href="@{/progress-photos}"
-                               th:text="#{nav.tools.progress-photos}"></a>
+                               th:text="#{nav.tools.progressPhotos}"></a>
                         </li>
                     </ul>
                 </li>
