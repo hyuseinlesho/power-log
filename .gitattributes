@@ -1,2 +1,3 @@
-# Exclude the Bootstrap styles.css file from language stats
-styles.css linguist-vendored
+# Exclude the Bootstrap styles.css files from language stats
+core-theme-styles.css linguist-vendored
+admin-theme-styles.css linguist-vendored
