@@ -75,24 +75,32 @@
                                class="form-control"
                                id="exerciseCount"
                                name="exerciseCount"
-                               min="1" max="20" required>
+                               min="1" max="20">
                     </div>
+                    <button type="submit"
+                            class="btn btn-primary btn-sm mt-2"
+                            th:text="#{workouts-create.set-button}">
+                    </button>
+                </section>
 
-                    <!-- Routine Template Selection -->
+                <section class="selectRoutineOption"
+                         th:if="${workoutDto.exercises == null}">
                     <div class="form-group">
                         <label for="routineSelect"
-                               th:text="#{workouts-create.routine-select}"></label>
+                               th:text="#{workouts-create.routine.select-option}"></label>
                         <select class="form-control"
-                                id="routineSelect">
+                                id="routineSelect"
+                                name="routineId">
+                            <option value="" selected disabled
+                                    th:text="#{workouts-create.routine.select}"></option>
                             <option th:each="routine : ${routines}"
                                     th:value="${routine.id}"
                                     th:text="${routine.name}"></option>
                         </select>
                     </div>
                     <button type="submit"
-                            class="btn btn-primary btn-sm mt-2"
-                            th:onclick="setExerciseCount()"
-                            th:text="#{workouts-create.button}">
+                            class="btn btn-secondary btn-sm mt-2"
+                            th:text="#{workouts-create.select-button}">
                     </button>
                 </section>
 

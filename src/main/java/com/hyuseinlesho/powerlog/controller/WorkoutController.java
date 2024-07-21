@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
+import com.hyuseinlesho.powerlog.mapper.ExerciseLogMapper;
 import com.hyuseinlesho.powerlog.model.dto.*;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
@@ -21,15 +22,17 @@ public class WorkoutController {
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
     private final RoutineService routineService;
+    private final ExerciseLogMapper exerciseLogMapper;
 
     public WorkoutController(
             WorkoutService workoutService,
             ExerciseService exerciseService,
-            RoutineService routineService
-    ) {
+            RoutineService routineService,
+            ExerciseLogMapper exerciseLogMapper) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
         this.routineService = routineService;
+        this.exerciseLogMapper = exerciseLogMapper;
     }
 
     @GetMapping("/history")
@@ -50,25 +53,46 @@ public class WorkoutController {
     }
 
     @PostMapping("/create")
-    public String createWorkout(@RequestParam(required = false) Integer exerciseCount,
-                                @Valid @ModelAttribute("workoutDto") CreateWorkoutDto workoutDto,
-                                BindingResult bindingResult,
-                                Model model,
-                                RedirectAttributes redirectAttributes) {
+    public String handleCreateWorkout(
+            @RequestParam(value = "exerciseCount", required = false) Integer exerciseCount,
+            @RequestParam(value = "routineId", required = false) Long routineId,
+            @Valid @ModelAttribute("workoutDto") CreateWorkoutDto workoutDto,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
         if (exerciseCount != null) {
             List<ExerciseLogDto> exercises = new ArrayList<>();
+
             for (int i = 0; i < exerciseCount; i++) {
                 exercises.add(new ExerciseLogDto());
             }
+
             workoutDto.setExercises(exercises);
             model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
-            return "/workouts/create";
+            return "workouts/create";
+        }
+
+        if (routineId != null) {
+            RoutineDto routine = routineService.getRoutineById(routineId);
+
+            // TODO Fix title not showing after select routine
+            workoutDto.setTitle(routine.getName());
+
+            List<ExerciseLogDto> exercises = routine.getExercises()
+                    .stream()
+                    .map(exerciseLogMapper::mapToExerciseLogDto)
+                    .toList();
+
+            workoutDto.setExercises(exercises);
+            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
+            return "workouts/create";
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
             model.addAttribute("routines", routineService.getRoutines());
-            return "/workouts/create";
+            model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
+            return "workouts/create";
         }
 
         workoutService.createWorkout(workoutDto);
