@@ -107,6 +107,9 @@ public class AuthenticationController {
         try {
             UserEntity authenticatedUser = authenticationService.authenticate(loginDto);
 
+            // For development purpose
+            refreshTokenService.deleteByUser(authenticatedUser);
+
             String jwtToken = jwtService.generateToken(authenticatedUser);
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername(), rememberMe);
 

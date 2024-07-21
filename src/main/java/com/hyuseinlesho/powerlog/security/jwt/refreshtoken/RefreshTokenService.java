@@ -1,7 +1,9 @@
 package com.hyuseinlesho.powerlog.security.jwt.refreshtoken;
 
+import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.security.jwt.JwtProperties;
 import com.hyuseinlesho.powerlog.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -52,5 +54,10 @@ public class RefreshTokenService {
 
     public void deleteToken(RefreshToken refreshToken) {
         refreshTokenRepository.delete(refreshToken);
+    }
+
+    @Transactional
+    public void deleteByUser(UserEntity user) {
+        refreshTokenRepository.deleteByUser(user);
     }
 }
