@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>500 Error - PowerLog</title>
     <!-- Favicon-->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
@@ -14,9 +14,23 @@
     <!-- Admin theme CSS (includes Bootstrap)-->
     <link href="/css/admin-theme-styles.css" rel="stylesheet"/>
 </head>
-<body>
-<!-- Main content-->
-<main layout:fragment="content"></main>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center mt-4">
+                    <h1 class="display-1">500</h1>
+                    <p class="lead">Unknown internal server error.</p>
+                    <a href="#">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        <span th:text="#{errors.return}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 <!-- Footer-->
 <footer class="bg-dark py-4 mt-auto">
     <div class="container px-5">

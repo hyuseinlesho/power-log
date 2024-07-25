@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title th:text="#{login.title} + ' - PowerLog'"></title>
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/core-theme-styles.css" rel="stylesheet"/>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0">
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card border-0 shadow rounded-3">
+                        <div class="card-body p-4 p-sm-5">
+                            <h2 class="text-center mb-4"
+                                th:text="#{login.title}"></h2>
+                            <form>
+                                <!-- Success message -->
+                                <div th:if="${param.success}"
+                                     class="alert alert-success mb-4"
+                                     th:text="#{login.success}">
+                                </div>
+                                <!-- Error message -->
+                                <div th:if="${param.error}"
+                                     class="alert alert-danger mb-4"
+                                     th:text="#{login.error}">
+                                </div>
+                                <!-- Logout message -->
+                                <div th:if="${param.logout}"
+                                     class="alert alert-success mb-4"
+                                     th:text="#{login.logout}">
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text"
+                                           name="username"
+                                           class="form-control"
+                                           id="username"
+                                           placeholder="Username"
+                                           required autofocus
+                                           autocomplete="username">
+                                    <label for="username"
+                                           th:text="#{login.username}"></label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password"
+                                           name="password"
+                                           class="form-control"
+                                           id="password"
+                                           placeholder="Password"
+                                           required autocomplete="current-password">
+                                    <label for="password"
+                                           th:text="#{login.password}"></label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           name="rememberMe"
+                                           class="form-check-input"
+                                           id="rememberMe">
+                                    <label for="rememberMe"
+                                           class="form-check-label"
+                                           th:text="#{login.remember-me}">
+                                    </label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit"
+                                            class="btn btn-primary"
+                                            th:text="#{login.title}">
+                                    </button>
+                                    <a th:href="@{/admin/demo/auth/register}"
+                                       class="btn btn-secondary mt-2"
+                                       th:text="#{login.register}"></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto">
+                <div class="small m-0 text-white"
+                     th:text="#{footer.copyright} + ' &copy; 2024 PowerLog. ' + #{footer.rights}"></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
