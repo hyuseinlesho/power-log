@@ -11,7 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
                 status = HttpStatus.FORBIDDEN;
                 yield "The JWT token has expired.";
             }
-            case NoHandlerFoundException noHandlerFoundException -> {
+            case NoResourceFoundException noResourceFoundException -> {
                 status = HttpStatus.NOT_FOUND;
                 yield "The requested resource was not found.";
             }
