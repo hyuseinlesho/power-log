@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/assets/**", "/css/**", "/images/**", "/js/**").permitAll()
                                 .requestMatchers("/", "/about", "/contact").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

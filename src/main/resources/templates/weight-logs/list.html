@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{core-theme-layout}">
 <head>
     <title th:text="#{weight-logs.title}"></title>
     <!-- Flatpickr CSS -->
@@ -24,14 +24,14 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <button class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#addWeightLogModal"
-                        th:text="#{weight-logs.add}">
+                        data-bs-target="#addWeightLogModal">
                     <i class="bi bi-plus-circle"></i>
+                    <span th:text="#{weight-logs.add}"></span>
                 </button>
                 <a th:href="@{/weight-logs/graph}"
-                   class="btn btn-secondary"
-                   th:text="#{weight-logs.graph}">
+                   class="btn btn-secondary">
                     <i class="bi bi-graph-up"></i>
+                    <span th:text="#{weight-logs.graph}"></span>
                 </a>
             </div>
             <div class="row">

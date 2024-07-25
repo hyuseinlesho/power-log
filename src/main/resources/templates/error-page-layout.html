@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <!-- Admin theme CSS (includes Bootstrap)-->
+    <link href="/css/admin-theme-styles.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- Main content-->
+<main layout:fragment="content"></main>
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto">
+                <div class="small m-0 text-white"
+                     th:text="#{footer.copyright} + ' &copy; 2024 PowerLog. ' + #{footer.rights}"></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Font Awesome-->
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"></script>
+</body>
+</html>

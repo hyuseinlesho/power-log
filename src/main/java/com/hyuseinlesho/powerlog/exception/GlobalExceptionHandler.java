@@ -4,56 +4,84 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleSecurityException(Exception exception) {
-        ProblemDetail errorDetail = null;
+    public ModelAndView handleException(Exception exception) {
+        HttpStatus status;
+        String description;
 
         logger.error("Exception caught: ", exception);
 
-        if (exception instanceof BadCredentialsException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
-            errorDetail.setProperty("description", "The username or password is incorrect");
+        description = switch (exception) {
+            case BadCredentialsException badCredentialsException -> {
+                status = HttpStatus.UNAUTHORIZED;
+                yield "The username or password is incorrect.";
+            }
+            case AccountStatusException accountStatusException -> {
+                status = HttpStatus.FORBIDDEN;
+                yield "The account is locked.";
+            }
+            case AccessDeniedException accessDeniedException -> {
+                status = HttpStatus.FORBIDDEN;
+                yield "You are not authorized to access this resource.";
+            }
+            case SignatureException signatureException -> {
+                status = HttpStatus.FORBIDDEN;
+                yield "The JWT signature is invalid.";
+            }
+            case ExpiredJwtException expiredJwtException -> {
+                status = HttpStatus.FORBIDDEN;
+                yield "The JWT token has expired.";
+            }
+            case NoHandlerFoundException noHandlerFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested resource was not found.";
+            }
+            case ExerciseAlreadyExistsException exerciseAlreadyExistsException -> {
+                status = HttpStatus.BAD_REQUEST;
+                yield "The requested exercise already exists.";
+            }
+            case ExerciseNotFoundException exerciseNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested exercise was not found.";
+            }
+            case RoutineNotFoundException routineNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested routine was not found.";
+            }
+            case UserNotFoundException userNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested user was not found.";
+            }
+            case WeightLogNotFoundException weightLogNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested weight log was not found.";
+            }
+            case WorkoutNotFoundException workoutNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested workout was not found.";
+            }
+            case null, default -> {
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+                yield "Unknown internal server error.";
+            }
+        };
 
-            return errorDetail;
-        }
-
-        if (exception instanceof AccountStatusException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-            errorDetail.setProperty("description", "The account is locked");
-        }
-
-        if (exception instanceof AccessDeniedException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-            errorDetail.setProperty("description", "You are not authorized to access this resource");
-        }
-
-        if (exception instanceof SignatureException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-            errorDetail.setProperty("description", "The JWT signature is invalid");
-        }
-
-        if (exception instanceof ExpiredJwtException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-            errorDetail.setProperty("description", "The JWT token has expired");
-        }
-
-        if (errorDetail == null) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
-            errorDetail.setProperty("description", "Unknown internal server error.");
-        }
-
-        return errorDetail;
+        ModelAndView mav = new ModelAndView("error/default");
+        mav.addObject("status", status.value());
+        mav.addObject("error", description);
+        return mav;
     }
 }

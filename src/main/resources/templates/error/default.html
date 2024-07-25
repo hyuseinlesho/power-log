@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{error-page-layout}">
+<head>
+    <title th:text="${status} + ' Error - PowerLog'"></title>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center mt-4">
+                    <h1 class="display-1"
+                        th:text="${status}"></h1>
+                    <p class="lead"
+                       th:text="${error}"></p>
+                    <a th:href="@{/home}">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        <span th:text="#{errors.return}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{core-theme-layout}">
 <head>
     <title th:text="#{workouts-details.title}"></title>
 </head>
@@ -63,9 +63,9 @@
                     <div class="d-flex justify-content-between">
                         <div class="workout-details-buttons">
                             <a th:href="@{/workouts/history}"
-                               class="btn btn-secondary"
-                               th:text="#{workouts-details.back}">
+                               class="btn btn-secondary">
                                 <i class="bi bi-arrow-left-square"></i>
+                                <span th:text="#{workouts-details.back}"></span>
                             </a>
                             <a th:href="@{|/workouts/${workoutDto.id}/edit|}"
                                class="btn btn-primary"

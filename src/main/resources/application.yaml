@@ -37,5 +37,11 @@ security:
     refreshTokenCookieMaxAge: ${REFRESH_TOKEN_COOKIE_MAX_AGE}
     rememberMeRefreshTokenCookieMaxAge: ${REMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE}
 
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+
 #upload:
 #  path:

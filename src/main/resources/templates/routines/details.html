@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{core-theme-layout}">
 <head>
     <title th:text="#{routines.details.title}"></title>
 </head>
@@ -47,9 +47,9 @@
                     <div class="d-flex justify-content-between">
                         <div class="routine-details-buttons">
                             <a th:href="@{/workouts/routines}"
-                               class="btn btn-secondary"
-                               th:text="#{routines.details.back}">
+                               class="btn btn-secondary">
                                 <i class="bi bi-arrow-left-square"></i>
+                                <span th:text="#{routines.details.back}"></span>
                             </a>
                             <a th:href="@{/workouts/routines/{id}/edit(id=${routine.id})}"
                                class="btn btn-primary"
