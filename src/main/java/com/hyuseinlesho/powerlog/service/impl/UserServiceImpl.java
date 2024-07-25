@@ -2,6 +2,7 @@ package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.exception.UserNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
+import com.hyuseinlesho.powerlog.model.dto.UserDto;
 import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
@@ -11,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +34,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::mapToUserDto)
+                .toList();
+    }
+
+    @Override
     public UserEntity getByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -40,6 +51,20 @@ public class UserServiceImpl implements UserService {
     public UserEntity getByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserEntity getCurrentUser() {
+        String username = SecurityUtil.getSessionUser();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserProfileDto getCurrentUserDto() {
+        UserEntity user = userRepository.findByUsername(SecurityUtil.getSessionUser())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        return userMapper.mapToUserProfileDto(user);
     }
 
     @Override
@@ -69,19 +94,5 @@ public class UserServiceImpl implements UserService {
             logger.error("Unexpected error occurred while changing password", e);
         }
         return false;
-    }
-
-    @Override
-    public UserProfileDto getCurrentUserDto() {
-        UserEntity user = userRepository.findByUsername(SecurityUtil.getSessionUser())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        return userMapper.mapToUserProfileDto(user);
-    }
-
-    @Override
-    public UserEntity getCurrentUser() {
-        String username = SecurityUtil.getSessionUser();
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }
