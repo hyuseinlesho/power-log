@@ -7,6 +7,9 @@ import com.hyuseinlesho.powerlog.repository.ContactRepository;
 import com.hyuseinlesho.powerlog.service.ContactService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
@@ -21,5 +24,10 @@ public class ContactServiceImpl implements ContactService {
     public void saveContact(CreateContactDto contactDto) {
         Contact contact = contactMapper.mapToContact(contactDto);
         contactRepository.save(contact);
+    }
+
+    @Override
+    public List<Contact> getNewContactsSince(LocalDateTime since) {
+        return contactRepository.findContactsSince(since);
     }
 }
