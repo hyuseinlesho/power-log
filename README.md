@@ -6,7 +6,6 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Database Schema](#database-schema)
 - [Security](#security)
@@ -16,8 +15,7 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Mapping](#mapping)
 - [Testing](#testing)
 - [Front-end Design](#front-end-design)
-- [Source Control](#source-control)
-- [Online Project Defense](#online-project-defense)
+- [Usage](#usage)
 - [Contact](#contact)
 
 ## Introduction
