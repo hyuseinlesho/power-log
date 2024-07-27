@@ -61,11 +61,6 @@ public class ApplicationBeanConfiguration {
     }
 
     @Bean
-    ContactMapper contactMapper() {
-        return Mappers.getMapper(ContactMapper.class);
-    }
-
-    @Bean
     ExerciseLogMapper exerciseLogMapper() {
         return Mappers.getMapper(ExerciseLogMapper.class);
     }
