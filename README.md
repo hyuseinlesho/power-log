@@ -177,7 +177,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 
 ![change-language-dropdown](https://github.com/user-attachments/assets/f09155c6-495c-4087-a402-a1582209c837)
 ![home-en](https://github.com/user-attachments/assets/2379010f-a7f5-4264-b5d2-4b087410b499)
-![home-bg](https://github.com/user-attachments/assets/1e1ec7b7-6d97-45a4-bad9-8ded3d481f62)
+![home-bg](https://github.com/user-attachments/assets/ebfe21cc-55b0-458c-a743-862730e214c3)
 
 ## Scheduling
 
