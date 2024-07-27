@@ -202,8 +202,13 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 
 ## Usage
 
-- Instructions on how to use the application.
-- Provide screenshots or GIFs of key pages and functionalities.
+Here is a demonstration video of how to use the PowerLog application:
+
+[![PowerLog Usage Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+
+Click the image above to watch the video.
+
+### * Note that this video is from 2024/07/27
 
 ## Contact
 
