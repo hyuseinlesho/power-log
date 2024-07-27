@@ -198,4 +198,4 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 ## Contact
 
 - Author: Hyusein Lesho
-- [Email](mailto:hyuseinlesho@gmail.com)
+- [Email](mailto:hl.dev.acc@gmail.com)
