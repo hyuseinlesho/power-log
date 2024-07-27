@@ -24,8 +24,7 @@ public class ContactSummaryTask {
     }
 
     // Every day at 8 AM
-//    @Scheduled(cron = "0 0 8 * * ?")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void sendDailyContactSummary() {
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         List<Contact> newContacts = contactClient.getNewContactsSince(yesterday);
