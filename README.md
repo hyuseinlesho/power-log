@@ -187,7 +187,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 
 ## Mapping
 
-- Usage of MapStruct for DTO conversions.
+- Use MapStruct for DTO conversions.
 
 ## Testing
 
@@ -204,7 +204,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 
 Here is a demonstration video of how to use the PowerLog application:
 
-[![PowerLog Usage Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+[![PowerLog Usage Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/2LSWziqV3qg=VIDEO_ID)
 
 Click the image above to watch the video.
 
