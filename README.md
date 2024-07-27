@@ -149,8 +149,13 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 
 ## Database Schema
 
-- Description of the database schema.
-- ER diagram (if available).
+- The database schema for the PowerLog application is designed to support the functionalities required for tracking strength training workouts, user authentication, and role-based access control. Below is a detailed description of each table and its relationships.
+
+### ER Diagram
+
+![er-diagram](https://github.com/user-attachments/assets/ddd8c227-f690-4b6f-8636-357a24ee10b7)
+
+- This schema ensures that each user can have multiple roles, workouts, exercises, routines, weight logs, and progress photos, providing a comprehensive structure for the application's functionality.
 
 ## Security
 
@@ -161,17 +166,24 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 ## Validation and Error Handling
 
 - Client-side and server-side validation.
-- Examples of validation messages.
-- Error handling strategy.
+
+### Examples of validation messages.
+![contact-validations](https://github.com/user-attachments/assets/ae4010c5-c258-4eee-bb70-1b8fd713c38a)
+![login-validation](https://github.com/user-attachments/assets/72818760-b42e-4fcb-8681-8e496bb96daf)
 
 ## Internationalization (i18n)
 
 - Supported languages: English, Bulgarian, and German.
-- Instructions on how to switch languages.
+
+![change-language-dropdown](https://github.com/user-attachments/assets/f09155c6-495c-4087-a402-a1582209c837)
+![home-en](https://github.com/user-attachments/assets/2379010f-a7f5-4264-b5d2-4b087410b499)
+![home-bg](https://github.com/user-attachments/assets/1e1ec7b7-6d97-45a4-bad9-8ded3d481f62)
 
 ## Scheduling
 
 - Scheduler to send a daily contact summary email to the admin with new contacts created.
+
+![daily-contact-summary-email-example](https://github.com/user-attachments/assets/9795e442-af6a-4877-a38e-010461f1beec)
 
 ## Mapping
 
