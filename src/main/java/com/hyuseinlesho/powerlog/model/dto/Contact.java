@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.model.entity;
+package com.hyuseinlesho.powerlog.model.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,15 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "contacts")
 public class Contact {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

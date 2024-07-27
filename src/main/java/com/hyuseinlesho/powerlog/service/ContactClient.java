@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateContactDto;
-import com.hyuseinlesho.powerlog.model.entity.Contact;
+import com.hyuseinlesho.powerlog.model.dto.Contact;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
