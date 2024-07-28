@@ -20,8 +20,7 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Contact](#contact)
 
 ## Introduction
-PowerLog was developed as part of the [Spring Advanced Course](https://softuni.bg/trainings/4532/spring-advanced-june-2024) at [SoftUni](https://softuni.bg/).
-Replace the URL with the correct link to the course page if needed. Here's how you . It provide a comprehensive strength training tracking system.
+PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https://softuni.bg/trainings/4532/spring-advanced-june-2024). Replace the URL with the correct link to the course page if needed. Here's how you . It provide a comprehensive strength training tracking system.
 
 ## Features
 - **Home, About, and Contact pages:** Accessible to unauthenticated users.
