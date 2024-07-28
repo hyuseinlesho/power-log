@@ -10,4 +10,5 @@ import java.time.LocalDate;
 public class ProgressPhotoDto {
     private LocalDate date;
     private String filename;
+    private String url;
 }

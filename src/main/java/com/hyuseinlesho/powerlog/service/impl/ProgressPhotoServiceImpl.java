@@ -1,5 +1,7 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.hyuseinlesho.powerlog.mapper.ProgressPhotoMapper;
 import com.hyuseinlesho.powerlog.model.dto.CreateProgressPhotoDto;
 import com.hyuseinlesho.powerlog.model.dto.ProgressPhotoDto;
@@ -12,30 +14,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class ProgressPhotoServiceImpl implements ProgressPhotoService {
 
-    //TODO Refactor progress photos upload path
-
-//    @Value("${upload.path}")
-    private String uploadPath;
-
+    private final Cloudinary cloudinary;
     private final ProgressPhotoRepository progressPhotoRepository;
     private final ProgressPhotoMapper progressPhotoMapper;
     private final UserService userService;
 
     public ProgressPhotoServiceImpl(
+            Cloudinary cloudinary,
             ProgressPhotoRepository progressPhotoRepository,
             ProgressPhotoMapper progressPhotoMapper,
             UserService userService
     ) {
+        this.cloudinary = cloudinary;
         this.progressPhotoRepository = progressPhotoRepository;
         this.progressPhotoMapper = progressPhotoMapper;
         this.userService = userService;
@@ -54,18 +51,21 @@ public class ProgressPhotoServiceImpl implements ProgressPhotoService {
         MultipartFile photo = photoDto.getPhoto();
         UserEntity user = userService.getCurrentUser();
 
-        String filename = UUID.randomUUID() + "-" + photo.getOriginalFilename();
-        Path userDirectory = Paths.get(uploadPath, user.getUsername());
-        Files.createDirectories(userDirectory);
+        Map uploadResult = cloudinary.uploader().upload(photo.getBytes(),
+                ObjectUtils.asMap("folder", "uploads/progress-photos/" + user.getUsername()));
 
-        Path filePath = userDirectory.resolve(filename);
-        Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        String url = (String) uploadResult.get("url");
 
-        ProgressPhoto progressPhoto = new ProgressPhoto();
-        progressPhoto.setDate(photoDto.getDate());
-        progressPhoto.setFilename(filename);
-        progressPhoto.setUser(user);
+        ProgressPhoto progressPhoto = mapToProgressPhoto(photoDto, url, user);
 
         progressPhotoRepository.save(progressPhoto);
+    }
+
+    public ProgressPhoto mapToProgressPhoto(CreateProgressPhotoDto dto, String url, UserEntity user) {
+        return ProgressPhoto.builder()
+                .date(dto.getDate())
+                .filename(dto.getPhoto().getOriginalFilename())
+                .url(url)
+                .user(user).build();
     }
 }
