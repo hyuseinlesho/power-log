@@ -210,9 +210,9 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 Here is a demonstration video of PowerLog application:
 
-- [PowerLog demo](https://youtu.be/2LSWziqV3qg)
+- [PowerLog demo](https://youtu.be/bhbnsqqFx3Y)
 
-### * Note that this video is from 2024/07/27
+### * Note that this video is from 2024/07/28
 
 ## Contact
 
