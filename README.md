@@ -20,7 +20,8 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Contact](#contact)
 
 ## Introduction
-PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provide a comprehensive strength training tracking system.
+PowerLog was developed as part of the [Spring Advanced Course](https://softuni.bg/trainings/4532/spring-advanced-june-2024) at [SoftUni](https://softuni.bg/).
+Replace the URL with the correct link to the course page if needed. Here's how you . It provide a comprehensive strength training tracking system.
 
 ## Features
 - **Home, About, and Contact pages:** Accessible to unauthenticated users.
@@ -34,7 +35,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
   - Log daily weight and view progress graphs.
   - Store and view progress photos.
 - **Account Management:**
-  - View and edit profile information (username, email, password).
+  - View and edit profile information (email, password).
 - **Admin Dashboard:**
   - View all users.
   - Access to app interface settings and usage statistics.
@@ -57,7 +58,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 1. Clone the repository:
    ```bash
    git clone https://github.com/hyuseinlesho/power-log.git
-2. Set up the database and update the environtment variables with your own data.
+2. Set up the database and update the environment variables with your own data.
 3. Build and run the application:
    ```bash
    gradle clean build
@@ -124,7 +125,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 - `GET /workouts/{id}/edit`
 - `POST /workouts/{id}/edit`
  
-#### Other is for AJAX requests
+#### Other is used for AJAX requests
 
 ### Exercise Log REST Controller
 
@@ -171,6 +172,7 @@ PowerLog was developed as part of the Spring Advanced Course @ SoftUni. It provi
 ### Examples of validation messages.
 ![contact-validations](https://github.com/user-attachments/assets/ae4010c5-c258-4eee-bb70-1b8fd713c38a)
 ![login-validation](https://github.com/user-attachments/assets/72818760-b42e-4fcb-8681-8e496bb96daf)
+![client-side-validation](https://github.com/user-attachments/assets/0bad0045-271b-4b8c-b6e1-06741db41d55)
 
 ## Internationalization (i18n)
 
@@ -207,11 +209,9 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 ## Usage
 
-Here is a demonstration video of how to use the PowerLog application:
+Here is a demonstration video of PowerLog application:
 
-- [PowerLog Usage Video](https://youtu.be/2LSWziqV3qg)
-
-Click the image above to watch the video.
+- [PowerLog demo](https://youtu.be/2LSWziqV3qg)
 
 ### * Note that this video is from 2024/07/27
 
