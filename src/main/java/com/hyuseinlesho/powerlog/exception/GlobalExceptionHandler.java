@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -72,6 +73,10 @@ public class GlobalExceptionHandler {
             case WorkoutNotFoundException workoutNotFoundException -> {
                 status = HttpStatus.NOT_FOUND;
                 yield "The requested workout was not found.";
+            }
+            case MaxUploadSizeExceededException maxUploadSizeExceededException -> {
+                status = HttpStatus.PAYLOAD_TOO_LARGE;
+                yield "The uploaded file size exceeds the allowable limit.";
             }
             case null, default -> {
                 status = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/progress-photos")
@@ -29,7 +32,12 @@ public class ProgressPhotoController {
     @GetMapping
     public String showProgressPhotos(Model model) {
         List<ProgressPhotoDto> progressPhotos = progressPhotoService.getAllPhotos();
-        model.addAttribute("progressPhotos", progressPhotos);
+
+        // Group photos by date
+        Map<LocalDate, List<ProgressPhotoDto>> groupedPhotos = progressPhotos.stream()
+                .collect(Collectors.groupingBy(ProgressPhotoDto::getDate));
+
+        model.addAttribute("groupedPhotos", groupedPhotos);
         model.addAttribute("username", userService.getCurrentUser().getUsername());
         model.addAttribute("photoDto", new CreateProgressPhotoDto());
         return "common/progress-photos";
