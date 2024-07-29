@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
+import com.hyuseinlesho.powerlog.exception.PhotoNotFoundException;
 import com.hyuseinlesho.powerlog.model.dto.CreateProgressPhotoDto;
 import com.hyuseinlesho.powerlog.model.dto.ProgressPhotoDto;
 import com.hyuseinlesho.powerlog.service.ProgressPhotoService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -67,6 +69,19 @@ public class ProgressPhotoController {
                     "errorMessage",
                     "Failed to upload photo."
             );
+        }
+        return "redirect:/progress-photos";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deletePhoto(@PathVariable Long id,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            progressPhotoService.deletePhoto(id);
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Photo deleted successfully!");
+        } catch (PhotoNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/progress-photos";
     }

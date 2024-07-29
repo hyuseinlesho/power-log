@@ -68,6 +68,14 @@
                     <div th:each="photo : ${entry.value}" class="col-lg-4 mb-5">
                         <div class="card">
                             <img th:src="${photo.url}" class="card-img-top" alt="Progress Photo">
+                            <div class="card-body">
+                                <form th:action="@{/progress-photos/{id}/delete(id=${photo.id})}"
+                                      method="post">
+                                    <button type="submit"
+                                            class="btn btn-danger">Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

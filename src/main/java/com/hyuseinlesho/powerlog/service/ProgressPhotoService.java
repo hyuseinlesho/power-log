@@ -10,4 +10,6 @@ public interface ProgressPhotoService {
     List<ProgressPhotoDto> getAllPhotos();
 
     void saveProgressPhoto(CreateProgressPhotoDto photoDto) throws IOException;
+
+    void deletePhoto(Long photoId);
 }

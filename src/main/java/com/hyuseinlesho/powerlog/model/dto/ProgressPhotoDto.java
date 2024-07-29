@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ProgressPhotoDto {
+    private Long id;
     private LocalDate date;
     private String filename;
     private String url;

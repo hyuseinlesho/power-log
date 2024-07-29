@@ -58,6 +58,10 @@ public class GlobalExceptionHandler {
                 status = HttpStatus.NOT_FOUND;
                 yield "The requested exercise was not found.";
             }
+            case PhotoNotFoundException photoNotFoundException -> {
+                status = HttpStatus.NOT_FOUND;
+                yield "The requested photo was not found.";
+            }
             case RoutineNotFoundException routineNotFoundException -> {
                 status = HttpStatus.NOT_FOUND;
                 yield "The requested routine was not found.";
