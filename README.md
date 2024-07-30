@@ -49,7 +49,7 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 
 ## Installation
 ### Prerequisites
-- JDK 11+
+- JDK 17
 - Gradle
 - MySQL
 
