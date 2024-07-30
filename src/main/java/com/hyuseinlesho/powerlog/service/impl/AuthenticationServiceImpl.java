@@ -1,5 +1,6 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
+import com.hyuseinlesho.powerlog.event.UserRegisteredEvent;
 import com.hyuseinlesho.powerlog.model.dto.LoginUserDto;
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
@@ -8,6 +9,7 @@ import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.service.AuthenticationService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,18 +25,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final ApplicationEventPublisher eventPublisher;
 
     public AuthenticationServiceImpl(
             UserRepository userRepository,
             UserMapper userMapper, RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager
-    ) {
+            AuthenticationManager authenticationManager,
+            ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -45,7 +49,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Role role = roleRepository.findByName("USER");
         user.setRoles(Collections.singleton(role));
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        UserRegisteredEvent event = new UserRegisteredEvent(this, user.getUsername());
+        eventPublisher.publishEvent(event);
+
+        return user;
     }
 
     @Override
