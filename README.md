@@ -49,7 +49,7 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 
 ## Installation
 ### Prerequisites
-- JDK 11+
+- JDK 17
 - Gradle
 - MySQL
 
@@ -57,11 +57,27 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 1. Clone the repository:
    ```bash
    git clone https://github.com/hyuseinlesho/power-log.git
-2. Set up the database and update the environment variables with your own data.
+2. Set up environment variables.
+   ```bash
+   -DDB_USERNAME=
+   -DDB_PASSWORD=
+   -DSECRET_KEY=
+   -DACCESS_TOKEN_EXPIRATION=
+   -DREFRESH_TOKEN_EXPIRATION=
+   -DREMEMBER_ME_REFRESH_TOKEN_EXPIRATION=
+   -DACCESS_TOKEN_COOKIE_MAX_AGE=
+   -DREFRESH_TOKEN_COOKIE_MAX_AGE=
+   -DREMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE=
+   -DMAIL_USERNAME=
+   -DMAIL_PASSWORD=
+   -DADMIN_EMAIL=
+   -DCLOUDINARY_CLOUD_NAME=
+   -DCLOUDINARY_API_KEY=
+   -DCLOUDINARY_API_SECRET=
 3. Build and run the application:
    ```bash
-   gradle clean build
-   gradle bootRun
+   .\gradlew clean build
+   .\gradlew bootRun
 
 ## API Endpoints
 
