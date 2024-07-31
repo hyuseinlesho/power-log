@@ -1,18 +1,13 @@
 package com.hyuseinlesho.powerlog.events;
 
-import com.hyuseinlesho.powerlog.exception.GlobalExceptionHandler;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
 import com.hyuseinlesho.powerlog.service.AuthenticationService;
 import com.hyuseinlesho.powerlog.service.EmailService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRegisteredEventListener implements ApplicationListener<UserRegisteredEvent> {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     private final EmailService emailService;
     private final AuthenticationService authenticationService;
 
