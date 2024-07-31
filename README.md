@@ -12,7 +12,7 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Validation and Error Handling](#validation-and-error-handling)
 - [Internationalization (i18n)](#internationalization-i18n)
 - [Contact Management](#contact-management)
-- [Scheduling](#scheduling)
+- [Events and Scheduling](#events-and-scheduling)
 - [Mapping](#mapping)
 - [Testing](#testing)
 - [Front-end Design](#front-end-design)
@@ -201,11 +201,16 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 
 Utilizes a separate REST service, [ContactService](https://github.com/hyuseinlesho/contact-service), for saving new contacts and fetching contacts based on date.
 
-## Scheduling
+## Events and Scheduling
+
+- Event which send welcome email after a new user registers.
+
+![welcome-email-example](https://github.com/user-attachments/assets/34d54c13-33e8-4928-bbee-a892b75a42bb)
 
 - Scheduler to send a daily contact summary email to the admin with new contacts created.
 
-![daily-contact-summary-email-example](https://github.com/user-attachments/assets/9795e442-af6a-4877-a38e-010461f1beec)
+![daily-contact-summary-email-example](https://github.com/user-attachments/assets/83eb1cec-22b6-4790-ad17-26b37a2d4afd)
+
 
 ## Mapping
 
