@@ -224,8 +224,31 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 ## Front-end Design
 
-- Description of the front-end design.
-- Use of Thymeleaf templates and Bootstrap for styling.
+The PowerLog application uses modern web technologies to ensure a responsive and user-friendly interface. Key technologies include:
+
+### Thymeleaf Templates with Layout Dialect
+
+- **Thymeleaf**: Used as the template engine to generate dynamic HTML content on the server side.
+- **Layout Dialect**: Provides tools to create reusable layouts, components, and fragments, ensuring consistency across the application.
+- **Security Integration**: Manages user authentication and authorization within templates using Spring Security.
+
+### Bootstrap for Styling
+
+- **Bootstrap 5**: Utilized for responsive CSS styling and layout design, offering a library of pre-designed components like forms, buttons, and navigation bars.
+- **Modals**: Used for creating dialog boxes and forms for user interactions without navigating away from the current page.
+
+### JavaScript and AJAX for Interactivity
+
+- **JavaScript**: Enhances user interactions and provides dynamic functionality on the client side, including form validation and event handling.
+- **AJAX**: Enables asynchronous communication with the server, allowing data to be sent and received without reloading the page, thus improving user experience.
+
+### Chart.js for Data Visualization
+
+- **Chart.js**: Utilized for creating responsive and interactive charts, helping to visualize workout progress and other data in a clear and engaging manner.
+
+### DataTables for Tabular Data
+
+- **DataTables**: Provides advanced interaction controls for HTML tables, such as sorting, filtering, and pagination, making it easier to manage and analyze tabular data.
 
 ## Usage
 
