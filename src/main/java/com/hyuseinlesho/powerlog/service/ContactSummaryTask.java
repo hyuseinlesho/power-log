@@ -23,6 +23,9 @@ public class ContactSummaryTask {
         this.emailService = emailService;
     }
 
+    // Test expression for every minute
+//    @Scheduled(cron = "0 * * * * ?")
+
     // Every day at 8 AM
     @Scheduled(cron = "0 0 8 * * ?")
     public void sendDailyContactSummary() {
