@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.event;
+package com.hyuseinlesho.powerlog.events;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

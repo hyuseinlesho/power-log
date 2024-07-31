@@ -1,6 +1,8 @@
-package com.hyuseinlesho.powerlog.service;
+package com.hyuseinlesho.powerlog.schedulers;
 
+import com.hyuseinlesho.powerlog.controller.rest.ContactClient;
 import com.hyuseinlesho.powerlog.model.dto.Contact;
+import com.hyuseinlesho.powerlog.service.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

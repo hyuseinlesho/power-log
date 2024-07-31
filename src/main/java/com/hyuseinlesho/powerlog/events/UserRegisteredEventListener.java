@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.event;
+package com.hyuseinlesho.powerlog.events;
 
 import com.hyuseinlesho.powerlog.exception.GlobalExceptionHandler;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
@@ -32,7 +32,5 @@ public class UserRegisteredEventListener implements ApplicationListener<UserRegi
                 "Best regards,\n" +
                 "The PowerLog Team";
         emailService.sendEmail(user.getEmail(), "Welcome to Our Service", emailBody);
-
-        logger.info("User registered with ID: " + user.getId() + ", welcome email sent to: " + user.getEmail());
     }
 }

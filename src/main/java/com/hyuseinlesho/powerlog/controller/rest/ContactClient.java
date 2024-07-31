@@ -1,4 +1,4 @@
-package com.hyuseinlesho.powerlog.service;
+package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.model.dto.Contact;
 import com.hyuseinlesho.powerlog.model.dto.CreateContactDto;

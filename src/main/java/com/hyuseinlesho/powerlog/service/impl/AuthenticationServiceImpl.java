@@ -1,6 +1,6 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
-import com.hyuseinlesho.powerlog.event.UserRegisteredEvent;
+import com.hyuseinlesho.powerlog.events.UserRegisteredEvent;
 import com.hyuseinlesho.powerlog.model.dto.LoginUserDto;
 import com.hyuseinlesho.powerlog.model.dto.RegisterUserDto;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;

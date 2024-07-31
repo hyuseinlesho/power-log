@@ -1,9 +1,8 @@
 package com.hyuseinlesho.powerlog;
 
 import com.hyuseinlesho.powerlog.model.dto.Contact;
-import com.hyuseinlesho.powerlog.service.ContactClient;
+import com.hyuseinlesho.powerlog.controller.rest.ContactClient;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
