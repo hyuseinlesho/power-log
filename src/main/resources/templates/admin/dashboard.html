@@ -7,7 +7,7 @@
     <title>Admin Dashboard</title>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script th:src="@{/js/admin-datatables-users.js}"></script>
+    <script th:src="@{/js/admin-datatables.js}"></script>
 </head>
 <body class="sb-nav-fixed">
 <main class="flex-shrink-0" layout:fragment="content">
@@ -111,13 +111,32 @@
                             DataTable Users
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple">
+                            <table id="datatablesSimpleUsers">
                                 <thead>
                                 <tr>
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Created at</th>
                                     <th>Updated at</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            DataTable Contacts
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimpleContacts">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Received At</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>

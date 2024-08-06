@@ -1,7 +1,7 @@
 package com.hyuseinlesho.powerlog.controller;
 
 import com.hyuseinlesho.powerlog.model.dto.CreateContactDto;
-import com.hyuseinlesho.powerlog.consumer.ContactClient;
+import com.hyuseinlesho.powerlog.controller.rest.ContactClient;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

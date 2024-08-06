@@ -1,12 +1,11 @@
 package com.hyuseinlesho.powerlog;
 
 import com.hyuseinlesho.powerlog.model.dto.Contact;
-import com.hyuseinlesho.powerlog.consumer.ContactClient;
+import com.hyuseinlesho.powerlog.controller.rest.ContactClient;
 import org.springframework.boot.CommandLineRunner;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 //@Component
 public class CommandLineRunnerImpl implements CommandLineRunner {

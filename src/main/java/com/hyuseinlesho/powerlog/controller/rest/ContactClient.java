@@ -1,6 +1,7 @@
-package com.hyuseinlesho.powerlog.consumer;
+package com.hyuseinlesho.powerlog.controller.rest;
 
 import com.hyuseinlesho.powerlog.model.dto.Contact;
+import com.hyuseinlesho.powerlog.model.dto.ContactDto;
 import com.hyuseinlesho.powerlog.model.dto.CreateContactDto;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ContactClient {
@@ -29,6 +31,17 @@ public class ContactClient {
                 .bodyToMono(Contact.class);
     }
 
+    public Mono<List<ContactDto>> getAllContacts() {
+        Flux<Contact> contactFlux = webClient.get()
+                .retrieve()
+                .bodyToFlux(Contact.class);
+
+        return contactFlux.collectList()
+                .map(contacts -> contacts.stream()
+                        .map(ContactClient::mapToContactDto)
+                        .toList());
+    }
+
     public Flux<Contact> getNewContactsSince(LocalDateTime since) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -37,5 +50,14 @@ public class ContactClient {
                         .build())
                 .retrieve()
                 .bodyToFlux(Contact.class);
+    }
+
+    private static ContactDto mapToContactDto(Contact contact) {
+        return ContactDto.builder()
+                .name(contact.getName())
+                .email(contact.getEmail())
+                .message(contact.getMessage())
+                .createdAt(contact.getCreatedAt())
+                .build();
     }
 }
