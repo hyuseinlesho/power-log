@@ -68,10 +68,6 @@ server:
       enabled: false
     path: /error
 
-contact:
-  service:
-    url: http://localhost:8081
-
 admin:
   email: ${ADMIN_EMAIL}
 
