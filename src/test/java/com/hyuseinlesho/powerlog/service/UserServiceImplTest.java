@@ -2,9 +2,9 @@ package com.hyuseinlesho.powerlog.service;
 
 import com.hyuseinlesho.powerlog.exception.UserNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.UserMapper;
+import com.hyuseinlesho.powerlog.model.dto.UserDto;
 import com.hyuseinlesho.powerlog.model.dto.UserProfileDto;
 import com.hyuseinlesho.powerlog.model.entity.UserEntity;
-import com.hyuseinlesho.powerlog.repository.RoleRepository;
 import com.hyuseinlesho.powerlog.repository.UserRepository;
 import com.hyuseinlesho.powerlog.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +18,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,9 +36,6 @@ public class UserServiceImplTest {
     private UserMapper userMapper;
 
     @Mock
-    private RoleRepository roleRepository;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
@@ -47,7 +47,7 @@ public class UserServiceImplTest {
     @BeforeEach
     public void setUp() {
         username = "test_user";
-        email = "test_user@gmail.com";
+        email = "test.user@example.com";
     }
 
     private void setUpSecurityContext() {
@@ -64,6 +64,79 @@ public class UserServiceImplTest {
                 .username(username)
                 .email(email)
                 .password("test1234").build();
+    }
+
+    @Test
+    void getAllUsers_UsersExists_ReturnsUserDtoList() {
+        when(userRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<UserDto> result = userService.getAllUsers();
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getAllUsers_UsersDoesNotExist_ReturnsEmptyList() {
+        UserEntity user1 = createUser();
+        UserEntity user2 = UserEntity.builder()
+                .username("john_doe")
+                .email("john.doe@example.com")
+                .password("john1234")
+                .build();
+
+        UserDto userDto1 = UserDto.builder()
+                .username(user1.getUsername())
+                .email(user1.getEmail())
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+        UserDto userDto2 = UserDto.builder()
+                .username("john_doe")
+                .email("john.doe@example.com")
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+
+        List<UserEntity> users = List.of(user1, user2);
+
+        when(userRepository.findAll()).thenReturn(users);
+        when(userMapper.mapToUserDto(user1)).thenReturn(userDto1);
+        when(userMapper.mapToUserDto(user2)).thenReturn(userDto2);
+
+        List<UserDto> result = userService.getAllUsers();
+
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
+        assertEquals(username, result.get(0).getUsername());
+        assertEquals(email, result.get(0).getEmail());
+        assertEquals(userDto2.getUsername(), result.get(1).getUsername());
+        assertEquals(userDto2.getEmail(), result.get(1).getEmail());
+    }
+
+    @Test
+    void getByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.getByUsername(username);
+        });
+        verify(userRepository, times(1)).findByUsername(username);
+    }
+
+    @Test
+    void getByUsername_UserExists_ReturnsUser() {
+        UserEntity user = createUser();
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+
+        UserEntity result = userService.getByUsername(username);
+
+        assertNotNull(result);
+        assertEquals(user.getUsername(), result.getUsername());
+        assertEquals(user.getEmail(), result.getEmail());
+        assertEquals(user.getPassword(), result.getPassword());
+
+        verify(userRepository, times(1)).findByUsername(username);
     }
 
     @Test
@@ -93,29 +166,38 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
+    void getCurrentUserDto_UserNotFound_ThrowsUserNotFoundException() {
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
-            userService.getByUsername(username);
+            userService.getCurrentUserDto();
         });
+
         verify(userRepository, times(1)).findByUsername(username);
+        verify(userMapper, never()).mapToUserProfileDto(any(UserEntity.class));
     }
 
     @Test
-    void getByUsername_UserExists_ReturnsUser() {
-        UserEntity user = createUser();
+    void getCurrentUserDto_UserFound_ReturnsUserProfileDto() {
+        UserEntity user = UserEntity.builder()
+                .username(username)
+                .email(email).build();
+
+        UserProfileDto userDto = UserProfileDto.builder()
+                .username(user.getUsername())
+                .email(user.getEmail()).build();
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(userMapper.mapToUserProfileDto(user)).thenReturn(userDto);
 
-        UserEntity result = userService.getByUsername(username);
+        UserProfileDto result = userService.getCurrentUserDto();
 
         assertNotNull(result);
-        assertEquals(user.getUsername(), result.getUsername());
-        assertEquals(user.getEmail(), result.getEmail());
-        assertEquals(user.getPassword(), result.getPassword());
+        assertEquals(result.getUsername(), user.getUsername());
+        assertEquals(result.getEmail(), user.getEmail());
 
         verify(userRepository, times(1)).findByUsername(username);
+        verify(userMapper, times(1)).mapToUserProfileDto(user);
     }
 
     @Test
@@ -197,40 +279,5 @@ public class UserServiceImplTest {
         assertTrue(result);
         assertEquals("encoded_new_password", user.getPassword());
         verify(userRepository, times(1)).save(user);
-    }
-
-    @Test
-    void getCurrentUserDto_UserNotFound_ThrowsUserNotFoundException() {
-        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.getCurrentUserDto();
-        });
-
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(userMapper, never()).mapToUserProfileDto(any(UserEntity.class));
-    }
-
-    @Test
-    void getCurrentUserDto_UserFound_ReturnsUserProfileDto() {
-        UserEntity user = UserEntity.builder()
-                .username(username)
-                .email(email).build();
-
-        UserProfileDto userDto = UserProfileDto.builder()
-                .username(user.getUsername())
-                .email(user.getEmail()).build();
-
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        when(userMapper.mapToUserProfileDto(user)).thenReturn(userDto);
-
-        UserProfileDto result = userService.getCurrentUserDto();
-
-        assertNotNull(result);
-        assertEquals(result.getUsername(), user.getUsername());
-        assertEquals(result.getEmail(), user.getEmail());
-
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(userMapper, times(1)).mapToUserProfileDto(user);
     }
 }
