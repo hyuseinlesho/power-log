@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class ContactSummaryTask {
@@ -35,6 +36,7 @@ public class ContactSummaryTask {
     public void sendWeeklyContactSummary() {
         LocalDateTime lastWeek = LocalDateTime.now().minusWeeks(1);
         Flux<Contact> newContacts = contactClient.getNewContactsSince(lastWeek);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         newContacts.collectList().subscribe(contacts -> {
             if (!contacts.isEmpty()) {
@@ -44,7 +46,7 @@ public class ContactSummaryTask {
                     emailContent.append("Name: ").append(contact.getName()).append("\n")
                             .append("Email: ").append(contact.getEmail()).append("\n")
                             .append("Message: ").append(contact.getMessage()).append("\n")
-                            .append("Received At: ").append(contact.getCreatedAt()).append("\n\n");
+                            .append("Received At: ").append(contact.getCreatedAt().format(formatter)).append("\n\n");
                 }
 
                 emailService.sendEmail(adminEmail, "Weekly Contact Summary", emailContent.toString());
