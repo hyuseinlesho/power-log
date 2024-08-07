@@ -13,6 +13,7 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Internationalization (i18n)](#internationalization-i18n)
 - [Contact Management](#contact-management)
 - [Events and Scheduling](#events-and-scheduling)
+- [Apache Kafka](#apache-kafka)
 - [Mapping](#mapping)
 - [Testing](#testing)
 - [Front-end Design](#front-end-design)
@@ -20,7 +21,7 @@ PowerLog is a Spring MVC web application designed to help strength training enth
 - [Contact](#contact)
 
 ## Introduction
-PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https://softuni.bg/trainings/4532/spring-advanced-june-2024). Replace the URL with the correct link to the course page if needed. Here's how you . It provide a comprehensive strength training tracking system.
+PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https://softuni.bg/trainings/4532/spring-advanced-june-2024). It provide a comprehensive strength training tracking system.
 
 ## Features
 - **Home, About, and Contact pages:** Accessible to unauthenticated users.
@@ -44,12 +45,14 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 - **Backend:** Spring Framework, Spring Boot
 - **Frontend:** JavaScript, jQuery, AJAX, HTML, Bootstrap, Thymeleaf, Thymeleaf Layout Dialect, Chart.js, DataTables
 - **Database:** MySQL, Hibernate (JPA provider)
+- **Messaging** Apache Kafka
+- **Storage Cloud** Cloudinary
 - **Security:** Spring Security, JWT authentication with refresh tokens
 - **Other Libraries:** MapStruct, Lombok
 
 ## Installation
 ### Prerequisites
-- JDK 17
+- JDK 17+
 - Gradle
 - MySQL
 
@@ -59,22 +62,24 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
    git clone https://github.com/hyuseinlesho/power-log.git
 2. Set up environment variables.
    ```bash
-   -DDB_USERNAME=
-   -DDB_PASSWORD=
-   -DSECRET_KEY=
-   -DACCESS_TOKEN_EXPIRATION=
-   -DREFRESH_TOKEN_EXPIRATION=
-   -DREMEMBER_ME_REFRESH_TOKEN_EXPIRATION=
-   -DACCESS_TOKEN_COOKIE_MAX_AGE=
-   -DREFRESH_TOKEN_COOKIE_MAX_AGE=
-   -DREMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE=
-   -DMAIL_USERNAME=
-   -DMAIL_PASSWORD=
-   -DADMIN_EMAIL=
-   -DCLOUDINARY_CLOUD_NAME=
-   -DCLOUDINARY_API_KEY=
-   -DCLOUDINARY_API_SECRET=
-3. Build and run the application:
+   -DB_USERNAME=
+   -DB_PASSWORD=
+   -SECRET_KEY=
+   -ACCESS_TOKEN_EXPIRATION=
+   -REFRESH_TOKEN_EXPIRATION=
+   -REMEMBER_ME_REFRESH_TOKEN_EXPIRATION=
+   -ACCESS_TOKEN_COOKIE_MAX_AGE=
+   -REFRESH_TOKEN_COOKIE_MAX_AGE=
+   -REMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE=
+   -MAIL_USERNAME=
+   -MAIL_PASSWORD=
+   -ADMIN_EMAIL=
+   -CLOUDINARY_CLOUD_NAME=
+   -CLOUDINARY_API_KEY=
+   -CLOUDINARY_API_SECRET=
+3. (Optional) Set up used Cloudinary for storing progress pictures, install and run Apache Kafka server for messages from ContactService or uncomment this property in `application.yaml` file
+   ![disable-kafka-auto-configuration-powerlog](https://github.com/user-attachments/assets/5e2dbc3e-ce16-49e5-8921-af3e4cbfc2bc)
+4. Build and run the application:
    ```bash
    .\gradlew clean build
    .\gradlew bootRun
@@ -207,10 +212,35 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 ![welcome-email-example](https://github.com/user-attachments/assets/34d54c13-33e8-4928-bbee-a892b75a42bb)
 
-- Scheduler to send a daily contact summary email to the admin with new contacts created.
+- Event which send notification email after users create now contact.
+- Consume new messages from ContactService producer through Kafka
 
-![daily-contact-summary-email-example](https://github.com/user-attachments/assets/83eb1cec-22b6-4790-ad17-26b37a2d4afd)
+![new-contact-notification-email](https://github.com/user-attachments/assets/11bc120a-8151-446e-8e8a-a2e69fcb3205)
 
+- Scheduler to send a weekly contact summary email to the admin with new contacts created.
+
+![weekly-contact-summary-email](https://github.com/user-attachments/assets/4b01523a-4916-4f22-aaa2-bea26ae91b9d)
+
+## Apache Kafka
+
+### Setup and Configuration
+
+- Ensure Apache Kafka is installed and running to test it locally.
+
+### ContactConsumer
+
+- Consumes messages from the Kafka topic `contact-topic` and ContactService as producer.
+- Parses the consumed message and processes the contact data.
+- Configured consumer settings, including bootstrap servers, key and value deserializers, and group ID in `application.yaml` file.
+
+### Process Contact
+
+- Processes the contact data after consumption from Kafka.
+- Sends notification email to the admin when a new contact is created.
+
+### Note
+
+- Ensure that Kafka server is installed and running when testing the integration.
 
 ## Mapping
 
