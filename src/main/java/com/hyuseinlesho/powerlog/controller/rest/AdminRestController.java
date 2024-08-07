@@ -1,6 +1,5 @@
 package com.hyuseinlesho.powerlog.controller.rest;
 
-import com.hyuseinlesho.powerlog.model.dto.Contact;
 import com.hyuseinlesho.powerlog.model.dto.ContactDto;
 import com.hyuseinlesho.powerlog.model.dto.UserDto;
 import com.hyuseinlesho.powerlog.service.UserService;

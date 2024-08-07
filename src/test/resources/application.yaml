@@ -1,6 +1,82 @@
 spring:
+  application:
+    name: PowerLog
+
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
     username: sa
-    password: sa
+    password: password
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+  sql:
+    init:
+      mode: never
+
+  mail:
+    host: smtp.test.com
+    port: 587
+    username: test.user@example.com
+    password: test1234
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: test-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  # Disable Kafka auto-configuration
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+logging:
+  level:
+    org: WARN
+    blog: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    com.zaxxer.hikari: WARN
+
+security:
+  jwt:
+    secretKey: test-secret-key
+    accessTokenExpiration: 3600
+    refreshTokenExpiration: 7200
+    rememberMeRefreshTokenExpiration: 14400
+    accessTokenCookieMaxAge: 3600
+    refreshTokenCookieMaxAge: 7200
+    rememberMeRefreshTokenCookieMaxAge: 14400
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+
+admin:
+  email: test.admin@example.com
+
+cloudinary:
+  cloud-name: test-cloud-name
+  api-key: test-api-key
+  api-secret: test-api-secret
