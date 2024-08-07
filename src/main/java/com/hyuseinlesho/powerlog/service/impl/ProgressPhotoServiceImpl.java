@@ -38,7 +38,7 @@ public class ProgressPhotoServiceImpl implements ProgressPhotoService {
     }
 
     @Override
-    public List<ProgressPhotoDto> getAllPhotos() {
+    public List<ProgressPhotoDto> getAllProgressPhotos() {
         List<ProgressPhoto> photos = progressPhotoRepository.findAllByUser(userService.getCurrentUser());
         return photos.stream()
                 .map(progressPhotoMapper::mapToProgressPhotoDto)

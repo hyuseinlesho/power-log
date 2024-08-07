@@ -3,18 +3,17 @@ package com.hyuseinlesho.powerlog.service;
 import com.hyuseinlesho.powerlog.model.dto.CreateRoutineDto;
 import com.hyuseinlesho.powerlog.model.dto.RoutineDto;
 import com.hyuseinlesho.powerlog.model.dto.UpdateRoutineDto;
-import com.hyuseinlesho.powerlog.model.entity.Routine;
 
 import java.util.List;
 
 public interface RoutineService {
     void createRoutine(CreateRoutineDto routineDto);
 
-    List<RoutineDto> getRoutines();
+    List<RoutineDto> getAllRoutines();
 
     RoutineDto getRoutineById(Long id);
 
-    void editRoutine(UpdateRoutineDto routineDto);
+    void updateRoutine(UpdateRoutineDto routineDto);
 
-    void deleteWorkout(Long id);
+    void deleteRoutine(Long id);
 }

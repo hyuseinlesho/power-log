@@ -86,7 +86,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         exercise.setName(exerciseDto.getName());
         exercise.setType(exerciseDto.getType());
 
-        List<Exercise> duplicateExercises = exerciseRepository.findByNameAndUserAndIdNot(
+        List<Exercise> duplicateExercises = exerciseRepository.findAllByNameAndUserAndIdNot(
                 userService.getCurrentUser(), exerciseDto.getName(), id);
         if (!duplicateExercises.isEmpty()) {
             throw new ExerciseAlreadyExistsException();

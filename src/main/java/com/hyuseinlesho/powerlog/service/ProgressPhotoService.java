@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ProgressPhotoService {
-    List<ProgressPhotoDto> getAllPhotos();
+    List<ProgressPhotoDto> getAllProgressPhotos();
 
     void saveProgressPhoto(CreateProgressPhotoDto photoDto) throws IOException;
 

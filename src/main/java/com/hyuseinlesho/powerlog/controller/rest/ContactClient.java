@@ -22,7 +22,7 @@ public class ContactClient {
                 .build();
     }
 
-    public Mono<Contact> saveContact(CreateContactDto contactDto) {
+    public Mono<Contact> createContact(CreateContactDto contactDto) {
         return webClient.post()
                 .uri("/create")
                 .contentType(MediaType.APPLICATION_JSON)

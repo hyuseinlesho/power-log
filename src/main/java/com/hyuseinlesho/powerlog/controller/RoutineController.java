@@ -1,8 +1,6 @@
 package com.hyuseinlesho.powerlog.controller;
 
-import com.hyuseinlesho.powerlog.exception.RoutineNotFoundException;
 import com.hyuseinlesho.powerlog.model.dto.*;
-import com.hyuseinlesho.powerlog.model.entity.Routine;
 import com.hyuseinlesho.powerlog.model.enums.ExerciseType;
 import com.hyuseinlesho.powerlog.service.ExerciseService;
 import com.hyuseinlesho.powerlog.service.RoutineService;
@@ -29,7 +27,7 @@ public class RoutineController {
 
     @GetMapping
     public String showRoutinesList(Model model) {
-        List<RoutineDto> routines = routineService.getRoutines();
+        List<RoutineDto> routines = routineService.getAllRoutines();
         model.addAttribute("routines", routines);
         return "/routines/list";
     }
@@ -43,7 +41,7 @@ public class RoutineController {
     }
 
     @PostMapping("/create")
-    public String createWorkout(@RequestParam(required = false) Integer exerciseCount,
+    public String createRoutine(@RequestParam(required = false) Integer exerciseCount,
                                 @Valid @ModelAttribute("routineDto") CreateRoutineDto routineDto,
                                 BindingResult bindingResult,
                                 Model model,
@@ -70,8 +68,8 @@ public class RoutineController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditRoutineForm(@PathVariable("id") Long id,
-                                      Model model) {
+    public String showUpdateRoutineForm(@PathVariable("id") Long id,
+                                        Model model) {
         RoutineDto routine = routineService.getRoutineById(id);
         model.addAttribute("routineDto", routine);
         model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
@@ -80,11 +78,11 @@ public class RoutineController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editRoutine(@PathVariable("id") Long id,
-                              @Valid @ModelAttribute("routineDto") UpdateRoutineDto routineDto,
-                              BindingResult bindingResult,
-                              Model model,
-                              RedirectAttributes redirectAttributes) {
+    public String updateRoutine(@PathVariable("id") Long id,
+                                @Valid @ModelAttribute("routineDto") UpdateRoutineDto routineDto,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         routineDto.setId(id);
 
         if (bindingResult.hasErrors()) {
@@ -92,7 +90,7 @@ public class RoutineController {
             return "/routines/edit";
         }
 
-        routineService.editRoutine(routineDto);
+        routineService.updateRoutine(routineDto);
         redirectAttributes.addFlashAttribute("successMessage",
                 "Routine updated successfully!");
         return "redirect:/workouts/routines/{id}/details";
@@ -108,7 +106,7 @@ public class RoutineController {
     @PostMapping("/{id}/delete")
     public String deleteWorkout(@PathVariable("id") Long id,
                                 RedirectAttributes redirectAttributes) {
-        routineService.deleteWorkout(id);
+        routineService.deleteRoutine(id);
         redirectAttributes.addFlashAttribute("successMessage",
                 "Routine deleted successfully!");
         return "redirect:/workouts/routines";

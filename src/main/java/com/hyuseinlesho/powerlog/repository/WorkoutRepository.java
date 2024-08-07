@@ -13,5 +13,5 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     List<Workout> findAllByUserOrderByDateAsc(UserEntity user);
 
     @Query("SELECT w FROM Workout w WHERE w.user = :user AND (w.title LIKE %:query% OR CAST(w.date AS string) LIKE %:query% OR w.time LIKE %:query%)")
-    List<Workout> findByUserAndSearchQuery(UserEntity user, String query);
+    List<Workout> findAllByUserAndSearchQuery(UserEntity user, String query);
 }

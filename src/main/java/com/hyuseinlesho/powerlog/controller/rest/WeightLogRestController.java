@@ -76,7 +76,7 @@ public class WeightLogRestController {
         if (startDate != null && endDate != null) {
             weightLogs = weightLogService.getWeightLogsBetweenDates(startDate, endDate);
         } else {
-            weightLogs = weightLogService.getWeightLogs();
+            weightLogs = weightLogService.getWeightLogGraphDtos();
         }
         return ResponseEntity.ok(weightLogs);
     }

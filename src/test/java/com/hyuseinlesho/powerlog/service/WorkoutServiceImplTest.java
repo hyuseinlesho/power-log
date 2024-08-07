@@ -252,7 +252,7 @@ public class WorkoutServiceImplTest {
         workoutDto.setId(2L);
 
         assertThrows(WorkoutNotFoundException.class, () -> {
-            workoutService.editWorkout(workoutDto);
+            workoutService.updateWorkout(workoutDto);
         });
         verify(workoutRepository, times(1)).findById(workoutDto.getId());
     }
@@ -286,7 +286,7 @@ public class WorkoutServiceImplTest {
         when(workoutRepository.findById(workoutDto.getId())).thenReturn(Optional.ofNullable(workout));
         when(exerciseLogRepository.findAllByWorkout(workout)).thenReturn(exercises);
 
-        workoutService.editWorkout(workoutDto);
+        workoutService.updateWorkout(workoutDto);
 
         verify(workoutRepository, times(1)).findById(workoutDto.getId());
         verify(exerciseLogRepository, times(1)).findAllByWorkout(workout);
@@ -325,7 +325,7 @@ public class WorkoutServiceImplTest {
     void searchWorkouts_WorkoutsNotFound_ReturnsEmptyList() {
         String query = "Workout A";
 
-        when(workoutRepository.findByUserAndSearchQuery(user, query))
+        when(workoutRepository.findAllByUserAndSearchQuery(user, query))
                 .thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -333,7 +333,7 @@ public class WorkoutServiceImplTest {
 
         assertEquals(result, List.of());
 
-        verify(workoutRepository, times(1)).findByUserAndSearchQuery(user, query);
+        verify(workoutRepository, times(1)).findAllByUserAndSearchQuery(user, query);
         verify(userService, times(1)).getCurrentUser();
         verify(workoutMapper, never()).mapToWorkoutDto(any(Workout.class));
     }
@@ -349,7 +349,7 @@ public class WorkoutServiceImplTest {
                 .date(LocalDate.of(2024, 1, 1))
                 .time("17:00").build();
 
-        when(workoutRepository.findByUserAndSearchQuery(user, query))
+        when(workoutRepository.findAllByUserAndSearchQuery(user, query))
                 .thenReturn(List.of(workout1));
         when(userService.getCurrentUser()).thenReturn(user);
         when(workoutMapper.mapToWorkoutDto(workout1)).thenReturn(workoutDto1);
@@ -361,7 +361,7 @@ public class WorkoutServiceImplTest {
         assertEquals("Workout A", result.get(0).getTitle());
 
         verify(userService, times(1)).getCurrentUser();
-        verify(workoutRepository, times(1)).findByUserAndSearchQuery(user, query);
+        verify(workoutRepository, times(1)).findAllByUserAndSearchQuery(user, query);
         verify(workoutMapper, times(1)).mapToWorkoutDto(workout1);
     }
 

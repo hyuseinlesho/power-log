@@ -38,6 +38,7 @@ public class ContactConsumer {
     }
 
     private void processContact(Contact contact) {
-        eventPublisher.publishEvent(new ContactCreatedEvent(contact));
+        // Publish event to send notification email to the admin
+//        eventPublisher.publishEvent(new ContactCreatedEvent(contact));
     }
 }

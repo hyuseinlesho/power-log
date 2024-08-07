@@ -78,7 +78,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    void findAllWeightLogs_NoWeightLogs_ReturnsEmptyList() {
+    void getAllWeightLogs_NoWeightLogs_ReturnsEmptyList() {
         when(weightLogRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -89,7 +89,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    void findAllWeightLogs_ExercisesExists_ReturnsWeightLogDtoList() {
+    void getAllWeightLogs_ExercisesExists_ReturnsWeightLogDtoList() {
         WeightLogDto weightLogDto1 = WeightLogDto.builder()
                 .weight(70.2)
                 .date(LocalDate.of(2024, 1, 1))
@@ -204,7 +204,7 @@ public class WeightLogServiceImplTest {
     }
 
     @Test
-    void getWeightLogs_ReturnsWeightLogGraphDtoList() {
+    void getWeightLogGraphDtos_ReturnsWeightLogGraphDtoList() {
         WeightLog weightLog1 = createWeightLog();
 
         WeightLog weightLog2 = WeightLog.builder()
@@ -229,7 +229,7 @@ public class WeightLogServiceImplTest {
         when(weightLogMapper.mapToWeightLogGraphDto(weightLog1)).thenReturn(weightLogGraphDto1);
         when(weightLogMapper.mapToWeightLogGraphDto(weightLog2)).thenReturn(weightLogGraphDto2);
 
-        List<WeightLogGraphDto> result = weightLogService.getWeightLogs();
+        List<WeightLogGraphDto> result = weightLogService.getWeightLogGraphDtos();
 
         assertEquals(2, result.size());
         assertEquals(70.5, result.get(0).getWeight());

@@ -67,7 +67,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void findByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {
+    void getByEmail_UserDoesNotExist_ThrowsUserNotFoundException() {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -77,7 +77,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void findByEmail_UserExists_ReturnsUser() {
+    void getByEmail_UserExists_ReturnsUser() {
         UserEntity user = createUser();
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
@@ -93,7 +93,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void findByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
+    void getByUsername_UserDoesNotExist_ThrowsUserNotFoundException() {
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -103,7 +103,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void findByUsername_UserExists_ReturnsUser() {
+    void getByUsername_UserExists_ReturnsUser() {
         UserEntity user = createUser();
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RoutineRepository extends JpaRepository<Routine, Long> {
-    List<Routine> findByUser(UserEntity user);
+    List<Routine> findAllByUser(UserEntity user);
 }

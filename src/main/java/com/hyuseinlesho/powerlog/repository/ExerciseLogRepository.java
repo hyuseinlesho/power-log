@@ -20,7 +20,7 @@ public interface ExerciseLogRepository extends JpaRepository<ExerciseLog, Long> 
             "WHERE el.name = :exerciseName " +
             "AND el.workout.date BETWEEN :startDate AND :endDate " +
             "AND el.workout.user = :user")
-    List<ExerciseLog> findExerciseLogsByExerciseNameAndDateRange(
+    List<ExerciseLog> findAllByExerciseNameAndDateRange(
             @Param("exerciseName") String exerciseName,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,

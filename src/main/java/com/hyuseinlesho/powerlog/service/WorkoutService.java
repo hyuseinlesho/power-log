@@ -13,7 +13,7 @@ public interface WorkoutService {
 
     List<WorkoutDto> getAllWorkoutsSortedByDate();
 
-    void editWorkout(UpdateWorkoutDto workoutDto);
+    void updateWorkout(UpdateWorkoutDto workoutDto);
 
     void deleteWorkout(Long id);
 

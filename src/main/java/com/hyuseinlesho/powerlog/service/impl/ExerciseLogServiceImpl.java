@@ -28,12 +28,12 @@ public class ExerciseLogServiceImpl implements ExerciseLogService {
     }
 
     @Override
-    public List<ExerciseLogGraphDto> getExerciseLogsBetweenDates(
+    public List<ExerciseLogGraphDto> getAllExerciseLogsBetweenDates(
             String exerciseName,
             LocalDate startDate,
             LocalDate endDate
     ) {
-        List<ExerciseLog> exerciseLogs = exerciseLogRepository.findExerciseLogsByExerciseNameAndDateRange(
+        List<ExerciseLog> exerciseLogs = exerciseLogRepository.findAllByExerciseNameAndDateRange(
                 exerciseName, startDate, endDate, userService.getCurrentUser()
         );
 

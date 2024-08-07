@@ -29,7 +29,7 @@ public class ExerciseLogRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<ExerciseLogGraphDto> exerciseLogs = exerciseLogService.getExerciseLogsBetweenDates(
+        List<ExerciseLogGraphDto> exerciseLogs = exerciseLogService.getAllExerciseLogsBetweenDates(
                 exerciseName, startDate, endDate
         );
         return ResponseEntity.ok(exerciseLogs);

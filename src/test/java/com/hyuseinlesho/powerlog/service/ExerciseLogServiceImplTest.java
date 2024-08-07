@@ -52,25 +52,25 @@ public class ExerciseLogServiceImplTest {
     }
 
     @Test
-    void getExerciseLogs_ExerciseLogsNotFound_ReturnsEmptyList() {
+    void getAllExerciseLogsBetweenDates_ExerciseLogsNotFound_ReturnsEmptyList() {
         when(exerciseLogRepository
-                .findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
+                .findAllByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
                 .thenReturn(Collections.emptyList());
         when(userService.getCurrentUser()).thenReturn(user);
 
         List<ExerciseLogGraphDto> result = exerciseLogService
-                .getExerciseLogsBetweenDates(exerciseName, startDate, endDate);
+                .getAllExerciseLogsBetweenDates(exerciseName, startDate, endDate);
 
         assertEquals(result, List.of());
 
         verify(exerciseLogRepository, times(1))
-                .findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user);
+                .findAllByExerciseNameAndDateRange(exerciseName, startDate, endDate, user);
         verify(userService, times(1)).getCurrentUser();
         verify(exerciseLogMapper, never()).mapToExerciseLogGraphDto(any(ExerciseLog.class));
     }
 
     @Test
-    void getExerciseLogs_ExerciseLogsFound_ReturnsExerciseLogGraphDtoList() {
+    void getAllExerciseLogsBetweenDates_ExerciseLogsFound_ReturnsExerciseLogGraphDtoList() {
         ExerciseLog exerciseLog1 = ExerciseLog.builder()
                 .name("Squat").sets(3).reps(5).weight(80).build();
         ExerciseLog exerciseLog2 = ExerciseLog.builder()
@@ -89,14 +89,14 @@ public class ExerciseLogServiceImplTest {
 
         List<ExerciseLog> exercises = List.of(exerciseLog1, exerciseLog2);
 
-        when(exerciseLogRepository.findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
+        when(exerciseLogRepository.findAllByExerciseNameAndDateRange(exerciseName, startDate, endDate, user))
                 .thenReturn(exercises);
         when(userService.getCurrentUser()).thenReturn(user);
         when(exerciseLogMapper.mapToExerciseLogGraphDto(exerciseLog1)).thenReturn(logDto1);
         when(exerciseLogMapper.mapToExerciseLogGraphDto(exerciseLog2)).thenReturn(logDto2);
 
         List<ExerciseLogGraphDto> result = exerciseLogService
-                .getExerciseLogsBetweenDates(exerciseName, startDate, endDate);
+                .getAllExerciseLogsBetweenDates(exerciseName, startDate, endDate);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -104,7 +104,7 @@ public class ExerciseLogServiceImplTest {
         assertEquals(logDto2, result.get(1));
 
         verify(exerciseLogRepository, times(1))
-                .findExerciseLogsByExerciseNameAndDateRange(exerciseName, startDate, endDate, user);
+                .findAllByExerciseNameAndDateRange(exerciseName, startDate, endDate, user);
         verify(userService, times(1)).getCurrentUser();
         verify(exerciseLogMapper, times(1)).mapToExerciseLogGraphDto(exerciseLog1);
         verify(exerciseLogMapper, times(1)).mapToExerciseLogGraphDto(exerciseLog2);

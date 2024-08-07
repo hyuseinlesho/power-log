@@ -71,7 +71,7 @@ public class WeightLogServiceImpl implements WeightLogService {
     }
 
     @Override
-    public List<WeightLogGraphDto> getWeightLogs() {
+    public List<WeightLogGraphDto> getWeightLogGraphDtos() {
         return weightLogRepository.findAllByUserOrderByDateAsc(userService.getCurrentUser())
                 .stream()
                 .map(weightLogMapper::mapToWeightLogGraphDto)

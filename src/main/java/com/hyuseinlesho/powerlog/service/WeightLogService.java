@@ -18,7 +18,7 @@ public interface WeightLogService {
 
     void deleteWeightLog(Long id);
 
-    List<WeightLogGraphDto> getWeightLogs();
+    List<WeightLogGraphDto> getWeightLogGraphDtos();
 
     List<WeightLogGraphDto> getWeightLogsBetweenDates(LocalDate startDate, LocalDate endDate);
 }

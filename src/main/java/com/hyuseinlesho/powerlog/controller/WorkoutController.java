@@ -48,7 +48,7 @@ public class WorkoutController {
         model.addAttribute("workoutDto", new CreateWorkoutDto());
         model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
         model.addAttribute("exerciseTypes", ExerciseType.values());
-        model.addAttribute("routines", routineService.getRoutines());
+        model.addAttribute("routines", routineService.getAllRoutines());
         return "/workouts/create";
     }
 
@@ -90,7 +90,7 @@ public class WorkoutController {
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("routines", routineService.getRoutines());
+            model.addAttribute("routines", routineService.getAllRoutines());
             model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
             return "workouts/create";
         }
@@ -102,8 +102,8 @@ public class WorkoutController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditWorkoutForm(@PathVariable("id") Long id,
-                                      Model model) {
+    public String showUpdateWorkoutForm(@PathVariable("id") Long id,
+                                        Model model) {
         WorkoutDto workout = workoutService.getWorkoutById(id);
         model.addAttribute("workoutDto", workout);
         model.addAttribute("exerciseOptions", exerciseService.getAllExercises());
@@ -112,11 +112,11 @@ public class WorkoutController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editWorkout(@PathVariable("id") Long id,
-                              @Valid @ModelAttribute("workoutDto") UpdateWorkoutDto workoutDto,
-                              BindingResult bindingResult,
-                              Model model,
-                              RedirectAttributes redirectAttributes) {
+    public String updateWorkout(@PathVariable("id") Long id,
+                                @Valid @ModelAttribute("workoutDto") UpdateWorkoutDto workoutDto,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         workoutDto.setId(id);
 
         if (bindingResult.hasErrors()) {
@@ -124,7 +124,7 @@ public class WorkoutController {
             return "/workouts/edit";
         }
 
-        workoutService.editWorkout(workoutDto);
+        workoutService.updateWorkout(workoutDto);
         redirectAttributes.addFlashAttribute("successMessage",
                 "Workout updated successfully!");
         return "redirect:/workouts/{id}/details";

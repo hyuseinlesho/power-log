@@ -17,5 +17,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     Optional<Exercise> findByNameAndTypeAndUser(String name, ExerciseType type, UserEntity user);
 
     @Query("SELECT e FROM Exercise e WHERE e.user = :user AND e.name = :name AND e.id <> :id")
-    List<Exercise> findByNameAndUserAndIdNot(UserEntity user, String name, Long id);
+    List<Exercise> findAllByNameAndUserAndIdNot(UserEntity user, String name, Long id);
 }

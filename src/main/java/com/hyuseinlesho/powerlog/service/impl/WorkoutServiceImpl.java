@@ -71,7 +71,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public void editWorkout(UpdateWorkoutDto workoutDto) {
+    public void updateWorkout(UpdateWorkoutDto workoutDto) {
         Workout workout = workoutRepository.findById(workoutDto.getId())
                 .orElseThrow(() -> new WorkoutNotFoundException("Workout not found for id: " + workoutDto.getId()));
         workout.setTitle(workoutDto.getTitle());
@@ -110,7 +110,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public List<WorkoutDto> searchWorkouts(String query) {
-        List<Workout> workouts = workoutRepository.findByUserAndSearchQuery(userService.getCurrentUser(), query);
+        List<Workout> workouts = workoutRepository.findAllByUserAndSearchQuery(userService.getCurrentUser(), query);
         return workouts.stream()
                 .map(workoutMapper::mapToWorkoutDto)
                 .collect(Collectors.toList());

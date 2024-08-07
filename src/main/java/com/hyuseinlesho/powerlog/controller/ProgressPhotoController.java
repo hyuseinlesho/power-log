@@ -33,7 +33,7 @@ public class ProgressPhotoController {
 
     @GetMapping
     public String showProgressPhotos(Model model) {
-        List<ProgressPhotoDto> progressPhotos = progressPhotoService.getAllPhotos();
+        List<ProgressPhotoDto> progressPhotos = progressPhotoService.getAllProgressPhotos();
 
         // Group photos by date
         Map<LocalDate, List<ProgressPhotoDto>> groupedPhotos = progressPhotos.stream()
@@ -74,8 +74,8 @@ public class ProgressPhotoController {
     }
 
     @PostMapping("/{id}/delete")
-    public String deletePhoto(@PathVariable Long id,
-                              RedirectAttributes redirectAttributes) {
+    public String deleteProgressPhoto(@PathVariable Long id,
+                                      RedirectAttributes redirectAttributes) {
         try {
             progressPhotoService.deletePhoto(id);
             redirectAttributes.addFlashAttribute("successMessage",

@@ -1,10 +1,8 @@
 package com.hyuseinlesho.powerlog.service.impl;
 
 import com.hyuseinlesho.powerlog.exception.RoutineNotFoundException;
-import com.hyuseinlesho.powerlog.exception.WorkoutNotFoundException;
 import com.hyuseinlesho.powerlog.mapper.RoutineMapper;
 import com.hyuseinlesho.powerlog.model.dto.*;
-import com.hyuseinlesho.powerlog.model.entity.ExerciseLog;
 import com.hyuseinlesho.powerlog.model.entity.Routine;
 import com.hyuseinlesho.powerlog.model.entity.RoutineExercise;
 import com.hyuseinlesho.powerlog.repository.RoutineExerciseRepository;
@@ -48,8 +46,8 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public List<RoutineDto> getRoutines() {
-        List<Routine> routines = routineRepository.findByUser(userService.getCurrentUser());
+    public List<RoutineDto> getAllRoutines() {
+        List<Routine> routines = routineRepository.findAllByUser(userService.getCurrentUser());
         return routines.stream()
                 .map(routineMapper::mapToRoutineDto)
                 .toList();
@@ -64,7 +62,7 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public void editRoutine(UpdateRoutineDto routineDto) {
+    public void updateRoutine(UpdateRoutineDto routineDto) {
         Routine routine = routineRepository.findById(routineDto.getId())
                 .orElseThrow(() -> new RoutineNotFoundException("Routine not found for id: " + routineDto.getId()));
         routine.setName(routineDto.getName());
@@ -87,7 +85,7 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public void deleteWorkout(Long id) {
+    public void deleteRoutine(Long id) {
         if (!routineRepository.existsById(id)) {
             throw new RoutineNotFoundException("Routine not found for id: " + id);
         }

@@ -145,7 +145,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    void findExerciseById_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
+    void getExerciseById_ExerciseDoesNotExist_ThrowsExerciseNotFoundException() {
         Long exerciseId = 1L;
 
         Exercise exercise = createExercise();
@@ -159,7 +159,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    void findExerciseById_ExerciseExists_ReturnsCreateExerciseDto() {
+    void getExerciseById_ExerciseExists_ReturnsCreateExerciseDto() {
         Long exerciseId = 1L;
 
         ExerciseDto exerciseDto = createExerciseDto();
@@ -182,7 +182,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    void findAllExercises_NoExercises_ReturnsEmptyList() {
+    void getAllExercises_NoExercises_ReturnsEmptyList() {
         when(exerciseRepository.findAllByUser(user)).thenReturn(List.of());
         when(userService.getCurrentUser()).thenReturn(user);
 
@@ -193,7 +193,7 @@ public class ExerciseServiceImplTest {
     }
 
     @Test
-    void findAllExercises_ExercisesExist_ReturnsExerciseDtoList() {
+    void getAllExercises_ExercisesExist_ReturnsExerciseDtoList() {
         ExerciseDto exerciseDto1 = createExerciseDto();
 
         ExerciseDto exerciseDto2 = ExerciseDto.builder()
@@ -212,6 +212,11 @@ public class ExerciseServiceImplTest {
 
         when(exerciseRepository.findAllByUser(user)).thenReturn(exercises);
         when(userService.getCurrentUser()).thenReturn(user);
+
+        when(exerciseMapper.mapToExerciseDto(exercise1))
+                .thenReturn(exerciseDto1);
+        when(exerciseMapper.mapToExerciseDto(exercise2))
+                .thenReturn(exerciseDto2);
 
         List<ExerciseDto> result = exerciseService.getAllExercises();
 
@@ -256,7 +261,7 @@ public class ExerciseServiceImplTest {
         duplicateExercise.setId(2L);
 
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.of(existingExercise));
-        when(exerciseRepository.findByNameAndUserAndIdNot(user, exerciseDto.getName(), exerciseId))
+        when(exerciseRepository.findAllByNameAndUserAndIdNot(user, exerciseDto.getName(), exerciseId))
                 .thenReturn(List.of(duplicateExercise));
         when(userService.getCurrentUser()).thenReturn(user);
 

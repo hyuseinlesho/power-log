@@ -33,7 +33,7 @@ public class ContactController {
             return "common/contact";
         }
 
-        contactClient.saveContact(contactDto).subscribe();
+        contactClient.createContact(contactDto).subscribe();
         redirectAttributes.addFlashAttribute("message",
                 "Thank you for your message! We'll get back to you soon.");
         return "redirect:/contact";
