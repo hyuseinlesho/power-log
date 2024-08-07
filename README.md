@@ -77,12 +77,8 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
    -CLOUDINARY_CLOUD_NAME=
    -CLOUDINARY_API_KEY=
    -CLOUDINARY_API_SECRET=
-3. (Optional) Set up used Cloudinary for storing progress pictures, install and run Apache Kafka server for messages from ContactService or uncomment this property in `application.yaml` file
-   ![disable-kafka-auto-configuration-powerlog](https://github.com/user-attachments/assets/5e2dbc3e-ce16-49e5-8921-af3e4cbfc2bc)
-4. Build and run the application:
-   ```bash
-   .\gradlew clean build
-   .\gradlew bootRun
+3. Set up used Cloudinary for storing progress pictures, install and run Apache Kafka server for messages from ContactService
+4. Run the application and enjoy it!
 
 ## API Endpoints
 
