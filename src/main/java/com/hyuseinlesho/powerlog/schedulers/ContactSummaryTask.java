@@ -30,28 +30,28 @@ public class ContactSummaryTask {
     // Test expression for every minute
 //    @Scheduled(cron = "0 * * * * ?")
 
-    // Every day at 8 AM
-    @Scheduled(cron = "0 0 8 * * ?")
-    public void sendDailyContactSummary() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        Flux<Contact> newContacts = contactClient.getNewContactsSince(yesterday);
+    // Every Monday at 8 AM
+    @Scheduled(cron = "0 0 8 * * MON")
+    public void sendWeeklyContactSummary() {
+        LocalDateTime lastWeek = LocalDateTime.now().minusWeeks(1);
+        Flux<Contact> newContacts = contactClient.getNewContactsSince(lastWeek);
 
         newContacts.collectList().subscribe(contacts -> {
             if (!contacts.isEmpty()) {
-                StringBuilder emailContent = new StringBuilder("Daily Contact Summary:\n\n");
+                StringBuilder emailContent = new StringBuilder("Weekly Contact Summary:\n\n");
 
                 for (Contact contact : contacts) {
                     emailContent.append("Name: ").append(contact.getName()).append("\n")
                             .append("Email: ").append(contact.getEmail()).append("\n")
                             .append("Message: ").append(contact.getMessage()).append("\n")
-                            .append("Received At: ").append(contact.getCreatedAt());
+                            .append("Received At: ").append(contact.getCreatedAt()).append("\n\n");
                 }
 
-                emailService.sendEmail(adminEmail, "Daily Contact Summary", emailContent.toString());
-                logger.info("Successfully send daily contact summary email");
+                emailService.sendEmail(adminEmail, "Weekly Contact Summary", emailContent.toString());
+                logger.info("Successfully sent weekly contact summary email");
             }
         }, error -> {
-           logger.error("Failed to fetch new contacts: " + error.getMessage());
+            logger.error("Failed to fetch new contacts: " + error.getMessage());
         });
     }
 }
