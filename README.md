@@ -38,6 +38,7 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
   - View and edit profile information (email, password).
 - **Admin Dashboard:**
   - View all users.
+  - View all contacts.
   - Access to app interface settings and usage statistics.
   - Role-based access control with user and admin roles.
 
@@ -45,8 +46,8 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
 - **Backend:** Spring Framework, Spring Boot
 - **Frontend:** JavaScript, jQuery, AJAX, HTML, Bootstrap, Thymeleaf, Thymeleaf Layout Dialect, Chart.js, DataTables
 - **Database:** MySQL, Hibernate (JPA provider)
-- **Messaging** Apache Kafka
-- **Storage Cloud** Cloudinary
+- **Messaging:** Apache Kafka
+- **Storage Cloud:** Cloudinary
 - **Security:** Spring Security, JWT authentication with refresh tokens
 - **Other Libraries:** MapStruct, Lombok
 
@@ -62,21 +63,21 @@ PowerLog was developed as part of the [Spring Advanced Course @ SoftUni](https:/
    git clone https://github.com/hyuseinlesho/power-log.git
 2. Set up environment variables.
    ```bash
-   -DB_USERNAME=
-   -DB_PASSWORD=
-   -SECRET_KEY=
-   -ACCESS_TOKEN_EXPIRATION=
-   -REFRESH_TOKEN_EXPIRATION=
-   -REMEMBER_ME_REFRESH_TOKEN_EXPIRATION=
-   -ACCESS_TOKEN_COOKIE_MAX_AGE=
-   -REFRESH_TOKEN_COOKIE_MAX_AGE=
-   -REMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE=
-   -MAIL_USERNAME=
-   -MAIL_PASSWORD=
-   -ADMIN_EMAIL=
-   -CLOUDINARY_CLOUD_NAME=
-   -CLOUDINARY_API_KEY=
-   -CLOUDINARY_API_SECRET=
+   DB_USERNAME=
+   DB_PASSWORD=
+   SECRET_KEY=
+   ACCESS_TOKEN_EXPIRATION=
+   REFRESH_TOKEN_EXPIRATION=
+   REMEMBER_ME_REFRESH_TOKEN_EXPIRATION=
+   ACCESS_TOKEN_COOKIE_MAX_AGE=
+   REFRESH_TOKEN_COOKIE_MAX_AGE=
+   REMEMBER_ME_REFRESH_TOKEN_COOKIE_MAX_AGE=
+   MAIL_USERNAME=
+   MAIL_PASSWORD=
+   ADMIN_EMAIL=
+   CLOUDINARY_CLOUD_NAME=
+   CLOUDINARY_API_KEY=
+   CLOUDINARY_API_SECRET=
 3. Set up used Cloudinary for storing progress pictures, install and run Apache Kafka server for messages from ContactService or uncomment this property in `application.yaml`:
 
 ![disable-kafka-auto-configuration-powerlog](https://github.com/user-attachments/assets/6555752e-9dab-4728-a469-6d0770a641b3)
@@ -226,7 +227,7 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 - Ensure Apache Kafka is installed and running to test it locally.
 
-### ContactConsumer
+### Contact Consumer
 
 - Consumes messages from the Kafka topic `contact-topic` and ContactService as producer.
 - Parses the consumed message and processes the contact data.
@@ -249,7 +250,7 @@ Utilizes a separate REST service, [ContactService](https://github.com/hyuseinles
 
 - Unit tests for service layer.
 - Integration tests for REST controllers.
-- Achieved 60% line coverage.
+- Achieved ~60% line coverage.
 
 ## Front-end Design
 
